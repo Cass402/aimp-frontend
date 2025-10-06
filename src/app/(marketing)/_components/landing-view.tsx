@@ -31,15 +31,15 @@ function FeaturesSkeleton() {
       aria-label="Loading features"
     >
       <div className="space-y-3">
-        <div className="h-3 w-32 bg-[var(--glass-surface-primary)] rounded" />
-        <div className="h-10 w-3/4 bg-[var(--glass-surface-primary)] rounded" />
-        <div className="h-4 w-1/2 bg-[var(--glass-surface-primary)] rounded opacity-70" />
+        <div className="h-3 w-32 bg-(--glass-surface-primary) rounded" />
+        <div className="h-10 w-3/4 bg-(--glass-surface-primary) rounded" />
+        <div className="h-4 w-1/2 bg-(--glass-surface-primary) rounded opacity-70" />
       </div>
       <div className="grid gap-8 md:grid-cols-3">
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="h-[420px] rounded-[24px] bg-[var(--glass-surface-primary)] border border-[var(--glass-border-soft)]"
+            className="h-[420px] rounded-[24px] bg-(--glass-surface-primary) border border-(--glass-border-soft)"
           />
         ))}
       </div>
@@ -55,10 +55,10 @@ function FlowSkeleton() {
       aria-label="Loading workflow"
     >
       <div className="space-y-3">
-        <div className="h-3 w-40 bg-[var(--glass-surface-primary)] rounded" />
-        <div className="h-12 w-full max-w-4xl bg-[var(--glass-surface-primary)] rounded" />
+        <div className="h-3 w-40 bg-(--glass-surface-primary) rounded" />
+        <div className="h-12 w-full max-w-4xl bg-(--glass-surface-primary) rounded" />
       </div>
-      <div className="h-[600px] rounded-[24px] bg-[var(--glass-surface-primary)] border border-[var(--glass-border-soft)]" />
+      <div className="h-[600px] rounded-[24px] bg-(--glass-surface-primary) border border-(--glass-border-soft)" />
     </div>
   );
 }

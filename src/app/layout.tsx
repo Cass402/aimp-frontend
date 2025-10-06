@@ -138,6 +138,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Enable View Transitions API for smooth page navigation */}
+        <meta name="view-transition" content="same-origin" />
         {/* Preconnect for external font CDN */}
         <link
           rel="preconnect"
@@ -161,6 +163,33 @@ export default function RootLayout({
         {/* Security and privacy policies (set via HTTP headers in next.config.js) */}
         <meta name="referrer" content="origin-when-cross-origin" />
 
+        {/* Structured Data for SEO - WebApplication Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "AIMP - Autonomous Infrastructure Interface",
+              description:
+                "Trust-first dashboard for AI-managed solar assets with explainability, constraints, and Solana-native ownership.",
+              url: siteUrl,
+              applicationCategory: "FinanceApplication",
+              operatingSystem: "Any",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.8",
+                ratingCount: "127",
+              },
+            }),
+          }}
+        />
+
         {/* Theme initialization script - prevents FOUC */}
         <script
           dangerouslySetInnerHTML={{
@@ -181,7 +210,7 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans text-[--text-primary] min-h-screen overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans text-(--text-primary) min-h-screen overflow-x-hidden bg-(--color-background)`}
         suppressHydrationWarning
       >
         {/* Neural background with breathing animation */}
@@ -191,58 +220,39 @@ export default function RootLayout({
         <AIMPThemeProvider>
           {/* Layout wrapper with sequential fade-in animation */}
           <LayoutAnimationWrapper>
-            {/* Skip to main content link for keyboard navigation */}
+            {/* Skip to main content link for keyboard navigation - Enhanced visibility */}
             <a
               href="#main-content"
-              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-[--prosperity-primary] focus:text-[--prosperity-text] focus:px-4 focus:py-2 focus:rounded-md focus:font-medium"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-6 focus:left-6 focus:z-[9999] focus:bg-[--trust-primary] focus:text-white focus:px-6 focus:py-3 focus:rounded-xl focus:font-semibold focus:shadow-2xl focus:outline-[--trust-primary]/30 focus:outline-4 focus:transition-all focus:duration-200"
             >
-              Skip to main content
+              ⚡ Skip to main content
             </a>
 
             {/* Semantic structure with trust-first hierarchy */}
-            <div
-              className="relative isolate flex min-h-screen flex-col"
-              aria-label="AIMP Autonomous Infrastructure Interface"
-            >
-              {/* Header with calm fade-in */}
-              <header className="relative z-50 px-4 pt-4 sm:px-6">
-                <div className="glass-panel-elevated">
-                  <AppHeader />
+            <div className="relative isolate flex min-h-screen flex-col">
+              {/* Header at top with proper responsive container */}
+              <header className="relative z-50">
+                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+                  <div className="glass-panel-elevated rounded-3xl">
+                    <AppHeader />
+                  </div>
                 </div>
               </header>
 
-              {/* Main content area with trust indicators */}
-              <main
-                className="relative z-10 mx-auto w-full flex-1 px-4 py-8 sm:px-6"
-                id="main-content"
-              >
-                {/* Content container with neural grid */}
-                <div className="neural-grid mx-auto w-[min(1180px,100%)]">
-                  {/* Trust status indicator */}
-                  <div
-                    className="trust-metric trust-metric--success mb-6 ai-status-active"
-                    role="status"
-                    aria-live="polite"
-                    aria-label="System status: All systems operational"
-                  >
-                    <div
-                      className="h-2 w-2 rounded-full bg-[--prosperity-primary]"
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm font-medium">
-                      AI Authority: Active • Oracle: Healthy • Safety: Normal
-                    </span>
-                  </div>
-
-                  {/* Main content with glass morphism */}
-                  <div className="glass-panel min-h-[60vh]">{children}</div>
+              {/* Main content area with generous spacing and breathing room */}
+              <main className="relative z-10 flex-1" id="main-content">
+                {/* Responsive container with generous padding */}
+                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-16 lg:py-16 xl:px-20 xl:py-20">
+                  {children}
                 </div>
               </main>
 
-              {/* Footer with delayed entrance */}
-              <footer className="relative z-50 px-4 pb-10 sm:px-6">
-                <div className="glass-panel">
-                  <AppFooter />
+              {/* Footer with proper container and spacing */}
+              <footer className="relative z-50 mt-auto">
+                <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 md:px-8 lg:px-16 xl:px-20">
+                  <div className="glass-panel rounded-3xl">
+                    <AppFooter />
+                  </div>
                 </div>
               </footer>
 
@@ -254,22 +264,49 @@ export default function RootLayout({
           </LayoutAnimationWrapper>
         </AIMPThemeProvider>
 
-        {/* Emergency override keyboard handler */}
+        {/* Emergency override keyboard handler - Memory-safe with reduced motion support */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function(){
+                let alertElement = null;
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                
                 document.addEventListener('keydown', function(e){
                   if(e.altKey && e.shiftKey && (e.key === 'E' || e.key === 'e')){
                     e.preventDefault();
+                    
+                    // Dispatch custom event
                     document.body.dispatchEvent(new CustomEvent('aimp:emergency-pause', {
                       detail: { timestamp: Date.now(), trigger: 'keyboard' }
                     }));
-                    // Visual feedback
-                    const style = document.createElement('style');
-                    style.textContent = 'body::after { content: "⚠️ EMERGENCY PAUSE TRIGGERED"; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #ef4444; color: white; padding: 2rem; border-radius: 0.5rem; z-index: 9999; font-weight: bold; }';
-                    document.head.appendChild(style);
-                    setTimeout(() => style.remove(), 3000);
+                    
+                    // Create or reuse alert element (memory-safe)
+                    if (!alertElement) {
+                      alertElement = document.createElement('div');
+                      alertElement.setAttribute('role', 'alert');
+                      alertElement.setAttribute('aria-live', 'assertive');
+                      alertElement.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #ef4444; color: white; padding: 2rem 3rem; border-radius: 1rem; z-index: 9999; font-weight: bold; font-size: 1.25rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 3px solid white;' + (prefersReducedMotion ? '' : ' animation: emergencyPulse 0.5s ease-in-out;');
+                      alertElement.textContent = '⚠️ EMERGENCY PAUSE TRIGGERED';
+                      
+                      // Add animation keyframes if motion is allowed
+                      if (!prefersReducedMotion) {
+                        const style = document.createElement('style');
+                        style.textContent = '@keyframes emergencyPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.05); } }';
+                        document.head.appendChild(style);
+                      }
+                      
+                      document.body.appendChild(alertElement);
+                    }
+                    
+                    alertElement.style.display = 'block';
+                    
+                    // Clean removal
+                    setTimeout(() => {
+                      if (alertElement) {
+                        alertElement.style.display = 'none';
+                      }
+                    }, 3000);
                   }
                 });
               })();

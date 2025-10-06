@@ -4,6 +4,232 @@
 @import "tailwindcss";
 
 /* ===========================================
+ * TAILWIND V4 THEME - Complete Design System Integration
+ * Exposes all CSS variables as Tailwind utilities
+ * Note: Use type hints for ambiguous properties like text-*
+ * Example: text-(color:--my-color) or text-(length:--font-size-lg)
+ * =========================================== */
+@theme {
+  /* ========== COLORS (use with bg-, text-, border-, etc.) ========== */
+  /* Text Colors */
+  --color-text-primary: #133437;
+  --color-text-secondary: #626c71;
+  --color-text-tertiary: rgba(98, 108, 113, 0.65);
+  --color-text-muted: rgba(98, 108, 113, 0.55);
+  --color-text-interactive: #21808d;
+  --color-text-success: #21808d;
+  --color-text-warning: #a84b2f;
+  --color-text-critical: #c0152f;
+
+  /* Background & Surface Colors */
+  --color-background: #fcfcf9;
+  --color-surface: #fffffd;
+  --color-foundation-void: #fcfcf9;
+  --color-foundation-neural: #fffffd;
+  --color-foundation-presence: #fffffd;
+
+  /* Primary Brand Colors */
+  --color-primary: #21808d;
+  --color-primary-hover: #1d7480;
+  --color-primary-active: #1a6873;
+
+  /* Trust System Colors */
+  --color-trust-primary: #21808d;
+  --color-trust-secondary: #2da6b2;
+  --color-trust-tertiary: #32b8c6;
+  --color-trust-muted: rgba(33, 128, 141, 0.6);
+
+  /* Intelligence System Colors */
+  --color-intelligence-primary: #2996a1;
+  --color-intelligence-secondary: #1a6873;
+  --color-intelligence-accent: #2da6b2;
+  --color-intelligence-neural: rgba(98, 108, 113, 0.4);
+
+  /* Prosperity System Colors */
+  --color-prosperity-primary: #21808d;
+  --color-prosperity-secondary: #1d7480;
+  --color-prosperity-energy: #32b8c6;
+  --color-prosperity-subtle: rgba(33, 128, 141, 0.3);
+
+  /* Caution System Colors */
+  --color-caution-primary: #a84b2f;
+  --color-caution-secondary: #e68161;
+  --color-caution-background: rgba(168, 75, 47, 0.1);
+
+  /* Critical System Colors */
+  --color-critical-primary: #c0152f;
+  --color-critical-secondary: #ff5459;
+  --color-critical-background: rgba(192, 21, 47, 0.08);
+
+  /* Glass Morphism Colors */
+  --color-glass-surface-primary: rgba(94, 82, 64, 0.15);
+  --color-glass-surface-elevated: #fffffd;
+  --color-glass-surface-modal: rgba(19, 52, 59, 0.85);
+  --color-glass-border-soft: rgba(94, 82, 64, 0.2);
+  --color-glass-border-strong: rgba(94, 82, 64, 0.12);
+  --color-glass-border-highlight: rgba(33, 128, 141, 0.35);
+
+  /* Border Colors */
+  --color-border: rgba(94, 82, 64, 0.2);
+  --color-border-secondary: rgba(94, 82, 64, 0.15);
+  --color-card-border: rgba(94, 82, 64, 0.12);
+
+  /* Primitive Palette Colors */
+  --color-teal-300: #32b8c6;
+  --color-teal-400: #2da6b2;
+  --color-teal-500: #21808d;
+  --color-teal-600: #1d7480;
+  --color-teal-700: #1a6873;
+  --color-teal-800: #2996a1;
+  --color-slate-500: #626c71;
+  --color-slate-900: #133437;
+  --color-brown-600: #5e5240;
+  --color-red-400: #ff5459;
+  --color-red-500: #c0152f;
+  --color-orange-400: #e68161;
+  --color-orange-500: #a84b2f;
+  --color-cream-50: #fcfcf9;
+  --color-cream-100: #fffffd;
+  --color-gray-200: #f5f5f5;
+  --color-gray-300: #a7a9a9;
+  --color-gray-400: #777c7c;
+
+  /* ========== SEMANTIC ALIASES (for Tailwind utilities) ========== */
+  /* These enable usage like bg-(--glass-surface-primary) in components */
+
+  /* Text semantic aliases */
+  --text-primary: #133437;
+  --text-secondary: #626c71;
+  --text-tertiary: rgba(98, 108, 113, 0.65);
+  --text-muted: rgba(98, 108, 113, 0.55);
+  --text-interactive: #21808d;
+  --text-interactive-hover: #1d7480;
+  --text-success: #21808d;
+  --text-warning: #a84b2f;
+  --text-critical: #c0152f;
+
+  /* Glass morphism semantic aliases */
+  --glass-surface-primary: rgba(94, 82, 64, 0.15);
+  --glass-surface-elevated: #fffffd;
+  --glass-surface-modal: rgba(19, 52, 59, 0.85);
+  --glass-border-soft: rgba(94, 82, 64, 0.2);
+  --glass-border-strong: rgba(94, 82, 64, 0.12);
+  --glass-border-highlight: rgba(33, 128, 141, 0.35);
+
+  /* Trust system semantic aliases */
+  --trust-primary: #21808d;
+  --trust-secondary: #2da6b2;
+  --trust-tertiary: #32b8c6;
+  --trust-muted: rgba(33, 128, 141, 0.6);
+
+  /* Intelligence system semantic aliases */
+  --intelligence-primary: #2996a1;
+  --intelligence-secondary: #1a6873;
+  --intelligence-accent: #2da6b2;
+  --intelligence-neural: rgba(98, 108, 113, 0.4);
+
+  /* Prosperity system semantic aliases */
+  --prosperity-primary: #21808d;
+  --prosperity-secondary: #1d7480;
+  --prosperity-energy: #32b8c6;
+  --prosperity-subtle: rgba(33, 128, 141, 0.3);
+
+  /* Caution system semantic aliases */
+  --caution-primary: #a84b2f;
+  --caution-secondary: #e68161;
+  --caution-background: rgba(168, 75, 47, 0.1);
+
+  /* Critical system semantic aliases */
+  --critical-primary: #c0152f;
+  --critical-secondary: #ff5459;
+  --critical-background: rgba(192, 21, 47, 0.08);
+
+  /* Foundation semantic aliases */
+  --foundation-void: #fcfcf9;
+  --foundation-neural: #fffffd;
+  --foundation-presence: #fffffd;
+
+  /* ========== TYPOGRAPHY (use with type hints) ========== */
+  /* Font Sizes - Use with text-(length:--size-*) */
+  --size-xs: 0.6875rem;
+  --size-sm: 0.75rem;
+  --size-base: 0.875rem;
+  --size-md: 0.875rem;
+  --size-lg: 1rem;
+  --size-xl: 1.125rem;
+  --size-2xl: 1.25rem;
+  --size-3xl: 1.5rem;
+  --size-4xl: 1.875rem;
+
+  /* Line Heights */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.01em;
+
+  /* ========== SHADOW & GLOW EFFECTS ========== */
+  /* Neural Glows */
+  --shadow-glow-neural-primary:
+    0 0 20px rgba(33, 128, 141, 0.15), 0 0 32px rgba(33, 128, 141, 0.08);
+  --shadow-glow-trust-primary:
+    0 0 16px rgba(33, 128, 141, 0.2), 0 0 32px rgba(33, 128, 141, 0.1);
+  --shadow-glow-prosperity-primary:
+    0 0 16px rgba(33, 128, 141, 0.18), 0 0 32px rgba(33, 128, 141, 0.09);
+  --shadow-glow-intelligence-primary:
+    0 0 18px rgba(41, 150, 161, 0.16), 0 0 30px rgba(41, 150, 161, 0.08);
+
+  /* Standard Shadows */
+  --shadow-neural-soft:
+    0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-neural-strong:
+    0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-neural-floating:
+    0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+
+  /* ========== SPACING SYSTEM ========== */
+  --space-0: 0px;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* ========== BORDER RADIUS ========== */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* ========== ANIMATION DURATIONS ========== */
+  --duration-instant: 50ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-lazy: 600ms;
+
+  /* ========== BACKDROP BLUR ========== */
+  --blur-glass: 24px;
+  --blur-glass-strong: 32px;
+  --blur-glass-subtle: 16px;
+}
+
+/* ===========================================
  * FONT LOADING
  * =========================================== */
 @font-face {
@@ -45,6 +271,7 @@
   --color-brown-600-rgb: 94, 82, 64;
   --color-teal-500-rgb: 33, 128, 141;
   --color-teal-300-rgb: 50, 184, 198;
+  --color-teal-400-rgb: 45, 166, 178;
   --color-slate-900-rgb: 19, 52, 59;
   --color-slate-500-rgb: 98, 108, 113;
   --color-red-500-rgb: 192, 21, 47;
@@ -54,6 +281,7 @@
   --color-gray-400-rgb: 119, 124, 124;
   --color-gray-300-rgb: 167, 169, 169;
   --color-gray-200-rgb: 245, 245, 245;
+  --color-intelligence-primary-rgb: 41, 150, 161;
 
   /* Typography */
   --font-family-base:
@@ -607,7 +835,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: var(--neural-gradient-primary);
+  background: var(--color-background);
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-family-base);
@@ -616,6 +844,15 @@ body {
   min-height: 100dvh;
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga", "kern";
+  position: relative;
+  isolation: isolate;
+}
+
+/* Enhanced neural gradient background with multiple layers */
+body::before,
+body::after {
+  opacity: 1;
+  will-change: transform;
 }
 
 /* Mobile performance optimization */
@@ -625,7 +862,7 @@ body {
   }
 }
 
-/* Animated background layers */
+/* Animated background layers - ENHANCED FOR VISIBILITY */
 body::before {
   content: "";
   position: fixed;
@@ -634,18 +871,21 @@ body::before {
   pointer-events: none;
   background:
     radial-gradient(
-      circle 800px at 25% 30%,
-      rgba(var(--color-teal-500-rgb), 0.08) 0%,
+      circle 1000px at 25% 30%,
+      rgba(var(--color-teal-500-rgb), 0.15) 0%,
+      rgba(var(--color-teal-500-rgb), 0.08) 40%,
       transparent 70%
     ),
     radial-gradient(
-      circle 600px at 75% 20%,
-      rgba(var(--color-slate-900-rgb), 0.1) 0%,
+      circle 800px at 75% 20%,
+      rgba(var(--color-slate-900-rgb), 0.18) 0%,
+      rgba(var(--color-slate-900-rgb), 0.1) 35%,
       transparent 65%
     ),
     radial-gradient(
-      circle 900px at 60% 80%,
-      rgba(var(--color-brown-600-rgb), 0.06) 0%,
+      circle 1100px at 60% 80%,
+      rgba(var(--color-brown-600-rgb), 0.12) 0%,
+      rgba(var(--color-brown-600-rgb), 0.06) 45%,
       transparent 75%
     );
   animation: neural-breathing 12s ease-in-out infinite;
@@ -660,13 +900,20 @@ body::after {
   background:
     linear-gradient(
       135deg,
-      rgba(var(--color-gray-200-rgb), 0.02) 0%,
+      rgba(var(--color-teal-300-rgb), 0.08) 0%,
+      rgba(var(--color-teal-500-rgb), 0.04) 25%,
       transparent 40%
     ),
     radial-gradient(
-      ellipse 1200px 400px at 70% 15%,
-      rgba(var(--color-teal-500-rgb), 0.12) 0%,
+      ellipse 1400px 500px at 70% 15%,
+      rgba(var(--color-teal-500-rgb), 0.18) 0%,
+      rgba(var(--color-teal-400-rgb), 0.1) 50%,
       transparent 80%
+    ),
+    radial-gradient(
+      ellipse 900px 600px at 20% 70%,
+      rgba(var(--color-intelligence-primary-rgb), 0.12) 0%,
+      transparent 70%
     );
   animation: neural-drift 20s linear infinite;
 }
@@ -1284,34 +1531,38 @@ pre code {
 }
 
 /* ===========================================
- * KEYFRAME ANIMATIONS
+ * KEYFRAME ANIMATIONS - ENHANCED FOR VISIBILITY
  * =========================================== */
 @keyframes neural-breathing {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.6;
     transform: scale(1) rotate(0deg);
   }
   50% {
-    opacity: 0.7;
-    transform: scale(1.02) rotate(0.5deg);
+    opacity: 1;
+    transform: scale(1.03) rotate(0.8deg);
   }
 }
 
 @keyframes neural-drift {
   0% {
     transform: translateX(0px) translateY(0px) rotate(0deg);
+    opacity: 0.8;
   }
   33% {
     transform: translateX(var(--space-20))
       translateY(calc(-1 * var(--space-10))) rotate(1deg);
+    opacity: 1;
   }
   66% {
     transform: translateX(calc(-1 * var(--space-16)))
       translateY(var(--space-16)) rotate(-0.5deg);
+    opacity: 0.9;
   }
   100% {
     transform: translateX(0px) translateY(0px) rotate(0deg);
+    opacity: 0.8;
   }
 }
 
@@ -1320,12 +1571,14 @@ pre code {
   100% {
     box-shadow: var(--glow-neural-primary);
     transform: scale(1);
+    opacity: 0.9;
   }
   50% {
     box-shadow:
-      0 0 var(--space-32) rgba(var(--color-teal-500-rgb), 0.25),
-      0 0 var(--space-32) rgba(var(--color-teal-500-rgb), 0.12);
-    transform: scale(1.02);
+      0 0 var(--space-32) rgba(var(--color-teal-500-rgb), 0.35),
+      0 0 64px rgba(var(--color-teal-500-rgb), 0.18);
+    transform: scale(1.03);
+    opacity: 1;
   }
 }
 
@@ -1333,12 +1586,12 @@ pre code {
   0%,
   100% {
     box-shadow: var(--glow-trust-primary);
-    opacity: 0.8;
+    opacity: 0.85;
   }
   50% {
     box-shadow:
-      0 0 var(--space-24) rgba(var(--color-teal-500-rgb), 0.3),
-      0 0 var(--space-32) rgba(var(--color-teal-500-rgb), 0.15);
+      0 0 var(--space-24) rgba(var(--color-teal-500-rgb), 0.4),
+      0 0 var(--space-32) rgba(var(--color-teal-500-rgb), 0.2);
     opacity: 1;
   }
 }
@@ -1351,8 +1604,8 @@ pre code {
   }
   50% {
     box-shadow:
-      0 0 var(--space-24) rgba(var(--color-teal-500-rgb), 0.25),
-      0 0 var(--space-32) rgba(var(--color-teal-500-rgb), 0.12);
+      0 0 var(--space-24) rgba(var(--color-teal-500-rgb), 0.35),
+      0 0 var(--space-32) rgba(var(--color-teal-500-rgb), 0.18);
     transform: translateY(calc(-1 * var(--space-2)));
   }
 }

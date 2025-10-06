@@ -190,18 +190,18 @@ export function FeatureHighlights() {
           initial="initial"
           animate="animate"
         >
-          <p className="text-xs uppercase tracking-[0.35em] text-[var(--text-tertiary)] font-medium">
+          <p className="text-xs uppercase tracking-[0.35em] text-(--text-tertiary) font-medium">
             The Interface
           </p>
-          <h2 className="text-3xl md:text-4xl font-semibold text-[var(--text-primary)] leading-tight">
+          <h2 className="text-3xl md:text-4xl font-semibold text-(--text-primary) leading-tight">
             Designed for trust, explainability,{" "}
-            <span className="bg-gradient-to-r from-[var(--trust-primary)] to-[var(--prosperity-energy)] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-(--trust-primary) to-(--prosperity-energy) bg-clip-text text-transparent">
               and real economic gravity.
             </span>
           </h2>
 
           {/* Trust reinforcement tagline */}
-          <p className="text-sm text-[var(--text-secondary)] mt-2 max-w-2xl">
+          <p className="text-sm text-(--text-secondary) mt-2 max-w-2xl">
             Where autonomous infrastructure meets human understanding. Every
             decision is explainable, every action is auditable, every outcome is
             transparent.
@@ -248,16 +248,16 @@ export function FeatureHighlights() {
                         boxShadow: `0 0 8px ${highlight.ambientColor}40`,
                       }}
                     />
-                    <span className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider">
+                    <span className="text-xs font-medium text-(--text-tertiary) uppercase tracking-wider">
                       {highlight.subtitle}
                     </span>
                   </div>
 
-                  <h3 className="text-xl md:text-2xl font-semibold text-[var(--text-primary)] leading-tight">
+                  <h3 className="text-xl md:text-2xl font-semibold text-(--text-primary) leading-tight">
                     {highlight.title}
                   </h3>
 
-                  <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                  <p className="text-sm leading-relaxed text-(--text-secondary)">
                     {highlight.description}
                   </p>
                 </div>
@@ -295,7 +295,7 @@ export function FeatureHighlights() {
                         )}
                       </span>
 
-                      <span className="text-[var(--text-secondary)] group-hover/bullet:text-[var(--text-primary)] transition-colors duration-200">
+                      <span className="text-(--text-secondary) group-hover/bullet:text-(--text-primary) transition-colors duration-200">
                         {bullet.text}
                       </span>
                     </m.li>
@@ -305,7 +305,7 @@ export function FeatureHighlights() {
                 {/* Trust level visual indicator - builds confidence through clarity */}
                 {highlight.trustLevel === "high" && (
                   <div className="absolute top-4 right-4 z-20">
-                    <div className="px-2 py-1 rounded-full text-xs font-medium bg-[var(--trust-primary)]/10 text-[var(--trust-primary)] border border-[var(--trust-primary)]/20">
+                    <div className="px-2 py-1 rounded-full text-xs font-medium bg-(--trust-primary)/10 text-(--trust-primary) border border-(--trust-primary)/20">
                       High Trust
                     </div>
                   </div>
@@ -313,8 +313,8 @@ export function FeatureHighlights() {
 
                 {/* Interaction affordance - subtle visual cue for explorability */}
                 <div className="absolute bottom-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-6 h-6 rounded-full bg-[var(--trust-primary)]/20 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-[var(--trust-primary)]" />
+                  <div className="w-6 h-6 rounded-full bg-(--trust-primary)/20 flex items-center justify-center">
+                    <div className="w-2 h-2 rounded-full bg-(--trust-primary)" />
                   </div>
                 </div>
               </GlassCard>
@@ -333,14 +333,14 @@ export function FeatureHighlights() {
             damping: 25,
           }}
         >
-          <p className="text-sm text-[var(--text-secondary)] mb-4">
+          <p className="text-sm text-(--text-secondary) mb-4">
             Ready to experience autonomous infrastructure?
           </p>
           <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
-            <button className="px-6 py-3 bg-[var(--trust-primary)] text-[var(--color-btn-primary-text)] rounded-lg font-medium hover:bg-[var(--trust-secondary)] transition-colors duration-200">
+            <button className="px-6 py-3 bg-(--trust-primary) text-(--color-btn-primary-text) rounded-lg font-medium hover:bg-(--trust-secondary) transition-colors duration-200">
               Connect Wallet
             </button>
-            <button className="px-6 py-3 text-[var(--trust-primary)] border border-[var(--trust-primary)]/30 rounded-lg font-medium hover:bg-[var(--trust-primary)]/10 transition-colors duration-200">
+            <button className="px-6 py-3 text-(--trust-primary) border border-(--trust-primary)/30 rounded-lg font-medium hover:bg-(--trust-primary)/10 transition-colors duration-200">
               Explore Digital Twin
             </button>
           </div>

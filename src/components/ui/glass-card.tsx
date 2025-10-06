@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode, ElementType } from "react";
-import { forwardRef } from "react";
+import { forwardRef, useState, useEffect, useRef } from "react";
 import { LazyMotion, domAnimation, m, type Variants } from "motion/react";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +45,18 @@ interface GlassCardProps {
   role?: string;
   "aria-label"?: string;
   "aria-describedby"?: string;
+
+  // NEW: Loading/skeleton state
+  isLoading?: boolean;
+
+  // NEW: Lazy load animation (waits for intersection)
+  lazyLoad?: boolean;
+
+  // NEW: Ripple effect on click
+  enableRipple?: boolean;
+
+  // NEW: Test ID for easier e2e testing
+  testId?: string;
 }
 
 // ===========================================
@@ -54,11 +66,11 @@ interface GlassCardProps {
 
 const paddingClasses: Record<NonNullable<GlassCardProps["padding"]>, string> = {
   none: "",
-  xs: "p-3 md:p-4", // 12px → 16px - tight spacing for dense info
-  sm: "p-4 md:p-5", // 16px → 20px - compact cards
-  md: "p-6 md:p-7", // 24px → 28px - balanced default
-  lg: "p-8 md:p-10", // 32px → 40px - spacious content
-  xl: "p-10 md:p-12", // 40px → 48px - hero sections
+  xs: "p-2 sm:p-3 md:p-4", // 8px → 12px → 16px - tight spacing
+  sm: "p-3 sm:p-4 md:p-5", // 12px → 16px → 20px - compact cards
+  md: "p-4 sm:p-5 md:p-6 lg:p-7", // 16px → 20px → 24px → 28px - balanced default
+  lg: "p-6 sm:p-7 md:p-8 lg:p-10", // 24px → 28px → 32px → 40px - spacious
+  xl: "p-8 sm:p-9 md:p-10 lg:p-12", // 32px → 36px → 40px → 48px - hero sections
 };
 
 // ===========================================
@@ -69,51 +81,51 @@ const paddingClasses: Record<NonNullable<GlassCardProps["padding"]>, string> = {
 const variantClasses: Record<NonNullable<GlassCardProps["variant"]>, string> = {
   // Standard glassmorphic surface for general content
   default: cn(
-    "bg-[var(--glass-surface-primary)]",
-    "border border-[var(--glass-border-soft)]",
+    "bg-(--glass-surface-primary)",
+    "border border-(--glass-border-soft)",
     "backdrop-blur-[var(--backdrop-blur-light)]",
-    "shadow-[var(--shadow-neural-soft)]"
+    "shadow-(--shadow-neural-soft)"
   ),
 
   // Elevated cards for important actions - builds trust through prominence
   elevated: cn(
-    "bg-[var(--glass-surface-elevated)]",
-    "border border-[var(--glass-border-strong)]",
+    "bg-(--glass-surface-elevated)",
+    "border border-(--glass-border-strong)",
     "backdrop-blur-[var(--backdrop-blur-medium)]",
-    "shadow-[var(--shadow-neural-strong)]",
+    "shadow-(--shadow-neural-strong)",
     "transform-gpu" // Performance: Force GPU layer
   ),
 
   // Modal overlays for critical interactions
   modal: cn(
-    "bg-[var(--glass-surface-modal)]",
-    "border border-[var(--glass-border-highlight)]",
+    "bg-(--glass-surface-modal)",
+    "border border-(--glass-border-highlight)",
     "backdrop-blur-[var(--backdrop-blur-heavy)]",
-    "shadow-[var(--shadow-neural-floating)]"
+    "shadow-(--shadow-neural-floating)"
   ),
 
   // Neural variant for AI-related content - builds intelligence trust
   neural: cn(
-    "bg-gradient-to-br from-[var(--intelligence-primary)]/10 to-[var(--intelligence-secondary)]/5",
-    "border border-[var(--intelligence-accent)]/20",
+    "bg-gradient-to-br from-(--intelligence-primary)/10 to-(--intelligence-secondary)/5",
+    "border border-(--intelligence-accent)/20",
     "backdrop-blur-[var(--backdrop-blur-medium)]",
-    "shadow-[var(--glow-neural-primary)]"
+    "shadow-(--glow-neural-primary)"
   ),
 
   // Trust variant for safety-critical information
   trust: cn(
-    "bg-gradient-to-br from-[var(--trust-primary)]/8 to-[var(--trust-secondary)]/4",
-    "border border-[var(--trust-primary)]/25",
+    "bg-gradient-to-br from-(--trust-primary)/8 to-(--trust-secondary)/4",
+    "border border-(--trust-primary)/25",
     "backdrop-blur-[var(--backdrop-blur-light)]",
-    "shadow-[var(--glow-trust-primary)]"
+    "shadow-(--glow-trust-primary)"
   ),
 
   // Prosperity variant for positive outcomes and growth
   prosperity: cn(
-    "bg-gradient-to-br from-[var(--prosperity-primary)]/8 to-[var(--prosperity-energy)]/4",
-    "border border-[var(--prosperity-primary)]/25",
+    "bg-gradient-to-br from-(--prosperity-primary)/8 to-(--prosperity-energy)/4",
+    "border border-(--prosperity-primary)/25",
     "backdrop-blur-[var(--backdrop-blur-light)]",
-    "shadow-[var(--glow-prosperity-primary)]"
+    "shadow-(--glow-prosperity-primary)"
   ),
 };
 
@@ -123,58 +135,57 @@ const variantClasses: Record<NonNullable<GlassCardProps["variant"]>, string> = {
 // ===========================================
 
 const motionVariants: Variants = {
-  // Entrance animations that build anticipation and trust
+  // Entrance animations - faster and more responsive
   initial: {
     opacity: 0,
-    scale: 0.96,
-    y: 8,
-    filter: "blur(4px)",
+    scale: 0.98,
+    y: 4,
+    filter: "blur(2px)",
   },
 
-  // Settled state feels stable and trustworthy
+  // Settled state - instant and stable
   animate: {
     opacity: 1,
     scale: 1,
     y: 0,
     filter: "blur(0px)",
-    // PERFORMANCE: Use will-change for GPU optimization (applied as a style/target, not a transition property)
-    willChange: "transform, opacity, filter",
     transition: {
       type: "spring",
-      stiffness: 380,
-      damping: 30,
-      mass: 0.8,
+      stiffness: 500, // Increased from 380 for snappier feel
+      damping: 35, // Increased from 30 for less bounce
+      mass: 0.6, // Reduced from 0.8 for faster response
     },
   },
 
-  // Hover state provides immediate feedback - builds interactive trust
+  // Hover state - more pronounced lift with shadow
   hover: {
-    scale: 1.01,
-    y: -1,
+    scale: 1.02, // Increased from 1.01 for better feedback
+    y: -2, // Increased from -1 for more depth
     transition: {
       type: "spring",
-      stiffness: 400,
-      damping: 25,
-      mass: 0.6,
+      stiffness: 600, // Very responsive
+      damping: 30,
+      mass: 0.4, // Light and quick
     },
   },
 
-  // Focus state for keyboard navigation - accessibility first
+  // Focus state - more prominent for accessibility
   focus: {
-    scale: 1.005,
-    boxShadow: "0 0 0 3px var(--trust-primary), var(--glow-trust-primary)",
+    scale: 1.01, // Added subtle scale
+    boxShadow:
+      "0 0 0 3px var(--trust-primary)/50, 0 0 0 6px var(--trust-primary)/20, var(--glow-trust-primary)",
     transition: {
-      duration: 0.15,
+      duration: 0.2, // Slightly longer for visibility
       ease: "easeOut",
     },
   },
 
-  // Tap feedback on mobile - immediate response builds trust
+  // Tap feedback - instant response
   tap: {
     scale: 0.98,
     transition: {
-      duration: 0.1,
-      ease: "easeInOut",
+      duration: 0.08, // Reduced from 0.1 for instant feel
+      ease: "easeOut",
     },
   },
 };
@@ -189,7 +200,7 @@ const aiStateClasses: Record<NonNullable<GlassCardProps["aiState"]>, string> = {
   processing: "ai-status-active animate-pulse",
   learning: "ai-status-learning",
   optimizing: "ai-status-optimizing",
-  alert: "border-[var(--critical-primary)] shadow-[var(--critical-primary)]/20",
+  alert: "border-(--critical-primary) shadow-(--critical-primary)/20",
 };
 
 // ===========================================
@@ -201,17 +212,29 @@ const trustLevelClasses: Record<
   NonNullable<GlassCardProps["trustLevel"]>,
   string
 > = {
-  low: "opacity-90",
-  medium: "opacity-95 border-[var(--trust-primary)]/15",
+  low: "opacity-85",
+  medium: "opacity-95 border-(--trust-primary)/20",
   high: cn(
     "opacity-100",
-    "border-[var(--trust-primary)]/25",
-    "shadow-[var(--glow-trust-primary)]",
+    "border-(--trust-primary)/30", // Increased from /25
+    "shadow-(--glow-trust-primary)",
+    "ring-1 ring-(--trust-primary)/10", // Added subtle ring
     "relative after:absolute after:inset-0 after:rounded-[inherit]",
-    "after:bg-gradient-to-r after:from-[var(--trust-primary)]/5 after:to-transparent",
+    "after:bg-gradient-to-r after:from-(--trust-primary)/8 after:to-transparent", // Increased from /5
     "after:pointer-events-none"
   ),
 };
+
+// ===========================================
+// LOADING STATE: Skeleton UI for better perceived performance
+// ===========================================
+
+const loadingClasses = cn(
+  "animate-pulse",
+  "bg-gradient-to-r from-(--glass-surface-primary) via-(--glass-surface-elevated) to-(--glass-surface-primary)",
+  "bg-[length:200%_100%]",
+  "pointer-events-none"
+);
 
 // ===========================================
 // MAIN COMPONENT: ForwardRef for proper React 19 patterns
@@ -233,10 +256,79 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       role,
       "aria-label": ariaLabel,
       "aria-describedby": ariaDescribedby,
+      isLoading = false,
+      lazyLoad = false,
+      enableRipple = false,
+      testId,
       ...props
     },
     ref
   ) => {
+    const [isInView, setIsInView] = useState(!lazyLoad);
+    const [ripples, setRipples] = useState<
+      Array<{ x: number; y: number; id: number }>
+    >([]);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+    const internalRef = useRef<HTMLDivElement>(null);
+
+    // Combine external ref with internal ref
+    useEffect(() => {
+      if (ref) {
+        if (typeof ref === "function") {
+          ref(internalRef.current);
+        } else {
+          (ref as React.MutableRefObject<HTMLDivElement | null>).current =
+            internalRef.current;
+        }
+      }
+    }, [ref]);
+
+    // Check for reduced motion preference
+    useEffect(() => {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      setPrefersReducedMotion(mediaQuery.matches);
+      const handler = () => setPrefersReducedMotion(mediaQuery.matches);
+      mediaQuery.addEventListener("change", handler);
+      return () => mediaQuery.removeEventListener("change", handler);
+    }, []);
+
+    // Intersection observer for lazy loading animations
+    useEffect(() => {
+      if (!lazyLoad || !internalRef.current) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1, rootMargin: "50px" }
+      );
+
+      observer.observe(internalRef.current);
+      return () => observer.disconnect();
+    }, [lazyLoad]);
+
+    // Ripple effect handler
+    const handleRippleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!enableRipple || !internalRef.current) return;
+
+      const rect = internalRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const id = Date.now();
+
+      setRipples((prev) => [...prev, { x, y, id }]);
+
+      // Remove ripple after animation
+      setTimeout(() => {
+        setRipples((prev) => prev.filter((r) => r.id !== id));
+      }, 600);
+
+      onClick?.();
+    };
+
     // ===========================================
     // ACCESSIBILITY: Semantic roles and ARIA labels for screen readers
     // TRUST BUILDING: Clear communication of interactive capabilities
@@ -271,14 +363,19 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       // Trust level indicators
       trustLevel && trustLevelClasses[trustLevel],
 
+      // Loading state
+      isLoading && loadingClasses,
+
       // Interactive states
       isInteractive &&
         cn(
           "cursor-pointer",
-          "transition-colors duration-200 ease-[var(--ease-organic)]",
+          "transition-all duration-200 ease-[var(--ease-organic)]", // Changed from transition-colors
+          "hover:shadow-(--shadow-neural-strong)", // Add shadow on hover
           "focus-visible:outline-none",
-          "focus-visible:ring-2 focus-visible:ring-[var(--trust-primary)]",
-          "focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--foundation-void)]"
+          "focus-visible:ring-2 focus-visible:ring-(--trust-primary)",
+          "focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--foundation-void)]",
+          "active:scale-[0.99]" // Subtle press feedback
         ),
 
       // Custom classes override
@@ -290,20 +387,50 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
     // ACCESSIBILITY: Respects prefers-reduced-motion automatically
     // ===========================================
 
-    if (!enableMotion) {
+    // Disable motion if user prefers reduced motion
+    const shouldUseMotion = enableMotion && !prefersReducedMotion && isInView;
+
+    if (!shouldUseMotion) {
       return (
         <Component
-          ref={ref}
+          ref={internalRef}
           className={cardClasses}
-          onClick={onClick}
+          onClick={enableRipple ? handleRippleClick : onClick}
           role={semanticRole}
           aria-label={semanticLabel}
           aria-describedby={ariaDescribedby}
+          aria-busy={isLoading}
           tabIndex={isInteractive ? 0 : undefined}
+          data-testid={testId}
+          data-variant={variant}
+          data-ai-state={aiState}
           {...props}
         >
+          {/* Ripple effects */}
+          {ripples.map((ripple) => (
+            <span
+              key={ripple.id}
+              className="absolute rounded-full bg-(--trust-primary)/20 animate-ping pointer-events-none"
+              style={{
+                left: ripple.x - 10,
+                top: ripple.y - 10,
+                width: 20,
+                height: 20,
+              }}
+            />
+          ))}
+
           {/* Content container with proper z-index for layering */}
-          <div className="relative z-10">{children}</div>
+          <div className="relative z-10">
+            {isLoading ? (
+              <div className="space-y-3">
+                <div className="h-4 bg-(--glass-border-soft) rounded animate-pulse" />
+                <div className="h-4 bg-(--glass-border-soft) rounded animate-pulse w-3/4" />
+              </div>
+            ) : (
+              children
+            )}
+          </div>
         </Component>
       );
     }
@@ -316,38 +443,83 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
     return (
       <LazyMotion features={domAnimation}>
         <m.div
-          ref={ref}
+          ref={internalRef}
           className={cardClasses}
-          onClick={onClick}
+          onClick={enableRipple ? handleRippleClick : onClick}
           role={semanticRole}
           aria-label={semanticLabel}
           aria-describedby={ariaDescribedby}
+          aria-busy={isLoading}
           tabIndex={isInteractive ? 0 : undefined}
+          data-testid={testId}
+          data-variant={variant}
+          data-ai-state={aiState}
           // Motion configuration
           variants={motionVariants}
           initial="initial"
           animate="animate"
-          whileHover={isInteractive ? "hover" : undefined}
-          whileFocus={isInteractive ? "focus" : undefined}
-          whileTap={isInteractive ? "tap" : undefined}
-          // Performance optimizations
-          style={{
-            willChange: "transform, opacity", // Optimize for animations
-          }}
+          whileHover={isInteractive && !isLoading ? "hover" : undefined}
+          whileFocus={isInteractive && !isLoading ? "focus" : undefined}
+          whileTap={isInteractive && !isLoading ? "tap" : undefined}
           // Accessibility: Keyboard support for interactive cards
           onKeyDown={(e) => {
-            if (isInteractive && (e.key === "Enter" || e.key === " ")) {
+            if (
+              isInteractive &&
+              !isLoading &&
+              (e.key === "Enter" || e.key === " ")
+            ) {
               e.preventDefault();
+              if (enableRipple) {
+                // Simulate click for ripple effect
+                const rect = internalRef.current?.getBoundingClientRect();
+                if (rect) {
+                  const id = Date.now();
+                  setRipples((prev) => [
+                    ...prev,
+                    { x: rect.width / 2, y: rect.height / 2, id },
+                  ]);
+                  setTimeout(
+                    () => setRipples((prev) => prev.filter((r) => r.id !== id)),
+                    600
+                  );
+                }
+              }
               onClick?.();
             }
           }}
           {...props}
         >
+          {/* Ripple effects */}
+          {ripples.map((ripple) => (
+            <m.span
+              key={ripple.id}
+              className="absolute rounded-full bg-(--trust-primary)/20 pointer-events-none"
+              initial={{ scale: 0, opacity: 1 }}
+              animate={{ scale: 4, opacity: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              style={{
+                left: ripple.x - 10,
+                top: ripple.y - 10,
+                width: 20,
+                height: 20,
+              }}
+            />
+          ))}
           {/* 
           LAYERING SYSTEM: Proper z-index management for glass effects
           PSYCHOLOGY: Clear content hierarchy reduces cognitive load
         */}
-          <div className="relative z-10">{children}</div>
+          <div className="relative z-10">
+            {isLoading ? (
+              <div className="space-y-3 animate-pulse">
+                <div className="h-4 bg-(--glass-border-soft) rounded" />
+                <div className="h-4 bg-(--glass-border-soft) rounded w-3/4" />
+                <div className="h-4 bg-(--glass-border-soft) rounded w-1/2" />
+              </div>
+            ) : (
+              children
+            )}
+          </div>
 
           {/* 
           TRUST INDICATOR: Subtle glow for high-trust content
@@ -369,7 +541,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         */}
           {aiState !== "idle" && (
             <m.div
-              className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--trust-primary)]"
+              className="absolute top-2 right-2 w-2 h-2 rounded-full bg-(--trust-primary)"
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.7, 1, 0.7],

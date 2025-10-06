@@ -172,23 +172,23 @@ export function Hero() {
 
             {/* Hero Message - Cognitive Psychology: Lead with clear value prop */}
             <div className="space-y-6">
-              <h1 className="text-4xl font-semibold leading-[1.1] text-[var(--text-primary)] md:text-5xl lg:text-[3.75rem]">
+              <h1 className="text-4xl font-semibold leading-[1.1] text-(--text-primary) md:text-5xl lg:text-[3.75rem]">
                 <span className="block">Own the Sun.</span>
-                <span className="block bg-gradient-to-r from-[var(--trust-primary)] to-[var(--intelligence-primary)] bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-(--trust-primary) to-(--intelligence-primary) bg-clip-text text-transparent">
                   Trust the Machine.
                 </span>
                 <span className="block">Watch It Work.</span>
               </h1>
 
-              <p className="max-w-2xl text-base leading-relaxed text-[var(--text-secondary)] md:text-lg lg:text-xl">
+              <p className="max-w-2xl text-base leading-relaxed text-(--text-secondary) md:text-lg lg:text-xl">
                 AIMP is where AI agents operate tokenized solar farms under
-                <strong className="font-semibold text-[var(--text-primary)]">
+                <strong className="font-semibold text-(--text-primary)">
                   {" "}
                   cryptographic authority
                 </strong>
                 . Invest in seconds, observe every watt, and inspect every
                 decision with
-                <strong className="font-semibold text-[var(--trust-primary)]">
+                <strong className="font-semibold text-(--trust-primary)">
                   {" "}
                   proof-backed explainability
                 </strong>
@@ -196,17 +196,17 @@ export function Hero() {
               </p>
 
               {/* Trust Pillars - Behavioral UX: Address concerns upfront */}
-              <div className="grid grid-cols-3 gap-4 text-xs uppercase tracking-[0.32em] text-[var(--text-tertiary)] md:flex md:gap-8">
+              <div className="grid grid-cols-3 gap-4 text-xs uppercase tracking-[0.32em] text-(--text-tertiary) md:flex md:gap-8">
                 <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-[var(--prosperity-primary)] shadow-[0_0_6px_rgba(50,184,198,0.4)]" />
+                  <div className="h-2 w-2 rounded-full bg-(--prosperity-primary) shadow-[0_0_6px_rgba(50,184,198,0.4)]" />
                   Safety-First
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-[var(--intelligence-primary)] shadow-[0_0_6px_rgba(41,150,161,0.4)]" />
+                  <div className="h-2 w-2 rounded-full bg-(--intelligence-primary) shadow-[0_0_6px_rgba(41,150,161,0.4)]" />
                   Explainable
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-[var(--trust-primary)] shadow-[0_0_6px_rgba(33,128,141,0.4)]" />
+                  <div className="h-2 w-2 rounded-full bg-(--trust-primary) shadow-[0_0_6px_rgba(33,128,141,0.4)]" />
                   Solana-Native
                 </div>
               </div>
@@ -241,19 +241,19 @@ export function Hero() {
                 {/* Secondary CTA */}
                 <Link
                   href="/assets/solar"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--glass-border-soft)] bg-[var(--glass-surface-primary)] px-6 py-3 text-sm font-semibold text-[var(--text-primary)] backdrop-blur-sm transition-all duration-200 hover:bg-[var(--glass-surface-elevated)] hover:border-[var(--glass-border-strong)] focus-visible:u-focus-ring"
+                  className="inline-flex items-center gap-2 rounded-full border border-(--glass-border-soft) bg-(--glass-surface-primary) px-6 py-3 text-sm font-semibold text-(--text-primary) backdrop-blur-sm transition-all duration-200 hover:bg-(--glass-surface-elevated) hover:border-(--glass-border-strong) focus-visible:u-focus-ring"
                 >
                   Explore the Asset
-                  <span className="text-[var(--trust-primary)]">→</span>
+                  <span className="text-(--trust-primary)">→</span>
                 </Link>
               </div>
 
               {/* Risk Context - Transparency First */}
               <div
                 id="primary-cta-help"
-                className="rounded-lg border border-[var(--glass-border-soft)] bg-[var(--glass-surface-primary)] p-4 text-xs text-[var(--text-secondary)]"
+                className="rounded-lg border border-(--glass-border-soft) bg-(--glass-surface-primary) p-4 text-xs text-(--text-secondary)"
               >
-                <p className="mb-2 font-medium text-[var(--text-primary)]">
+                <p className="mb-2 font-medium text-(--text-primary)">
                   Investment Notice:
                 </p>
                 <p>
@@ -277,7 +277,7 @@ export function Hero() {
             >
               {/* Enhanced Glass Effect */}
               <div
-                className="absolute inset-0 rounded-[24px] border border-[var(--glass-border-highlight)] bg-[radial-gradient(120%_90%_at_20%_15%,rgba(var(--color-teal-500-rgb),0.18),transparent),radial-gradient(100%_80%_at_85%_0%,rgba(var(--color-gray-300-rgb),0.12),transparent)]"
+                className="absolute inset-0 rounded-[24px] border border-(--glass-border-highlight) bg-[radial-gradient(120%_90%_at_20%_15%,rgba(var(--color-teal-500-rgb),0.18),transparent),radial-gradient(100%_80%_at_85%_0%,rgba(var(--color-gray-300-rgb),0.12),transparent)]"
                 aria-hidden="true"
               />
 
@@ -285,7 +285,7 @@ export function Hero() {
               {!shouldReduceMotion && (
                 <m.div
                   variants={pulseVariants}
-                  className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-[var(--intelligence-primary)] shadow-[0_0_12px_rgba(41,150,161,0.6)]"
+                  className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-(--intelligence-primary) shadow-[0_0_12px_rgba(41,150,161,0.6)]"
                   aria-hidden="true"
                 />
               )}
@@ -294,13 +294,13 @@ export function Hero() {
                 {/* Header with Real-time Context */}
                 <div className="flex items-center justify-between">
                   <div className="space-y-2">
-                    <p className="text-xs font-medium uppercase tracking-[0.3em] text-[var(--text-tertiary)]">
+                    <p className="text-xs font-medium uppercase tracking-[0.3em] text-(--text-tertiary)">
                       Solar Farm Status
                     </p>
-                    <h2 className="text-2xl font-semibold text-[var(--text-primary)]">
+                    <h2 className="text-2xl font-semibold text-(--text-primary)">
                       Sorrento Ridge Alpha
                     </h2>
-                    <p className="text-sm text-[var(--text-secondary)]">
+                    <p className="text-sm text-(--text-secondary)">
                       AI Operations • Authority PDA • Multi-Oracle Telemetry
                     </p>
                   </div>
@@ -313,8 +313,8 @@ export function Hero() {
                       explanation="AI currently optimizing energy dispatch based on grid prices and weather forecasts"
                       confidence={94}
                     />
-                    <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
-                      <div className="h-2 w-2 rounded-full bg-[var(--intelligence-primary)] animate-pulse" />
+                    <div className="flex items-center gap-1 text-xs text-(--text-muted)">
+                      <div className="h-2 w-2 rounded-full bg-(--intelligence-primary) animate-pulse" />
                       <span>Live • {currentTime.toLocaleTimeString()}</span>
                     </div>
                   </div>
@@ -326,40 +326,40 @@ export function Hero() {
                     <m.div
                       key={metric.label}
                       variants={itemVariants}
-                      className="group relative overflow-hidden rounded-2xl border border-[var(--glass-border-soft)] bg-[var(--glass-surface-primary)] p-4 transition-all duration-200 hover:border-[var(--glass-border-strong)] hover:bg-[var(--glass-surface-elevated)]"
+                      className="group relative overflow-hidden rounded-2xl border border-(--glass-border-soft) bg-(--glass-surface-primary) p-4 transition-all duration-200 hover:border-(--glass-border-strong) hover:bg-(--glass-surface-elevated)"
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1 space-y-1">
                           <div className="flex items-center gap-2">
-                            <p className="text-xs font-medium uppercase tracking-[0.32em] text-[var(--text-tertiary)]">
+                            <p className="text-xs font-medium uppercase tracking-[0.32em] text-(--text-tertiary)">
                               {metric.label}
                             </p>
                             <div
                               className={`h-2 w-2 rounded-full ${
                                 metric.trustSignal === "high"
-                                  ? "bg-[var(--prosperity-primary)] shadow-[0_0_4px_rgba(50,184,198,0.6)]"
+                                  ? "bg-(--prosperity-primary) shadow-[0_0_4px_rgba(50,184,198,0.6)]"
                                   : metric.trustSignal === "medium"
-                                    ? "bg-[var(--caution-primary)] shadow-[0_0_4px_rgba(230,129,97,0.6)]"
-                                    : "bg-[var(--intelligence-primary)] animate-pulse shadow-[0_0_4px_rgba(41,150,161,0.6)]"
+                                    ? "bg-(--caution-primary) shadow-[0_0_4px_rgba(230,129,97,0.6)]"
+                                    : "bg-(--intelligence-primary) animate-pulse shadow-[0_0_4px_rgba(41,150,161,0.6)]"
                               }`}
                               aria-label={`Trust level: ${metric.trustSignal}`}
                             />
                           </div>
-                          <p className="text-sm text-[var(--text-secondary)]">
+                          <p className="text-sm text-(--text-secondary)">
                             {metric.detail}
                           </p>
-                          <div className="text-xs text-[var(--text-muted)]">
+                          <div className="text-xs text-(--text-muted)">
                             {metric.confidence}% confidence •{" "}
                             {metric.lastUpdated}
                           </div>
                         </div>
 
                         <div className="text-right">
-                          <p className="text-2xl font-semibold text-[var(--text-primary)] font-mono">
+                          <p className="text-2xl font-semibold text-(--text-primary) font-mono">
                             {metric.value}
                           </p>
                           <button
-                            className="mt-1 text-xs text-[var(--intelligence-primary)] hover:text-[var(--trust-primary)] transition-colors"
+                            className="mt-1 text-xs text-(--intelligence-primary) hover:text-(--trust-primary) transition-colors"
                             aria-label={`Explain ${metric.label} metric`}
                             title={metric.explanation}
                           >
@@ -370,7 +370,7 @@ export function Hero() {
 
                       {/* Hover explanation */}
                       <div className="absolute inset-x-4 bottom-4 translate-y-full opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
-                        <div className="rounded-lg border border-[var(--glass-border-strong)] bg-[var(--glass-surface-modal)] p-3 text-xs text-[var(--text-secondary)] backdrop-blur-sm">
+                        <div className="rounded-lg border border-(--glass-border-strong) bg-(--glass-surface-modal) p-3 text-xs text-(--text-secondary) backdrop-blur-sm">
                           {metric.explanation}
                         </div>
                       </div>
@@ -379,31 +379,31 @@ export function Hero() {
                 </div>
 
                 {/* Safety Constraints - Transparency */}
-                <div className="rounded-2xl border border-[var(--glass-border-strong)] bg-[rgba(var(--color-slate-900-rgb),0.78)] p-4">
+                <div className="rounded-2xl border border-(--glass-border-strong) bg-[rgba(var(--color-slate-900-rgb),0.78)] p-4">
                   <div className="mb-3 flex items-center justify-between">
-                    <p className="text-xs font-medium uppercase tracking-[0.35em] text-[var(--text-tertiary)]">
+                    <p className="text-xs font-medium uppercase tracking-[0.35em] text-(--text-tertiary)">
                       Safety Guardrails
                     </p>
-                    <span className="text-xs text-[var(--prosperity-primary)]">
+                    <span className="text-xs text-(--prosperity-primary)">
                       Active
                     </span>
                   </div>
-                  <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
+                  <ul className="space-y-2 text-sm text-(--text-secondary)">
                     <li className="flex items-center gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-[var(--prosperity-primary)]" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-(--prosperity-primary)" />
                       Max discharge: 2MW • SOC cap: 80%
                     </li>
                     <li className="flex items-center gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-[var(--intelligence-primary)]" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-(--intelligence-primary)" />
                       Oracle deviation alarm at 3.5σ
                     </li>
                     <li className="flex items-center gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-[var(--trust-primary)]" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-(--trust-primary)" />
                       Emergency override &lt; 200ms acknowledgment
                     </li>
                   </ul>
-                  <div className="mt-3 pt-3 border-t border-[var(--glass-border-soft)]">
-                    <p className="text-xs text-[var(--text-muted)]">
+                  <div className="mt-3 pt-3 border-t border-(--glass-border-soft)">
+                    <p className="text-xs text-(--text-muted)">
                       Last constraint check: {currentTime.toLocaleTimeString()}{" "}
                       • Next verification:{" "}
                       {new Date(Date.now() + 60000).toLocaleTimeString()}

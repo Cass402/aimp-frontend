@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useCallback, useRef } from "react";
-import { StatusPill } from "./status-pill";
-import { ExplainTooltip } from "./explain-tooltip";
+import { usePathname } from "next/navigation";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { EmergencyOverride } from "./emergency-override";
 import { Provenance } from "./provenance";
+import { WalletDropdown } from "./wallet-dropdown";
+import { MobileMenuDrawer } from "./mobile-menu-drawer";
+import { CommandPalette } from "./command-palette";
+import { SystemStatusDropdown } from "./system-status-dropdown";
+import { QuickActionsMenu } from "./quick-actions-menu";
 import { cn } from "@/lib/utils";
 
 const navItems: Array<{
@@ -64,11 +68,103 @@ interface WalletConnectionState {
 }
 
 export function AppHeader() {
+  const pathname = usePathname();
   const [walletState, setWalletState] = useState<WalletConnectionState>({
     isConnecting: false,
   });
   const [isEmergencyMode, setIsEmergencyMode] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [liveTrustMetrics, setLiveTrustMetrics] = useState(trustMetrics);
   const headerRef = useRef<HTMLElement>(null);
+
+  // Detect reduced motion preference
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) =>
+      setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
+  // Scroll detection for header shrink effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Keyboard navigation for menu items (Arrow Left/Right)
+  useEffect(() => {
+    const handleKeyNav = (e: KeyboardEvent) => {
+      const nav = headerRef.current?.querySelector("nav");
+      if (!nav) return;
+
+      const links = Array.from(nav.querySelectorAll("a"));
+      const currentIndex = links.findIndex(
+        (link) => link === document.activeElement
+      );
+
+      if (currentIndex === -1) return;
+
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % links.length;
+        links[nextIndex]?.focus();
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        const prevIndex = (currentIndex - 1 + links.length) % links.length;
+        links[prevIndex]?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyNav);
+    return () => window.removeEventListener("keydown", handleKeyNav);
+  }, []);
+
+  // Command Palette shortcut (Cmd+K or Ctrl+K)
+  useEffect(() => {
+    const handleCommandPalette = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleCommandPalette);
+    return () => window.removeEventListener("keydown", handleCommandPalette);
+  }, []);
+
+  // Simulated WebSocket for live trust metrics updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveTrustMetrics((prev) =>
+        prev.map((metric) => {
+          const randomChange = Math.random() > 0.7;
+          if (!randomChange) return metric;
+
+          return {
+            ...metric,
+            confidence: Math.min(
+              99,
+              Math.max(90, metric.confidence + (Math.random() - 0.5) * 3)
+            ),
+            lastUpdated: `${Math.floor(Math.random() * 30) + 1}s ago`,
+          };
+        })
+      );
+    }, 5000); // Update every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleWalletConnect = useCallback(async () => {
     setWalletState((prev) => ({ ...prev, isConnecting: true }));
@@ -95,171 +191,144 @@ export function AppHeader() {
     console.log(`Emergency ${action} triggered`);
   }, []);
 
+  const handleWalletDisconnect = useCallback(() => {
+    setWalletState({ isConnecting: false });
+  }, []);
+
   return (
     <header
       ref={headerRef}
       className={cn(
-        "glass-panel glass-panel-elevated sticky top-4 z-40 mx-auto mt-6 w-[min(1180px,100%)] rounded-[26px] px-6 py-4",
+        "glass-panel glass-panel-elevated z-40 mx-auto max-w-7xl",
+        "mt-3 sm:mt-4",
+        "rounded-xl sm:rounded-2xl",
+        "px-3 sm:px-4 md:px-6 lg:px-8",
+        // Dynamic padding based on scroll (much more compact)
+        isScrolled && !prefersReducedMotion
+          ? "py-2 shadow-[0_20px_50px_rgba(2,8,20,0.45)]"
+          : "py-2.5 sm:py-3",
         "transition-all duration-300 ease-neural",
+        "overflow-visible", // Allow dropdowns to extend beyond header
         isEmergencyMode &&
           "border-critical-primary/30 bg-critical-background/10 shadow-[0_0_24px_rgba(192,21,47,0.15)]"
       )}
       role="banner"
       aria-label="AIMP Navigation and Status"
     >
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        {/* Brand Identity with Trust Signals */}
-        <div className="flex items-center gap-4">
-          <Link
-            href="/"
-            className={cn(
-              "flex items-center gap-3 group transition-all duration-200 ease-neural",
-              "hover:scale-[1.02] focus-visible:u-focus-ring"
-            )}
-            aria-label="Return to AIMP landing page"
-          >
-            <span
-              className={cn(
-                "inline-flex h-10 w-10 items-center justify-center rounded-2xl",
-                "border border-(--glass-border-highlight) bg-(--glass-surface-primary)",
-                "text-lg font-semibold text-current shadow-[0_12px_26px_rgba(4,8,18,0.28)]",
-                "transition-all duration-200 ease-neural",
-                "group-hover:shadow-[0_16px_32px_rgba(4,8,18,0.35)] group-hover:border-(--trust-primary)/50",
-                "relative overflow-hidden"
-              )}
-            >
-              <span className="relative z-10">⚡️</span>
-              <div
-                className={cn(
-                  "absolute inset-0 bg-gradient-to-br from-prosperity-primary/10 to-intelligence-primary/5",
-                  "opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                )}
-              />
+      <div className="flex items-center justify-between gap-2 sm:gap-3 md:gap-4 relative">
+        {/* Brand Identity - Compact */}
+        <Link
+          href="/"
+          className={cn(
+            "flex items-center gap-2 group transition-all duration-200 ease-neural",
+            "hover:opacity-80 focus-visible:u-focus-ring rounded-lg"
+          )}
+          aria-label="AIMP - Return to home"
+        >
+          <span className="text-xl">⚡</span>
+          <div className="hidden sm:flex items-center gap-1.5">
+            <span className="text-sm font-bold uppercase tracking-[0.3em] text-(--text-primary)">
+              AIMP
             </span>
+            <Provenance
+              hash="0xa1b2c3..."
+              type="protocol"
+              className="opacity-60 group-hover:opacity-100"
+            />
+          </div>
+        </Link>
 
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold uppercase tracking-[0.45em] text-(--text-tertiary)">
-                  AIMP
-                </span>
-                <Provenance
-                  hash="0xa1b2c3..."
-                  type="protocol"
-                  className="opacity-60 group-hover:opacity-100"
-                />
-              </div>
-              <span className="text-lg font-semibold text-(--text-primary) leading-tight">
-                Own the Sun. Trust the Machine.
-              </span>
-            </div>
-          </Link>
-        </div>
-
-        {/* Navigation with Progressive Enhancement */}
+        {/* Navigation - Compact */}
         <nav
-          className="flex flex-wrap items-center gap-2 md:gap-4"
+          className="hidden md:flex items-center gap-1"
           role="navigation"
           aria-label="Main navigation"
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ease-neural",
-                "text-(--text-secondary) hover:text-(--text-primary)",
-                "hover:bg-(--glass-surface-primary)/50 hover:backdrop-blur-sm",
-                "focus-visible:u-focus-ring relative overflow-hidden",
-                item.priority === "high" && "font-semibold"
-              )}
-              {...(item.priority === "high" && { "data-priority": "high" })}
-            >
-              <span className="relative z-10">{item.label}</span>
-              <div
+          {navItems.map((item) => {
+            const isActive =
+              pathname === item.href || pathname?.startsWith(item.href + "/");
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
                 className={cn(
-                  "absolute inset-0 bg-gradient-to-r from-trust-primary/5 to-prosperity-primary/5",
-                  "opacity-0 hover:opacity-100 transition-opacity duration-200"
+                  "rounded-full px-3 py-1.5 text-xs sm:text-sm font-medium transition-all duration-200 ease-neural",
+                  "relative overflow-hidden",
+                  "focus-visible:u-focus-ring",
+                  // Active state styling
+                  isActive
+                    ? "text-(--text-primary) bg-(--glass-surface-primary) shadow-sm"
+                    : "text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--glass-surface-primary)/50"
                 )}
-              />
-            </Link>
-          ))}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <span className="relative z-10">{item.label}</span>
+                {/* Active indicator */}
+                {isActive && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-trust-primary/10 to-prosperity-primary/10" />
+                )}
+                {/* Hover effect */}
+                <div
+                  className={cn(
+                    "absolute inset-0 bg-gradient-to-r from-trust-primary/5 to-prosperity-primary/5",
+                    "opacity-0 hover:opacity-100 transition-opacity duration-200"
+                  )}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Trust Dashboard with Explainability */}
-        <div className="flex items-center gap-3">
-          {/* Safety Posture Display */}
-          <div className="hidden flex-col gap-1 text-right text-[0.7rem] uppercase tracking-[0.24em] text-(--text-secondary) sm:flex">
-            <div className="flex items-center gap-1">
-              <span>Safety Posture</span>
-              <ExplainTooltip
-                content="AI operations are constrained by cryptographic authority with human oversight and emergency controls."
-                confidence={98}
-                lastUpdated="2s ago"
-              />
-            </div>
-            <span
-              className={cn(
-                "text-(--text-primary) transition-colors duration-200",
-                isEmergencyMode && "text-critical-primary"
-              )}
-            >
-              {isEmergencyMode
-                ? "Emergency Paused"
-                : "Verified by AI Constraints"}
-            </span>
-          </div>
+        {/* Actions - Compact */}
+        <div className="flex items-center gap-1 sm:gap-2">
+          {/* System Status Dropdown */}
+          <SystemStatusDropdown
+            metrics={liveTrustMetrics}
+            isEmergencyMode={isEmergencyMode}
+          />
 
-          {/* Trust Metrics Pills */}
-          <div className="flex flex-wrap items-center gap-2">
-            {trustMetrics.map((metric) => (
-              <StatusPill
-                key={metric.id}
-                tone={
-                  isEmergencyMode && metric.id === "safety"
-                    ? "critical"
-                    : metric.tone
-                }
-                label={metric.label}
-                detail={
-                  isEmergencyMode && metric.id === "safety"
-                    ? "Paused"
-                    : metric.detail
-                }
-                explanation={metric.explanation}
-                confidence={metric.confidence}
-                lastUpdated={metric.lastUpdated}
-                provenanceHash={metric.provenanceHash}
-                className={cn(
-                  "transition-all duration-300 ease-neural",
-                  metric.id === "safety" && isEmergencyMode && "animate-pulse"
-                )}
-              />
-            ))}
-          </div>
-
-          {/* Emergency Override */}
+          {/* Emergency Override - Icon Only */}
           <EmergencyOverride
             isActive={isEmergencyMode}
             onToggle={handleEmergencyOverride}
-            className="ml-2"
           />
+
+          {/* Quick Actions Menu */}
+          <QuickActionsMenu
+            onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          />
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className={cn(
+              "md:hidden p-2 rounded-lg transition-all duration-200",
+              "text-(--text-secondary) hover:text-(--text-primary)",
+              "hover:bg-(--glass-surface-primary) focus-visible:u-focus-ring"
+            )}
+            aria-label="Open mobile menu"
+          >
+            <span className="text-lg">☰</span>
+          </button>
 
           {/* Wallet Connection with Trust Indicators */}
           <div className="flex items-center gap-2">
             {walletState.address ? (
-              <div className="flex items-center gap-2 text-xs text-(--text-secondary)">
-                <div className="flex flex-col text-right">
-                  <span className="font-mono">{walletState.address}</span>
-                  <span className="text-(--prosperity-primary)">
-                    {walletState.balance} SOL
-                  </span>
+              <WalletDropdown
+                address={walletState.address}
+                balance={walletState.balance!}
+                network={walletState.network!}
+                onDisconnect={handleWalletDisconnect}
+              />
+            ) : walletState.isConnecting ? (
+              // Enhanced loading skeleton with shimmer
+              <div className="flex items-center gap-2 px-3 py-2 sm:px-4 md:px-5 lg:px-6">
+                <div className="relative h-2 w-2 rounded-full bg-(--intelligence-primary)/60 overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
                 </div>
-                <div
-                  className={cn(
-                    "h-2 w-2 rounded-full bg-(--prosperity-primary)",
-                    "shadow-[0_0_12px_rgba(50,184,198,0.6)] animate-pulse"
-                  )}
-                />
+                <div className="relative h-4 w-24 rounded bg-(--glass-surface-primary)/60 overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                </div>
               </div>
             ) : (
               <button
@@ -268,7 +337,7 @@ export function AppHeader() {
                 className={cn(
                   "inline-flex items-center gap-2 rounded-full transition-all duration-200 ease-neural",
                   "border border-(--glass-border-highlight) bg-(--glass-surface-primary)",
-                  "px-4 py-2 text-sm font-semibold text-(--text-primary)",
+                  "px-3 py-2 sm:px-4 md:px-5 lg:px-6 text-sm font-semibold text-(--text-primary)",
                   "shadow-[0px_18px_32px_rgba(2,8,20,0.28)]",
                   "hover:shadow-[0px_22px_40px_rgba(2,8,20,0.35)] hover:scale-[1.02]",
                   "focus-visible:u-focus-ring disabled:opacity-60 disabled:cursor-not-allowed",
@@ -296,42 +365,25 @@ export function AppHeader() {
                   )}
                 />
 
-                <span className="relative z-10">
-                  {walletState.isConnecting
-                    ? "Connecting..."
-                    : "Connect Wallet"}
-                </span>
-
-                {walletState.isConnecting && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-trust-primary/20 to-transparent animate-shimmer" />
-                )}
+                <span className="relative z-10">Connect Wallet</span>
               </button>
             )}
           </div>
         </div>
       </div>
 
-      {/* Emergency Alert Banner */}
-      {isEmergencyMode && (
-        <div
-          className={cn(
-            "mt-4 rounded-2xl border border-critical-primary/30 bg-critical-background/20 p-3",
-            "backdrop-blur-sm animate-in slide-in-from-top-2 duration-300"
-          )}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-critical-primary animate-pulse" />
-              <span className="text-sm font-medium text-critical-primary">
-                Emergency Override Active
-              </span>
-            </div>
-            <div className="text-xs text-(--text-secondary)">
-              All autonomous operations paused • Human oversight required
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Mobile Menu Drawer */}
+      <MobileMenuDrawer
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        navItems={navItems}
+      />
+
+      {/* Command Palette */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+      />
     </header>
   );
 }

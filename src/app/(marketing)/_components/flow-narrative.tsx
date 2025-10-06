@@ -168,7 +168,7 @@ function NeuralIndicator({ hint, isActive, className }: NeuralIndicatorProps) {
     <m.div
       className={cn(
         "relative h-2 w-2 rounded-full transition-all duration-500",
-        "bg-[var(--intelligence-primary)]",
+        "bg-(--intelligence-primary)",
         className
       )}
       variants={pulseVariants}
@@ -176,8 +176,8 @@ function NeuralIndicator({ hint, isActive, className }: NeuralIndicatorProps) {
       aria-label={`AI ${hint} indicator`}
     >
       {/* Neural glow effect */}
-      <div className="absolute inset-0 -m-1 rounded-full bg-[var(--intelligence-primary)] opacity-20 blur-sm" />
-      <div className="absolute inset-0 -m-2 rounded-full bg-[var(--intelligence-primary)] opacity-10 blur-md" />
+      <div className="absolute inset-0 -m-1 rounded-full bg-(--intelligence-primary) opacity-20 blur-sm" />
+      <div className="absolute inset-0 -m-2 rounded-full bg-(--intelligence-primary) opacity-10 blur-md" />
     </m.div>
   );
 }
@@ -195,16 +195,16 @@ interface PhaseBadgeProps {
 
 function PhaseBadge({ badge, trustLevel, isInView }: PhaseBadgeProps) {
   const trustColors = {
-    low: "border-[var(--glass-border-soft)] bg-[var(--glass-surface-primary)]",
-    medium: "border-[var(--trust-primary)]/20 bg-[var(--trust-primary)]/8",
-    high: "border-[var(--trust-primary)]/30 bg-[var(--trust-primary)]/12 shadow-[var(--glow-trust-primary)]",
+    low: "border-(--glass-border-soft) bg-(--glass-surface-primary)",
+    medium: "border-(--trust-primary)/20 bg-(--trust-primary)/8",
+    high: "border-(--trust-primary)/30 bg-(--trust-primary)/12 shadow-(--glow-trust-primary)",
   };
 
   return (
     <m.div
       className={cn(
         "flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl",
-        "text-sm font-semibold text-[var(--text-primary)]",
+        "text-sm font-semibold text-(--text-primary)",
         "transition-all duration-500 ease-[var(--ease-neural)]",
         trustColors[trustLevel]
       )}
@@ -279,7 +279,7 @@ export function FlowNarrative() {
         {/* PSYCHOLOGY: Header creates cognitive anchor and sets expectations */}
         <m.header className="space-y-3" variants={headerVariants}>
           <div className="flex items-center gap-3">
-            <p className="text-xs font-medium uppercase tracking-[0.35em] text-[var(--text-tertiary)]">
+            <p className="text-xs font-medium uppercase tracking-[0.35em] text-(--text-tertiary)">
               Minimal Vertical Slice
             </p>
             <NeuralIndicator
@@ -291,16 +291,16 @@ export function FlowNarrative() {
 
           <h2
             id="flow-narrative-heading"
-            className="max-w-4xl text-3xl font-semibold leading-tight text-[var(--text-primary)] lg:text-4xl"
+            className="max-w-4xl text-3xl font-semibold leading-tight text-(--text-primary) lg:text-4xl"
           >
-            <span className="text-[var(--intelligence-primary)]">Ingest</span>
-            <span className="mx-3 text-[var(--text-tertiary)]">→</span>
-            <span className="text-[var(--intelligence-secondary)]">Decide</span>
-            <span className="mx-3 text-[var(--text-tertiary)]">→</span>
-            <span className="text-[var(--prosperity-primary)]">Execute</span>
-            <span className="mx-3 text-[var(--text-tertiary)]">→</span>
-            <span className="text-[var(--trust-primary)]">Observe</span>
-            <span className="ml-4 text-[var(--text-secondary)]">
+            <span className="text-(--intelligence-primary)">Ingest</span>
+            <span className="mx-3 text-(--text-tertiary)">→</span>
+            <span className="text-(--intelligence-secondary)">Decide</span>
+            <span className="mx-3 text-(--text-tertiary)">→</span>
+            <span className="text-(--prosperity-primary)">Execute</span>
+            <span className="mx-3 text-(--text-tertiary)">→</span>
+            <span className="text-(--trust-primary)">Observe</span>
+            <span className="ml-4 text-(--text-secondary)">
               — delivered through calm, intelligent glass surfaces.
             </span>
           </h2>
@@ -341,7 +341,7 @@ export function FlowNarrative() {
                     <div className="flex items-start justify-between gap-4">
                       <h3
                         id={`phase-${index}-title`}
-                        className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--text-tertiary)] transition-colors duration-300 group-hover:text-[var(--trust-primary)]"
+                        className="text-sm font-semibold uppercase tracking-[0.24em] text-(--text-tertiary) transition-colors duration-300 group-hover:text-(--trust-primary)"
                       >
                         {phase.title}
                       </h3>
@@ -354,20 +354,20 @@ export function FlowNarrative() {
                     </div>
 
                     {/* EXPLAINABILITY: Clear description with trust-building language */}
-                    <p className="text-sm leading-relaxed text-[var(--text-secondary)] transition-colors duration-300 group-hover:text-[var(--text-primary)]">
+                    <p className="text-sm leading-relaxed text-(--text-secondary) transition-colors duration-300 group-hover:text-(--text-primary)">
                       {phase.summary}
                     </p>
 
                     {/* AI TRANSPARENCY: Show what AI is actively doing */}
                     <m.div
-                      className="flex items-center gap-2 text-xs text-[var(--intelligence-primary)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      className="flex items-center gap-2 text-xs text-(--intelligence-primary) opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                       animate={{
                         opacity: activePhase === index ? 1 : undefined,
                       }}
                     >
-                      <div className="h-1 w-1 rounded-full bg-[var(--intelligence-primary)] animate-pulse" />
+                      <div className="h-1 w-1 rounded-full bg-(--intelligence-primary) animate-pulse" />
                       <span className="font-medium">AI Activity:</span>
-                      <span className="text-[var(--text-secondary)]">
+                      <span className="text-(--text-secondary)">
                         {phase.aiActivity}
                       </span>
                     </m.div>
@@ -378,7 +378,7 @@ export function FlowNarrative() {
 
             {/* TRUST FOUNDATION: Constraints-first autonomy messaging */}
             <m.div
-              className="mt-10 rounded-2xl border border-[var(--glass-border-strong)] bg-gradient-to-r from-[var(--glass-surface-elevated)] to-[var(--glass-surface-primary)] p-6"
+              className="mt-10 rounded-2xl border border-(--glass-border-strong) bg-gradient-to-r from-(--glass-surface-elevated) to-(--glass-surface-primary) p-6"
               initial={{ opacity: 0, y: 16 }}
               animate={
                 isInView
@@ -391,20 +391,20 @@ export function FlowNarrative() {
               }
             >
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[var(--trust-primary)]/10">
-                  <div className="h-3 w-3 rounded-full bg-[var(--trust-primary)]" />
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-(--trust-primary)/10">
+                  <div className="h-3 w-3 rounded-full bg-(--trust-primary)" />
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-sm font-semibold text-[var(--text-primary)]">
+                  <h4 className="text-sm font-semibold text-(--text-primary)">
                     Constraints-First Autonomy
                   </h4>
-                  <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                  <p className="text-sm leading-relaxed text-(--text-secondary)">
                     AIMP is built on <strong>constraints-first autonomy</strong>
                     : AI agents act only within verifiable bounds, every oracle
                     input carries provenance, and humans can pause execution in
                     under{" "}
-                    <strong className="text-[var(--trust-primary)]">
+                    <strong className="text-(--trust-primary)">
                       200ms
                     </strong>
                     . This is the surface that earns trust in the first three
