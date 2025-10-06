@@ -2,7 +2,13 @@ import { GlassCard } from "@/components/ui/glass-card";
 
 export function OverrideCard() {
   return (
-    <GlassCard padding="lg" className="space-y-4" variant="elevated">
+    <GlassCard
+      padding="lg"
+      className="space-y-4"
+      variant="elevated"
+      trustLevel="high"
+      aiState="alert"
+    >
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.32em] text-(--text-tertiary)">

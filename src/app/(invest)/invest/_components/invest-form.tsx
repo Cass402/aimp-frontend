@@ -57,7 +57,13 @@ export function InvestForm({ tokenPrice }: InvestFormProps) {
   };
 
   return (
-    <GlassCard padding="lg" className="space-y-8">
+    <GlassCard
+      padding="lg"
+      variant="trust"
+      trustLevel="high"
+      aiState="processing"
+      className="space-y-8"
+    >
       <header className="space-y-3">
         <StatusPill tone="positive" label="Invest" detail="Trust-first" />
         <h2 className="text-3xl font-semibold text-(--text-primary)">
@@ -138,7 +144,13 @@ export function InvestForm({ tokenPrice }: InvestFormProps) {
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <GlassCard padding="md" className="space-y-3">
+          <GlassCard
+            padding="md"
+            variant="neural"
+            aiState="learning"
+            trustLevel="medium"
+            className="space-y-3"
+          >
             <p className="text-xs uppercase tracking-[0.32em] text-(--text-tertiary)">
               Execution probability
             </p>

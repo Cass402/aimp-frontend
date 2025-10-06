@@ -7,7 +7,13 @@ interface PlannedActionsProps {
 
 export function PlannedActions({ upcoming }: PlannedActionsProps) {
   return (
-    <GlassCard padding="lg" className="space-y-4">
+    <GlassCard
+      padding="lg"
+      variant="neural"
+      aiState="processing"
+      trustLevel="medium"
+      className="space-y-4"
+    >
       <header className="space-y-1">
         <p className="text-xs uppercase tracking-[0.32em] text-(--text-tertiary)">
           Planned actions

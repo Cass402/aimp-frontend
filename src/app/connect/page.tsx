@@ -4,7 +4,12 @@ import { StatusPill } from "@/app/_components/status-pill";
 export default function ConnectPage() {
   return (
     <div className="space-y-6 pb-16">
-      <GlassCard padding="lg" className="space-y-4">
+      <GlassCard
+        padding="lg"
+        variant="trust"
+        trustLevel="high"
+        className="space-y-4"
+      >
         <StatusPill tone="info" label="Wallet" detail="Demo" />
         <h1 className="text-3xl font-semibold text-(--text-primary)">
           Connect your Solana wallet

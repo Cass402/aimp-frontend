@@ -10,7 +10,13 @@ export default async function InvestPage() {
 
   return (
     <div className="space-y-10 pb-16">
-      <GlassCard padding="lg" className="space-y-4">
+      <GlassCard
+        padding="lg"
+        variant="prosperity"
+        trustLevel="high"
+        aiState="optimizing"
+        className="space-y-4"
+      >
         <p className="text-xs uppercase tracking-[0.35em] text-(--text-tertiary)">
           Market overview
         </p>

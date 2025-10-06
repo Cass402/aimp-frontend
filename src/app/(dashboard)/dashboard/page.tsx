@@ -18,7 +18,13 @@ async function UpcomingActions() {
   const { actions } = await getUpcomingActions();
 
   return (
-    <GlassCard padding="lg" className="space-y-4">
+    <GlassCard
+      padding="lg"
+      variant="neural"
+      aiState="processing"
+      trustLevel="medium"
+      className="space-y-4"
+    >
       <header className="flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-(--text-tertiary)">
@@ -78,7 +84,14 @@ export default async function DashboardPage() {
         <DecisionFeed explanations={explanations} />
         <Suspense
           fallback={
-            <GlassCard padding="lg">Loading upcoming actions…</GlassCard>
+            <GlassCard
+              padding="lg"
+              variant="neural"
+              aiState="processing"
+              trustLevel="medium"
+            >
+              Loading upcoming actions…
+            </GlassCard>
           }
         >
           <UpcomingActions />

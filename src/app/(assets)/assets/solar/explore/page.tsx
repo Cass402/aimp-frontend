@@ -47,7 +47,13 @@ export default async function SolarExplorePage() {
       </div>
       <div className="space-y-6">
         <OverrideCard />
-        <GlassCard padding="lg" className="space-y-4">
+        <GlassCard
+          padding="lg"
+          variant="neural"
+          aiState="processing"
+          trustLevel="medium"
+          className="space-y-4"
+        >
           <p className="text-xs uppercase tracking-[0.32em] text-(--text-tertiary)">
             Energy sale insight
           </p>

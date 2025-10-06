@@ -31,7 +31,13 @@ export function FlowDiagram({
     };
 
   return (
-    <GlassCard padding="lg" className="space-y-6" variant="elevated">
+    <GlassCard
+      padding="lg"
+      className="space-y-6"
+      variant="elevated"
+      trustLevel="high"
+      aiState="optimizing"
+    >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.32em] text-(--text-tertiary)">

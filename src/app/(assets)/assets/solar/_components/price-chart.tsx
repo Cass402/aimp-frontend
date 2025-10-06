@@ -30,7 +30,13 @@ export function PriceChart({ priceHistory }: PriceChartProps) {
   const latest = priceHistory.at(-1);
 
   return (
-    <GlassCard padding="lg" className="space-y-5">
+    <GlassCard
+      padding="lg"
+      variant="neural"
+      aiState="optimizing"
+      trustLevel="medium"
+      className="space-y-5"
+    >
       <header className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.32em] text-(--text-tertiary)">

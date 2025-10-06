@@ -27,7 +27,13 @@ interface EnergyCardsProps {
 export function EnergyCards({ energy, sales, batteries }: EnergyCardsProps) {
   return (
     <div className="grid gap-6 lg:grid-cols-3">
-      <GlassCard padding="lg" className="space-y-4">
+      <GlassCard
+        padding="lg"
+        variant="neural"
+        aiState="processing"
+        trustLevel="medium"
+        className="space-y-4"
+      >
         <header className="space-y-1">
           <p className="text-xs uppercase tracking-[0.3em] text-(--text-tertiary)">
             Energy production
@@ -75,7 +81,13 @@ export function EnergyCards({ energy, sales, batteries }: EnergyCardsProps) {
           Source: {energy.sourceProvenance}
         </p>
       </GlassCard>
-      <GlassCard padding="lg" className="space-y-4">
+      <GlassCard
+        padding="lg"
+        variant="prosperity"
+        aiState="optimizing"
+        trustLevel="high"
+        className="space-y-4"
+      >
         <header className="space-y-1">
           <p className="text-xs uppercase tracking-[0.3em] text-(--text-tertiary)">
             Energy sales
@@ -92,7 +104,13 @@ export function EnergyCards({ energy, sales, batteries }: EnergyCardsProps) {
           Oracle provenance: {sales.sourceProvenance}
         </div>
       </GlassCard>
-      <GlassCard padding="lg" className="space-y-4">
+      <GlassCard
+        padding="lg"
+        variant="trust"
+        aiState="learning"
+        trustLevel="medium"
+        className="space-y-4"
+      >
         <header className="space-y-1">
           <p className="text-xs uppercase tracking-[0.3em] text-(--text-tertiary)">
             Battery status

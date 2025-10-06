@@ -18,7 +18,13 @@ const statusStyles: Record<string, string> = {
 
 export function PanelGrid({ grid, focusedPanel, explanation }: PanelGridProps) {
   return (
-    <GlassCard padding="lg" className="space-y-5">
+    <GlassCard
+      padding="lg"
+      variant="neural"
+      aiState="learning"
+      trustLevel="medium"
+      className="space-y-5"
+    >
       <header className="space-y-1">
         <p className="text-xs uppercase tracking-[0.32em] text-(--text-tertiary)">
           Panel health grid

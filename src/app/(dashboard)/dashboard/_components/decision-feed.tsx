@@ -25,7 +25,13 @@ interface DecisionFeedProps {
 
 export function DecisionFeed({ explanations }: DecisionFeedProps) {
   return (
-    <GlassCard padding="lg" className="space-y-6">
+    <GlassCard
+      padding="lg"
+      variant="neural"
+      aiState="learning"
+      trustLevel="medium"
+      className="space-y-6"
+    >
       <header className="flex flex-col gap-2">
         <p className="text-xs uppercase tracking-[0.35em] text-(--text-tertiary)">
           Latest AI decisions

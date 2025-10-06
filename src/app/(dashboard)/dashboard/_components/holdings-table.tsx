@@ -16,7 +16,12 @@ function formatUsd(value: number) {
 
 export function HoldingsTable({ assets }: HoldingsTableProps) {
   return (
-    <GlassCard padding="lg" className="space-y-5">
+    <GlassCard
+      padding="lg"
+      trustLevel="medium"
+      enableMotion={false}
+      className="space-y-5"
+    >
       <header className="flex flex-col gap-2">
         <p className="text-xs uppercase tracking-[0.35em] text-(--text-tertiary)">
           Holdings

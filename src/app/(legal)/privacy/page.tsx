@@ -3,7 +3,13 @@ import { GlassCard } from "@/components/ui/glass-card";
 export default function PrivacyPage() {
   return (
     <div className="space-y-6 pb-16">
-      <GlassCard padding="lg" className="space-y-4">
+      <GlassCard
+        padding="lg"
+        variant="trust"
+        trustLevel="high"
+        enableMotion={false}
+        className="space-y-4"
+      >
         <p className="text-xs uppercase tracking-[0.35em] text-(--text-tertiary)">
           Privacy notice
         </p>

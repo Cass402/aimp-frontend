@@ -10,7 +10,13 @@ export function PortfolioSummaryCard({ summary }: PortfolioSummaryCardProps) {
   const apyPercentage = (summary.apy * 100).toFixed(1);
 
   return (
-    <GlassCard padding="lg" className="relative overflow-hidden">
+    <GlassCard
+      padding="lg"
+      variant="elevated"
+      trustLevel="high"
+      aiState="optimizing"
+      className="relative overflow-hidden"
+    >
       <div
         className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(to_right,transparent,rgba(255,255,255,0.25),transparent)]"
         aria-hidden

@@ -10,6 +10,9 @@ const highlights = [
       "Proof hashes logged for critical decisions",
       "Human override always within 2 clicks",
     ],
+    variant: "neural" as const,
+    aiState: "learning" as const,
+    trustLevel: "medium" as const,
   },
   {
     title: "Trust-First Ownership",
@@ -20,6 +23,9 @@ const highlights = [
       "Decoded program + PDA map for every receipt",
       "Safety pill reaffirms constraints are active",
     ],
+    variant: "trust" as const,
+    aiState: "processing" as const,
+    trustLevel: "high" as const,
   },
   {
     title: "Live Digital Twin",
@@ -30,6 +36,9 @@ const highlights = [
       "Panel drilldowns with Maintenance persona summaries",
       "Emergency override with tamper-evident log",
     ],
+    variant: "elevated" as const,
+    aiState: "optimizing" as const,
+    trustLevel: "medium" as const,
   },
 ];
 
@@ -49,6 +58,9 @@ export function FeatureHighlights() {
           <GlassCard
             key={highlight.title}
             padding="lg"
+            variant={highlight.variant}
+            aiState={highlight.aiState}
+            trustLevel={highlight.trustLevel}
             className="flex h-full flex-col gap-5"
           >
             <div className="space-y-2">

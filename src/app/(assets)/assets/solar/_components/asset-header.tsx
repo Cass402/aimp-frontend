@@ -7,7 +7,13 @@ interface AssetHeaderProps {
 
 export function AssetHeader({ summary }: AssetHeaderProps) {
   return (
-    <GlassCard padding="lg" className="space-y-6">
+    <GlassCard
+      padding="lg"
+      variant="trust"
+      trustLevel="high"
+      aiState="optimizing"
+      className="space-y-6"
+    >
       <div className="flex flex-wrap items-baseline gap-3 text-(--text-primary)">
         <h1 className="text-3xl font-semibold">{summary.name}</h1>
         <span className="rounded-full border border-(--glass-border-soft) bg-(--glass-surface-primary) px-4 py-2 text-xs uppercase tracking-[0.3em] text-(--text-secondary)">

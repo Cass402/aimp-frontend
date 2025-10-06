@@ -39,7 +39,13 @@ export function FlowNarrative() {
           surface.
         </h2>
       </header>
-      <GlassCard padding="lg" className="flex flex-col gap-6">
+      <GlassCard
+        padding="lg"
+        variant="neural"
+        aiState="processing"
+        trustLevel="medium"
+        className="flex flex-col gap-6"
+      >
         <ol className="grid gap-5 md:grid-cols-2">
           {phases.map((phase) => (
             <li key={phase.title} className="flex items-start gap-4">
