@@ -3,11 +3,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AppFooter } from "./_components/app-footer";
 import { AppHeader } from "./_components/app-header";
 import { AIMPThemeProvider } from "@/components/providers/aimp-theme-provider";
-import { NeuralBackground } from "./_components/neural-background";
 import { LayoutAnimationWrapper } from "./_components/layout-animation-wrapper";
+import { EnhancedBackgroundSystem } from "./_components/enhanced-background-system";
 import "./globals.css";
 
 // Optimized font loading with display: swap and subset optimization
+// These provide fallback fonts; globals.css uses FKGroteskNeue as primary
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -106,7 +107,11 @@ export const metadata: Metadata = {
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
     other: [
-      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#32808d" },
+      {
+        rel: "mask-icon",
+        url: "/safari-pinned-tab.svg",
+        color: "#32808d",
+      },
     ],
   },
   appleWebApp: {
@@ -129,187 +134,98 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// Main layout component with trust-first architecture
+// Main layout with enhanced background system for calm autonomy
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Enable View Transitions API for smooth page navigation */}
-        <meta name="view-transition" content="same-origin" />
-        {/* Preconnect for external font CDN */}
-        <link
-          rel="preconnect"
-          href="https://r2cdn.perplexity.ai"
-          crossOrigin="anonymous"
-        />
-
-        {/* Preload critical external font */}
-        <link
-          rel="preload"
-          href="https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-
-        {/* PWA capabilities */}
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="application-name" content="AIMP" />
-
-        {/* Security and privacy policies (set via HTTP headers in next.config.js) */}
-        <meta name="referrer" content="origin-when-cross-origin" />
-
-        {/* Structured Data for SEO - WebApplication Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
-              name: "AIMP - Autonomous Infrastructure Interface",
-              description:
-                "Trust-first dashboard for AI-managed solar assets with explainability, constraints, and Solana-native ownership.",
-              url: siteUrl,
-              applicationCategory: "FinanceApplication",
-              operatingSystem: "Any",
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-              },
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: "4.8",
-                ratingCount: "127",
-              },
-            }),
-          }}
-        />
-
-        {/* Theme initialization script - prevents FOUC */}
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="font-base text-primary bg-foundation-void antialiased">
+        {/* Theme init script (prevents FOUC) - must be first in body */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                const getTheme = () => {
-                  const stored = localStorage.getItem('aimp-theme');
-                  if (stored) return stored;
-                  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                };
-                const theme = getTheme();
-                document.documentElement.setAttribute('data-color-scheme', theme);
-                document.documentElement.setAttribute('data-theme', 'aimp-' + theme);
+                const theme = localStorage.getItem('aimp-theme') || 
+                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.colorScheme = theme;
               })();
             `,
           }}
         />
-      </head>
 
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans text-(--text-primary) min-h-screen overflow-x-hidden bg-(--color-background)`}
-        suppressHydrationWarning
-      >
-        {/* Neural background with breathing animation */}
-        <NeuralBackground />
+        {/* Enhanced Multi-Layer Background System */}
+        <EnhancedBackgroundSystem />
 
-        {/* Theme provider with optimized hydration */}
+        {/* Theme Provider with Neural Context */}
         <AIMPThemeProvider>
-          {/* Layout wrapper with sequential fade-in animation */}
+          {/* Animation Wrapper with Calm Motion */}
           <LayoutAnimationWrapper>
-            {/* Skip to main content link for keyboard navigation - Enhanced visibility */}
+            {/* Skip to main content for accessibility */}
             <a
               href="#main-content"
-              className="sr-only focus:not-sr-only focus:fixed focus:top-6 focus:left-6 focus:z-[9999] focus:bg-[--trust-primary] focus:text-white focus:px-6 focus:py-3 focus:rounded-xl focus:font-semibold focus:shadow-2xl focus:outline-[--trust-primary]/30 focus:outline-4 focus:transition-all focus:duration-200"
+              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 
+                         bg-trust-primary text-white px-4 py-2 rounded-md 
+                         focus:z-50 focus:outline-none focus:ring-2 focus:ring-trust-secondary"
             >
-              ⚡ Skip to main content
+              Skip to main content
             </a>
 
-            {/* Semantic structure with trust-first hierarchy */}
-            <div className="relative isolate flex min-h-screen flex-col">
-              {/* Header at top with proper responsive container */}
-              <header className="relative z-50">
-                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-                  <div className="glass-panel-elevated rounded-3xl">
-                    <AppHeader />
-                  </div>
-                </div>
-              </header>
+            {/* Main layout structure with glass layers */}
+            <div className="relative min-h-screen">
+              {/* Header with enhanced glass morphism */}
+              <AppHeader />
 
-              {/* Main content area with generous spacing and breathing room */}
-              <main className="relative z-10 flex-1" id="main-content">
-                {/* Responsive container with generous padding */}
-                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-16 lg:py-16 xl:px-20 xl:py-20">
-                  {children}
-                </div>
+              {/* Main content area with contextual background response */}
+              <main
+                id="main-content"
+                className="relative z-10"
+                role="main"
+                aria-label="Main content"
+              >
+                {children}
               </main>
 
-              {/* Footer with proper container and spacing */}
-              <footer className="relative z-50 mt-auto">
-                <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 md:px-8 lg:px-16 xl:px-20">
-                  <div className="glass-panel rounded-3xl">
-                    <AppFooter />
-                  </div>
-                </div>
-              </footer>
+              {/* Footer with subtle glass integration */}
+              <AppFooter />
+            </div>
 
-              {/* Emergency override accessibility */}
-              <div className="sr-only" aria-live="polite">
-                Press Alt+Shift+E to trigger emergency AI pause
-              </div>
+            {/* AI Presence Indicators */}
+            <div
+              className="fixed bottom-6 right-6 z-40 pointer-events-none"
+              aria-hidden="true"
+            >
+              <div className="ai-pulse-indicator opacity-60" />
             </div>
           </LayoutAnimationWrapper>
         </AIMPThemeProvider>
 
-        {/* Emergency override keyboard handler - Memory-safe with reduced motion support */}
+        {/* Progressive enhancement script */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function(){
-                let alertElement = null;
-                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                
-                document.addEventListener('keydown', function(e){
-                  if(e.altKey && e.shiftKey && (e.key === 'E' || e.key === 'e')){
-                    e.preventDefault();
-                    
-                    // Dispatch custom event
-                    document.body.dispatchEvent(new CustomEvent('aimp:emergency-pause', {
-                      detail: { timestamp: Date.now(), trigger: 'keyboard' }
-                    }));
-                    
-                    // Create or reuse alert element (memory-safe)
-                    if (!alertElement) {
-                      alertElement = document.createElement('div');
-                      alertElement.setAttribute('role', 'alert');
-                      alertElement.setAttribute('aria-live', 'assertive');
-                      alertElement.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #ef4444; color: white; padding: 2rem 3rem; border-radius: 1rem; z-index: 9999; font-weight: bold; font-size: 1.25rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 3px solid white;' + (prefersReducedMotion ? '' : ' animation: emergencyPulse 0.5s ease-in-out;');
-                      alertElement.textContent = '⚠️ EMERGENCY PAUSE TRIGGERED';
-                      
-                      // Add animation keyframes if motion is allowed
-                      if (!prefersReducedMotion) {
-                        const style = document.createElement('style');
-                        style.textContent = '@keyframes emergencyPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.05); } }';
-                        document.head.appendChild(style);
-                      }
-                      
-                      document.body.appendChild(alertElement);
-                    }
-                    
-                    alertElement.style.display = 'block';
-                    
-                    // Clean removal
-                    setTimeout(() => {
-                      if (alertElement) {
-                        alertElement.style.display = 'none';
-                      }
-                    }, 3000);
-                  }
+              // Enhanced background progressive loading
+              if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => {
+                  document.body.classList.add('enhanced-bg-ready');
                 });
-              })();
+              } else {
+                setTimeout(() => {
+                  document.body.classList.add('enhanced-bg-ready');
+                }, 100);
+              }
+              
+              // Reduced motion handling
+              if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.documentElement.classList.add('reduce-motion');
+              }
             `,
           }}
         />
