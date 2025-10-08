@@ -2,11 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { StatusPill } from "./status-pill";
 import { ExplainTooltip } from "./explain-tooltip";
 import { DropdownPortal } from "./dropdown-portal";
-import { Alert, Check } from "@/components/ui/icons";
+import { Alert, Check } from "../../components/ui/icons";
 
 interface TrustMetric {
   id: string;
@@ -59,23 +58,26 @@ export function SystemStatusDropdown({
   return (
     <>
       {/* Status Button */}
-      <Button
+      {/* Status Button */}
+      <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        variant="secondary"
         className={cn(
-          "h-auto px-3 py-1.5 rounded-full gap-2 text-sm font-medium",
-          "border border-(--glass-border-highlight)",
-          isOpen && "bg-(--glass-surface-primary) shadow-sm"
+          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium",
+          "text-(color:--text-secondary) hover:text-(color:--text-primary)",
+          "hover:bg-(color:--glass-surface-primary) transition-colors duration-200",
+          "focus:outline-none focus:ring-2 focus:ring-(color:--trust-primary) focus:ring-offset-2",
+          isOpen &&
+            "bg-(color:--glass-surface-primary) text-(color:--text-primary)"
         )}
         aria-expanded={isOpen}
         aria-label="System status"
       >
         <StatusIcon size={16} className={statusColor} />
-        <span className={cn("hidden sm:inline", statusColor)}>
-          {overallStatus === "critical" ? "Emergency" : "System OK"}
+        <span className="hidden sm:inline">
+          {overallStatus === "critical" ? "Emergency" : "System"}
         </span>
-      </Button>
+      </button>
 
       {/* Dropdown via Portal */}
       <DropdownPortal isOpen={isOpen} triggerRef={buttonRef}>

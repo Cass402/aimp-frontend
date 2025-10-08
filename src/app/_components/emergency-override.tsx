@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface EmergencyOverrideProps {
@@ -36,16 +35,15 @@ export function EmergencyOverride({
 
   return (
     <div className={cn("relative", className)}>
-      <Button
+      <button
         type="button"
         onClick={handleClick}
-        variant={isActive ? "destructive" : "outline"}
-        size="sm"
         className={cn(
-          "relative overflow-hidden border-2",
+          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium",
+          "transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2",
           isActive
-            ? "border-amber-500/40 bg-amber-500/10 text-amber-400 hover:border-amber-400/60 hover:bg-amber-500/20"
-            : "border-red-500/40 bg-red-500/10 text-red-400 hover:border-red-400/60 hover:bg-red-500/20",
+            ? "text-(color:--caution-primary) hover:bg-(color:--caution-primary)/10 focus:ring-(color:--caution-primary)"
+            : "text-(color:--critical-primary) hover:bg-(color:--critical-primary)/10 focus:ring-(color:--critical-primary)",
           isConfirming && "animate-pulse"
         )}
         aria-label={
@@ -54,8 +52,10 @@ export function EmergencyOverride({
       >
         <span
           className={cn(
-            "h-2 w-2 rounded-full transition-all duration-200 mr-2",
-            isActive ? "bg-amber-400 animate-pulse" : "bg-red-400 animate-pulse"
+            "h-2 w-2 rounded-full",
+            isActive
+              ? "bg-(color:--caution-primary)"
+              : "bg-(color:--critical-primary)"
           )}
         />
 
@@ -65,10 +65,10 @@ export function EmergencyOverride({
               ? "Confirm Resume?"
               : "Confirm Pause?"
             : isActive
-              ? "Resume AI"
-              : "Emergency Pause"}
+              ? "Resume"
+              : "Pause"}
         </span>
-      </Button>
+      </button>
 
       {/* Confirmation overlay */}
       {isConfirming && (
