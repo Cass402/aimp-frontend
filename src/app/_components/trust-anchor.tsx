@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ExplainTooltip } from "./explain-tooltip";
 import { Provenance } from "./provenance";
 import { cn } from "@/lib/utils";
+import { Shield, Users, Search } from "@/components/ui/icons";
 
 type TrustMetricPrimitive = string | number | boolean | null | undefined | Date;
 type TrustMetricValue = TrustMetricPrimitive | readonly TrustMetricPrimitive[];
@@ -22,17 +23,17 @@ interface TrustAnchorProps {
 
 const categoryConfig = {
   safety: {
-    icon: "🛡️",
+    icon: Shield,
     color: "text-(--prosperity-primary)",
     bgGradient: "from-prosperity-primary/5 to-prosperity-primary/0",
   },
   governance: {
-    icon: "👥",
+    icon: Users,
     color: "text-(--intelligence-primary)",
     bgGradient: "from-intelligence-primary/5 to-intelligence-primary/0",
   },
   transparency: {
-    icon: "🔍",
+    icon: Search,
     color: "text-(--trust-primary)",
     bgGradient: "from-trust-primary/5 to-trust-primary/0",
   },
@@ -81,9 +82,7 @@ export function TrustAnchor({
       <div className="relative z-10 space-y-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-sm" role="img" aria-hidden="true">
-              {config.icon}
-            </span>
+            <config.icon size={14} aria-hidden="true" />
             <h3
               className={cn(
                 "text-sm font-semibold transition-colors duration-200",

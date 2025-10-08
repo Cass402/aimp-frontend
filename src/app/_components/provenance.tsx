@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Lightning, Lock, Balance, Chart } from "@/components/ui/icons";
 
 interface ProvenanceProps {
   hash: string;
@@ -12,25 +13,25 @@ interface ProvenanceProps {
 
 const typeConfig = {
   protocol: {
-    icon: "⚡",
+    icon: Lightning,
     color: "text-(--intelligence-primary)",
     bgColor: "bg-(--intelligence-primary)/10",
     label: "Protocol",
   },
   system: {
-    icon: "🔒",
+    icon: Lock,
     color: "text-(--trust-primary)",
     bgColor: "bg-(--trust-primary)/10",
     label: "System",
   },
   legal: {
-    icon: "⚖️",
+    icon: Balance,
     color: "text-(--text-secondary)",
     bgColor: "bg-(--glass-surface-primary)",
     label: "Legal",
   },
   data: {
-    icon: "📊",
+    icon: Chart,
     color: "text-(--prosperity-primary)",
     bgColor: "bg-(--prosperity-primary)/10",
     label: "Data",
@@ -74,9 +75,7 @@ export function Provenance({
       title={`${displayLabel} provenance hash: ${hash}\nClick to copy`}
       aria-label={`${displayLabel} provenance hash`}
     >
-      <span className="text-[10px]" role="img" aria-hidden="true">
-        {config.icon}
-      </span>
+      <config.icon size={10} aria-hidden="true" />
       <span className="font-mono text-[10px] tracking-tight">{hash}</span>
     </button>
   );

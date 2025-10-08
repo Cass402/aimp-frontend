@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Home } from "@/components/ui/icons";
 
 const routeLabels: Record<string, string> = {
   dashboard: "Dashboard",
@@ -44,7 +45,7 @@ export function Breadcrumb() {
         href="/"
         className="text-(--text-tertiary) hover:text-(--text-primary) transition-colors duration-150"
       >
-        🏠
+        <Home size={14} />
       </Link>
       {breadcrumbs.map((crumb) => (
         <div key={crumb.path} className="flex items-center gap-2">

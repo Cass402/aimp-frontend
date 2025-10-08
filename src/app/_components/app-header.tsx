@@ -11,6 +11,7 @@ import { CommandPalette } from "./command-palette";
 import { SystemStatusDropdown } from "./system-status-dropdown";
 import { QuickActionsMenu } from "./quick-actions-menu";
 import { cn } from "@/lib/utils";
+import { Lightning, Menu } from "@/components/ui/icons";
 
 const navItems: Array<{
   href: string;
@@ -226,14 +227,12 @@ export function AppHeader() {
             )}
             aria-label="AIMP - Return to home"
           >
-            <span
+            <Lightning
               className={cn(
-                "text-xl",
+                "w-5 h-5",
                 !prefersReducedMotion && "animate-neural-float"
               )}
-            >
-              ⚡
-            </span>
+            />
             <div className="hidden sm:flex items-center gap-1.5">
               <span className="text-(length:--size-sm) font-bold uppercase tracking-[0.3em] text-(color:--text-primary)">
                 AIMP
@@ -355,7 +354,7 @@ export function AppHeader() {
             )}
             aria-label="Open mobile menu"
           >
-            <span className="text-(length:--size-lg)">☰</span>
+            <Menu className="w-5 h-5" />
           </button>
 
           {/* Wallet Connection with Trust Indicators */}

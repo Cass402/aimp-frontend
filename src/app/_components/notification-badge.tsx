@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Check, Alert, Info, Bell } from "@/components/ui/icons";
 
 interface NotificationBadgeProps {
   count?: number;
@@ -61,7 +62,7 @@ export function NotificationBadge({ count = 0 }: NotificationBadgeProps) {
         )}
         aria-label={`Notifications (${unreadCount} unread)`}
       >
-        <span className="text-xl">🔔</span>
+        <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-critical-primary text-white text-xs font-semibold flex items-center justify-center animate-pulse">
             {unreadCount}
@@ -113,11 +114,17 @@ export function NotificationBadge({ count = 0 }: NotificationBadgeProps) {
                   )}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="text-lg mt-0.5">
-                      {notification.type === "success" && "✅"}
-                      {notification.type === "info" && "ℹ️"}
-                      {notification.type === "warning" && "⚠️"}
-                    </span>
+                    <div className="text-lg mt-0.5">
+                      {notification.type === "success" && (
+                        <Check className="w-4 h-4 text-green-500" />
+                      )}
+                      {notification.type === "info" && (
+                        <Info className="w-4 h-4 text-blue-500" />
+                      )}
+                      {notification.type === "warning" && (
+                        <Alert className="w-4 h-4 text-orange-500" />
+                      )}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium text-(--text-primary) text-sm">

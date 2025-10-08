@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Lightning, Bell } from "@/components/ui/icons";
 
 interface MobileMenuDrawerProps {
   isOpen: boolean;
@@ -78,18 +80,15 @@ export function MobileMenuDrawer({
               Navigation
             </span>
           </div>
-          <button
+          <Button
             onClick={onClose}
-            className={cn(
-              "h-10 w-10 rounded-xl flex items-center justify-center",
-              "text-(--text-secondary) hover:text-(--text-primary)",
-              "hover:bg-(--glass-surface-primary) transition-all duration-200",
-              "focus-visible:u-focus-ring"
-            )}
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10"
             aria-label="Close menu"
           >
             <span className="text-2xl">✕</span>
-          </button>
+          </Button>
         </div>
 
         {/* Navigation Links */}
@@ -138,28 +137,20 @@ export function MobileMenuDrawer({
             Quick Actions
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <button
-              className={cn(
-                "flex flex-col items-center gap-1 p-3 rounded-xl",
-                "text-(--text-secondary) hover:text-(--text-primary)",
-                "hover:bg-(--glass-surface-primary) transition-all duration-200",
-                "focus-visible:u-focus-ring"
-              )}
+            <Button
+              variant="ghost"
+              className="flex flex-col items-center gap-1 h-auto p-3"
             >
-              <span className="text-xl">⚡</span>
+              <Lightning className="w-6 h-6" />
               <span className="text-xs">Command</span>
-            </button>
-            <button
-              className={cn(
-                "flex flex-col items-center gap-1 p-3 rounded-xl",
-                "text-(--text-secondary) hover:text-(--text-primary)",
-                "hover:bg-(--glass-surface-primary) transition-all duration-200",
-                "focus-visible:u-focus-ring"
-              )}
+            </Button>
+            <Button
+              variant="ghost"
+              className="flex flex-col items-center gap-1 h-auto p-3"
             >
-              <span className="text-xl">🔔</span>
+              <Bell className="w-6 h-6" />
               <span className="text-xs">Alerts</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

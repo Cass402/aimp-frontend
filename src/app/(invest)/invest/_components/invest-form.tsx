@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import { GlassCard } from "@/components/ui/glass-card";
 import { StatusPill } from "@/app/_components/status-pill";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -162,12 +163,9 @@ export function InvestForm({ tokenPrice }: InvestFormProps) {
               priority fee guidance.
             </p>
           </GlassCard>
-          <button
-            type="submit"
-            className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(120deg,var(--prosperity-primary),var(--trust-primary))] px-6 py-3 text-sm font-semibold text-black shadow-[0_18px_32px_rgba(50,184,198,0.32)] transition hover:shadow-[0_24px_44px_rgba(50,184,198,0.42)] focus-visible:u-focus-ring"
-          >
+          <Button type="submit" variant="neon" size="lg" className="w-full">
             Preview transaction
-          </button>
+          </Button>
           <p className="text-xs text-(--text-secondary)">
             We never request private keys. Simulation receipts include decoded
             program IDs, PDA authority, and proof hashes for audit trails.

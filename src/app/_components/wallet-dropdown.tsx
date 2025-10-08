@@ -2,8 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Provenance } from "./provenance";
 import { DropdownPortal } from "./dropdown-portal";
+import { Clipboard, Check, Search, Plug } from "@/components/ui/icons";
 
 interface WalletDropdownProps {
   address: string;
@@ -53,12 +55,12 @@ export function WalletDropdown({
   return (
     <>
       {/* Wallet Button */}
-      <button
+      <Button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
+        variant="ghost"
         className={cn(
-          "flex items-center gap-2 text-xs text-(--text-secondary) transition-all duration-200",
-          "hover:text-(--text-primary) focus-visible:u-focus-ring rounded-lg px-2 py-1",
+          "h-auto p-2 gap-2 text-xs font-mono",
           isOpen && "text-(--text-primary)"
         )}
         aria-expanded={isOpen}
@@ -69,7 +71,7 @@ export function WalletDropdown({
           <span className="text-(--prosperity-primary)">{balance} SOL</span>
         </div>
         <div className="h-2 w-2 rounded-full bg-(--prosperity-primary) shadow-[0_0_12px_rgba(50,184,198,0.6)] animate-pulse" />
-      </button>
+      </Button>
 
       {/* Dropdown Menu via Portal */}
       <DropdownPortal isOpen={isOpen} triggerRef={buttonRef}>
@@ -103,55 +105,43 @@ export function WalletDropdown({
 
           {/* Actions */}
           <div className="space-y-1">
-            <button
+            <Button
               onClick={handleCopyAddress}
-              className={cn(
-                "w-full flex items-center gap-3 px-3 py-2 rounded-xl",
-                "text-sm text-(--text-secondary) hover:text-(--text-primary)",
-                "hover:bg-(--glass-surface-primary) transition-all duration-200",
-                "focus-visible:u-focus-ring"
-              )}
+              variant="ghost"
+              className="w-full justify-start gap-3 h-auto px-3 py-2 text-sm"
             >
-              <span className="text-lg">📋</span>
+              <Clipboard size={16} />
               <span className="flex-1 text-left">
                 {copied ? "Copied!" : "Copy Address"}
               </span>
               {copied && (
-                <span className="text-xs text-(--prosperity-primary)">✓</span>
+                <Check size={12} className="text-(--prosperity-primary)" />
               )}
-            </button>
+            </Button>
 
-            <a
-              href={explorerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "w-full flex items-center gap-3 px-3 py-2 rounded-xl",
-                "text-sm text-(--text-secondary) hover:text-(--text-primary)",
-                "hover:bg-(--glass-surface-primary) transition-all duration-200",
-                "focus-visible:u-focus-ring"
-              )}
+            <Button
+              asChild
+              variant="ghost"
+              className="w-full justify-start gap-3 h-auto px-3 py-2 text-sm"
             >
-              <span className="text-lg">🔍</span>
-              <span className="flex-1 text-left">View on Solscan</span>
-              <span className="text-xs">↗</span>
-            </a>
+              <a href={explorerUrl} target="_blank" rel="noopener noreferrer">
+                <Search size={16} />
+                <span className="flex-1 text-left">View on Solscan</span>
+                <span className="text-xs">↗</span>
+              </a>
+            </Button>
 
-            <button
+            <Button
               onClick={() => {
                 onDisconnect();
                 setIsOpen(false);
               }}
-              className={cn(
-                "w-full flex items-center gap-3 px-3 py-2 rounded-xl",
-                "text-sm text-critical-primary hover:text-critical-primary",
-                "hover:bg-critical-background/20 transition-all duration-200",
-                "focus-visible:u-focus-ring"
-              )}
+              variant="ghost"
+              className="w-full justify-start gap-3 h-auto px-3 py-2 text-sm text-critical-primary hover:text-critical-primary hover:bg-critical-background/20"
             >
-              <span className="text-lg">🔌</span>
+              <Plug size={16} />
               <span className="flex-1 text-left">Disconnect</span>
-            </button>
+            </Button>
           </div>
         </div>
       </DropdownPortal>

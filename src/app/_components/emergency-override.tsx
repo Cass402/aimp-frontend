@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface EmergencyOverrideProps {
@@ -33,20 +34,18 @@ export function EmergencyOverride({
     setIsConfirming(false);
   };
 
-  const buttonToneClasses = isActive
-    ? "border-caution-primary/40 bg-caution-background text-caution-primary hover:border-caution-primary/60 hover:bg-caution-background/80 shadow-[0_0_20px_rgba(230,129,97,0.2)]"
-    : "border-critical-primary/40 bg-critical-background text-critical-primary hover:border-critical-primary/60 hover:bg-critical-background/80 shadow-[0_0_20px_rgba(192,21,47,0.2)]";
-
   return (
     <div className={cn("relative", className)}>
-      <button
+      <Button
         type="button"
         onClick={handleClick}
+        variant={isActive ? "destructive" : "outline"}
+        size="sm"
         className={cn(
-          "inline-flex items-center gap-2 rounded-full border px-4 py-2",
-          "text-sm font-semibold transition-all duration-200 ease-neural",
-          "focus-visible:u-focus-ring relative overflow-hidden",
-          buttonToneClasses,
+          "relative overflow-hidden border-2",
+          isActive
+            ? "border-amber-500/40 bg-amber-500/10 text-amber-400 hover:border-amber-400/60 hover:bg-amber-500/20"
+            : "border-red-500/40 bg-red-500/10 text-red-400 hover:border-red-400/60 hover:bg-red-500/20",
           isConfirming && "animate-pulse"
         )}
         aria-label={
@@ -55,10 +54,8 @@ export function EmergencyOverride({
       >
         <span
           className={cn(
-            "h-2 w-2 rounded-full transition-all duration-200",
-            isActive
-              ? "bg-caution-primary animate-pulse"
-              : "bg-critical-primary animate-pulse"
+            "h-2 w-2 rounded-full transition-all duration-200 mr-2",
+            isActive ? "bg-amber-400 animate-pulse" : "bg-red-400 animate-pulse"
           )}
         />
 
@@ -71,16 +68,7 @@ export function EmergencyOverride({
               ? "Resume AI"
               : "Emergency Pause"}
         </span>
-
-        {/* Subtle loading/processing indicator */}
-        <div
-          className={cn(
-            "absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent",
-            "translate-x-[-100%] animate-shimmer opacity-0 transition-opacity duration-200",
-            isConfirming && "opacity-100"
-          )}
-        />
-      </button>
+      </Button>
 
       {/* Confirmation overlay */}
       {isConfirming && (

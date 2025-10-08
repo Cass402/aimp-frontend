@@ -2,9 +2,11 @@
 
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { StatusPill } from "./status-pill";
 import { ExplainTooltip } from "./explain-tooltip";
 import { DropdownPortal } from "./dropdown-portal";
+import { Alert, Check } from "@/components/ui/icons";
 
 interface TrustMetric {
   id: string;
@@ -52,30 +54,28 @@ export function SystemStatusDropdown({
   const statusColor = isEmergencyMode
     ? "text-critical-primary"
     : "text-prosperity-primary";
-  const statusIcon = isEmergencyMode ? "🚨" : "✓";
+  const StatusIcon = isEmergencyMode ? Alert : Check;
 
   return (
     <>
       {/* Status Button */}
-      <button
+      <Button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
+        variant="secondary"
         className={cn(
-          "flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200",
-          "text-sm font-medium",
-          "border border-(--glass-border-highlight) bg-(--glass-surface-primary)/50",
-          "hover:bg-(--glass-surface-primary) hover:shadow-sm",
-          "focus-visible:u-focus-ring",
+          "h-auto px-3 py-1.5 rounded-full gap-2 text-sm font-medium",
+          "border border-(--glass-border-highlight)",
           isOpen && "bg-(--glass-surface-primary) shadow-sm"
         )}
         aria-expanded={isOpen}
         aria-label="System status"
       >
-        <span className="text-base">{statusIcon}</span>
+        <StatusIcon size={16} className={statusColor} />
         <span className={cn("hidden sm:inline", statusColor)}>
           {overallStatus === "critical" ? "Emergency" : "System OK"}
         </span>
-      </button>
+      </Button>
 
       {/* Dropdown via Portal */}
       <DropdownPortal isOpen={isOpen} triggerRef={buttonRef}>
@@ -103,7 +103,7 @@ export function SystemStatusDropdown({
                 />
               </div>
             </div>
-            <span className={cn("text-2xl", statusColor)}>{statusIcon}</span>
+            <StatusIcon size={24} className={statusColor} />
           </div>
 
           {/* Trust Metrics */}

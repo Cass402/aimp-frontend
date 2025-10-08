@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, lazy } from "react";
+import { Container, Stack, Section } from "@/components/ui/layout";
 import { Hero } from "./hero";
 
 // ===========================================
@@ -95,51 +96,48 @@ export function MarketingLandingView() {
       itemScope
       itemType="https://schema.org/WebApplication"
     >
-      {/* 
-        HERO SECTION - CRITICAL RENDER PATH
-        Above the fold, loads immediately for optimal FCP/LCP
-        Contains primary CTAs and trust signals (PRD: trust in first 3 seconds)
-      */}
-      <section aria-labelledby="hero-heading">
-        <Hero />
-      </section>
+      <Container size="xl">
+        <Stack space="xl">
+          {/* 
+            HERO SECTION - CRITICAL RENDER PATH
+            Above the fold, loads immediately for optimal FCP/LCP
+            Contains primary CTAs and trust signals (PRD: trust in first 3 seconds)
+          */}
+          <Section spacing="none" aria-labelledby="hero-heading">
+            <Hero />
+          </Section>
 
-      {/* 
-        FEATURE HIGHLIGHTS - LAZY LOADED
-        Below fold content, code-split for performance
-        Loads as user scrolls or browser idle time
-      */}
-      <section
-        aria-labelledby="features-heading"
-        className="mt-16 md:mt-20 lg:mt-24"
-        itemProp="featureList"
-      >
-        <Suspense fallback={<FeaturesSkeleton />}>
-          <FeatureHighlights />
-        </Suspense>
-      </section>
+          {/* 
+            FEATURE HIGHLIGHTS - LAZY LOADED
+            Below fold content, code-split for performance
+            Loads as user scrolls or browser idle time
+          */}
+          <Section
+            spacing="lg"
+            aria-labelledby="features-heading"
+            itemProp="featureList"
+          >
+            <Suspense fallback={<FeaturesSkeleton />}>
+              <FeatureHighlights />
+            </Suspense>
+          </Section>
 
-      {/* 
-        FLOW NARRATIVE - LAZY LOADED
-        Deep-dive content with scroll-triggered animations
-        Heavy component (~30KB), only loads when needed
-      */}
-      <section
-        aria-labelledby="workflow-heading"
-        className="mt-16 md:mt-20 lg:mt-24"
-        itemProp="applicationCategory"
-      >
-        <Suspense fallback={<FlowSkeleton />}>
-          <FlowNarrative />
-        </Suspense>
-      </section>
-
-      {/* 
-        BOTTOM SPACING
-        Prevents content from touching footer
-        Maintains visual breathing room (PRD: calm surfaces)
-      */}
-      <div className="h-16 md:h-20 lg:h-24" aria-hidden="true" />
+          {/* 
+            FLOW NARRATIVE - LAZY LOADED
+            Deep-dive content with scroll-triggered animations
+            Heavy component (~30KB), only loads when needed
+          */}
+          <Section
+            spacing="lg"
+            aria-labelledby="workflow-heading"
+            itemProp="applicationCategory"
+          >
+            <Suspense fallback={<FlowSkeleton />}>
+              <FlowNarrative />
+            </Suspense>
+          </Section>
+        </Stack>
+      </Container>
     </main>
   );
 }

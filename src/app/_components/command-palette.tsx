@@ -3,11 +3,20 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Chart,
+  Lightning,
+  Search,
+  Plug,
+  Users,
+  Alert,
+} from "@/components/ui/icons";
 
 interface CommandAction {
   id: string;
   label: string;
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
   action: () => void;
   keywords?: string[];
   category: "navigation" | "actions" | "emergency";
@@ -28,7 +37,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     {
       id: "nav-dashboard",
       label: "Go to Dashboard",
-      icon: "📊",
+      icon: Chart,
       action: () => router.push("/dashboard"),
       keywords: ["dashboard", "home", "overview"],
       category: "navigation",
@@ -36,7 +45,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     {
       id: "nav-assets",
       label: "View Assets",
-      icon: "☀️",
+      icon: Lightning,
       action: () => router.push("/assets/solar"),
       keywords: ["assets", "solar", "energy"],
       category: "navigation",
@@ -44,7 +53,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     {
       id: "nav-invest",
       label: "Invest in Infrastructure",
-      icon: "💰",
+      icon: Chart,
       action: () => router.push("/invest"),
       keywords: ["invest", "buy", "purchase"],
       category: "navigation",
@@ -52,7 +61,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     {
       id: "nav-agents",
       label: "Meet the Agents",
-      icon: "🤖",
+      icon: Users,
       action: () => router.push("/agents"),
       keywords: ["agents", "ai", "team"],
       category: "navigation",
@@ -60,7 +69,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     {
       id: "nav-explore",
       label: "Explore Digital Twin",
-      icon: "🔍",
+      icon: Search,
       action: () => router.push("/assets/solar/explore"),
       keywords: ["explore", "twin", "diagram"],
       category: "navigation",
@@ -68,7 +77,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     {
       id: "action-connect",
       label: "Connect Wallet",
-      icon: "🔗",
+      icon: Plug,
       action: () => {
         // Trigger wallet connect
         const connectBtn = document.querySelector('[aria-label*="Connect"]');
@@ -80,7 +89,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     {
       id: "emergency-pause",
       label: "Emergency Pause",
-      icon: "🚨",
+      icon: Alert,
       action: () => {
         const emergencyBtn = document.querySelector(
           '[aria-label*="Emergency"]'
@@ -168,7 +177,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
           {/* Search Input */}
           <div className="border-b border-(--glass-border-primary) p-4">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">⚡</span>
+              <Lightning className="w-6 h-6" />
               <input
                 ref={inputRef}
                 type="text"
@@ -210,25 +219,25 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                         const isSelected = globalIndex === selectedIndex;
 
                         return (
-                          <button
+                          <Button
                             key={cmd.id}
                             onClick={() => {
                               cmd.action();
                               onClose();
                               setSearch("");
                             }}
+                            variant="ghost"
                             className={cn(
-                              "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl",
-                              "text-left transition-all duration-150",
+                              "w-full justify-start gap-3 h-auto px-3 py-2.5",
                               isSelected
                                 ? "bg-(--glass-surface-primary) text-(--text-primary) shadow-sm"
-                                : "text-(--text-secondary) hover:bg-(--glass-surface-primary)/50 hover:text-(--text-primary)",
+                                : "text-(--text-secondary) hover:bg-(--glass-surface-primary)/50",
                               cmd.category === "emergency" &&
                                 "text-critical-primary hover:bg-critical-background/20"
                             )}
                           >
-                            <span className="text-xl">{cmd.icon}</span>
-                            <span className="flex-1 font-medium">
+                            <cmd.icon className="w-5 h-5" />
+                            <span className="flex-1 font-medium text-left">
                               {cmd.label}
                             </span>
                             {isSelected && (
@@ -236,7 +245,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                                 ↵
                               </kbd>
                             )}
-                          </button>
+                          </Button>
                         );
                       })}
                     </div>
