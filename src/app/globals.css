@@ -862,7 +862,7 @@ body::after {
   }
 }
 
-/* Animated background layers - PHASE 2: WOW FACTOR ENHANCEMENT 🔥 */
+/* Animated background layers - PHASE 3: ULTRA FUTURISTIC ENHANCEMENT 🚀 */
 body::before {
   content: "";
   position: fixed;
@@ -870,38 +870,47 @@ body::before {
   z-index: -10;
   pointer-events: none;
   background:
-    /* Primary teal glow - ENHANCED INTENSITY */
+    /* Primary teal glow - ULTRA INTENSITY */
     radial-gradient(
-      circle 1200px at 25% 30%,
-      rgba(var(--color-teal-500-rgb), 0.35) 0%,
-      rgba(var(--color-teal-400-rgb), 0.22) 30%,
-      rgba(var(--color-teal-500-rgb), 0.12) 50%,
-      transparent 75%
+      circle 1400px at 25% 30%,
+      rgba(var(--color-teal-500-rgb), 0.45) 0%,
+      rgba(var(--color-teal-400-rgb), 0.32) 30%,
+      rgba(var(--color-teal-300-rgb), 0.18) 50%,
+      rgba(var(--color-teal-500-rgb), 0.08) 65%,
+      transparent 80%
     ),
-    /* Dark depth anchor - ENHANCED INTENSITY */
+    /* Dark depth anchor - ULTRA INTENSITY */
       radial-gradient(
-        circle 900px at 75% 20%,
-        rgba(var(--color-slate-900-rgb), 0.28) 0%,
-        rgba(var(--color-slate-900-rgb), 0.18) 35%,
-        rgba(var(--color-slate-900-rgb), 0.08) 55%,
+        circle 1000px at 75% 20%,
+        rgba(var(--color-slate-900-rgb), 0.38) 0%,
+        rgba(var(--color-slate-900-rgb), 0.25) 35%,
+        rgba(var(--color-slate-900-rgb), 0.12) 55%,
+        transparent 75%
+      ),
+    /* Warm brown undertone - ULTRA INTENSITY */
+      radial-gradient(
+        circle 1500px at 60% 80%,
+        rgba(var(--color-brown-600-rgb), 0.32) 0%,
+        rgba(var(--color-brown-600-rgb), 0.20) 40%,
+        rgba(var(--color-brown-600-rgb), 0.10) 60%,
+        transparent 85%
+      ),
+    /* Intelligence accent glow - ENHANCED */
+      radial-gradient(
+        circle 950px at 90% 60%,
+        rgba(var(--color-intelligence-primary-rgb), 0.28) 0%,
+        rgba(var(--color-intelligence-accent-rgb), 0.15) 40%,
         transparent 70%
       ),
-    /* Warm brown undertone - ENHANCED INTENSITY */
+    /* NEW: Prosperity energy glow bottom-left */
       radial-gradient(
-        circle 1300px at 60% 80%,
-        rgba(var(--color-brown-600-rgb), 0.24) 0%,
-        rgba(var(--color-brown-600-rgb), 0.14) 40%,
-        rgba(var(--color-brown-600-rgb), 0.06) 60%,
-        transparent 80%
-      ),
-    /* NEW: Intelligence accent glow */
-      radial-gradient(
-        circle 800px at 90% 60%,
-        rgba(var(--color-intelligence-primary-rgb), 0.18) 0%,
-        transparent 65%
+        circle 850px at 10% 90%,
+        rgba(var(--color-prosperity-energy-rgb), 0.25) 0%,
+        rgba(var(--color-teal-300-rgb), 0.12) 50%,
+        transparent 75%
       );
-  animation: neural-breathing 12s ease-in-out infinite;
-  filter: blur(40px); /* Soft dreamy blur for premium feel */
+  animation: neural-breathing 10s ease-in-out infinite;
+  filter: blur(50px); /* Enhanced blur for ultra-premium feel */
 }
 
 body::after {
@@ -911,37 +920,47 @@ body::after {
   z-index: -5;
   pointer-events: none;
   background:
-    /* Aurora shimmer diagonal sweep - ENHANCED */
+    /* Aurora shimmer diagonal sweep - ULTRA ENHANCED */
     linear-gradient(
       135deg,
-      rgba(var(--color-teal-300-rgb), 0.22) 0%,
-      rgba(var(--color-teal-500-rgb), 0.14) 20%,
-      rgba(var(--color-prosperity-energy-rgb), 0.08) 35%,
-      transparent 50%
+      rgba(var(--color-teal-300-rgb), 0.32) 0%,
+      rgba(var(--color-teal-500-rgb), 0.22) 15%,
+      rgba(var(--color-prosperity-energy-rgb), 0.15) 30%,
+      rgba(var(--color-teal-400-rgb), 0.10) 45%,
+      transparent 60%
     ),
-    /* Large elliptical glow top-right - ENHANCED */
+    /* Large elliptical glow top-right - ULTRA ENHANCED */
       radial-gradient(
-        ellipse 1600px 600px at 70% 15%,
-        rgba(var(--color-teal-500-rgb), 0.32) 0%,
-        rgba(var(--color-teal-400-rgb), 0.18) 40%,
-        rgba(var(--color-teal-300-rgb), 0.08) 65%,
-        transparent 85%
+        ellipse 1800px 700px at 70% 15%,
+        rgba(var(--color-teal-500-rgb), 0.42) 0%,
+        rgba(var(--color-teal-400-rgb), 0.28) 35%,
+        rgba(var(--color-teal-300-rgb), 0.15) 60%,
+        rgba(var(--color-prosperity-energy-rgb), 0.08) 75%,
+        transparent 90%
       ),
-    /* Intelligence glow bottom-left - ENHANCED */
+    /* Intelligence glow bottom-left - ULTRA ENHANCED */
       radial-gradient(
-        ellipse 1100px 700px at 20% 70%,
-        rgba(var(--color-intelligence-primary-rgb), 0.26) 0%,
-        rgba(var(--color-intelligence-secondary-rgb), 0.12) 50%,
+        ellipse 1300px 800px at 20% 70%,
+        rgba(var(--color-intelligence-primary-rgb), 0.36) 0%,
+        rgba(var(--color-intelligence-secondary-rgb), 0.20) 40%,
+        rgba(var(--color-intelligence-accent-rgb), 0.10) 65%,
+        transparent 80%
+      ),
+    /* Prosperity accent glow center-right - ENHANCED */
+      radial-gradient(
+        circle 850px at 85% 50%,
+        rgba(var(--color-prosperity-energy-rgb), 0.26) 0%,
+        rgba(var(--color-teal-300-rgb), 0.12) 50%,
         transparent 75%
       ),
-    /* NEW: Prosperity accent glow center-right */
+    /* NEW: Trust glow center - adds depth */
       radial-gradient(
-        circle 700px at 85% 50%,
-        rgba(var(--color-prosperity-energy-rgb), 0.16) 0%,
+        circle 1200px at 50% 50%,
+        rgba(var(--color-trust-primary-rgb), 0.15) 0%,
         transparent 70%
       );
-  animation: neural-drift 20s linear infinite;
-  filter: blur(50px); /* Heavier blur for depth and atmosphere */
+  animation: neural-drift 16s linear infinite;
+  filter: blur(60px); /* Ultra-heavy blur for maximum depth and atmosphere */
 }
 
 /* PHASE 1 ENHANCEMENT: Subtle grain/noise texture overlay for tactile richness
@@ -958,9 +977,23 @@ body::after {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.035; /* PHASE 2: Increased from 0.015 for more tactile presence */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   mix-blend-mode: overlay;
+  animation: grain-shift 8s steps(10) infinite;
+}
+
+@keyframes grain-shift {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, 2%); }
+  20% { transform: translate(1%, -1%); }
+  30% { transform: translate(-1%, 0%); }
+  40% { transform: translate(2%, 1%); }
+  50% { transform: translate(0%, -2%); }
+  60% { transform: translate(-2%, 1%); }
+  70% { transform: translate(1%, 2%); }
+  80% { transform: translate(-1%, -1%); }
+  90% { transform: translate(2%, 0%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1674,38 +1707,47 @@ pre code {
 }
 
 /* ===========================================
- * KEYFRAME ANIMATIONS - ENHANCED FOR VISIBILITY
+ * KEYFRAME ANIMATIONS - PHASE 3: ULTRA FUTURISTIC
  * =========================================== */
 @keyframes neural-breathing {
   0%,
   100% {
-    opacity: 0.75; /* PHASE 2: Increased from 0.6 for more presence */
+    opacity: 0.85;
     transform: scale(1) rotate(0deg);
   }
-  50% {
+  33% {
+    opacity: 0.95;
+    transform: scale(1.06) rotate(0.8deg);
+  }
+  66% {
     opacity: 1;
-    transform: scale(1.08) rotate(1.2deg); /* PHASE 2: More dramatic scale/rotation */
+    transform: scale(1.12) rotate(-0.5deg);
   }
 }
 
 @keyframes neural-drift {
   0% {
     transform: translateX(0px) translateY(0px) rotate(0deg);
-    opacity: 0.85; /* PHASE 2: Increased from 0.8 */
+    opacity: 0.90;
   }
-  33% {
-    transform: translateX(var(--space-20))
-      translateY(calc(-1 * var(--space-10))) rotate(1.5deg); /* PHASE 2: More rotation */
+  25% {
+    transform: translateX(var(--space-24))
+      translateY(calc(-1 * var(--space-12))) rotate(2deg);
     opacity: 1;
   }
-  66% {
-    transform: translateX(calc(-1 * var(--space-16)))
-      translateY(var(--space-16)) rotate(-0.8deg); /* PHASE 2: More rotation */
-    opacity: 0.95; /* PHASE 2: Increased from 0.9 */
+  50% {
+    transform: translateX(var(--space-12))
+      translateY(var(--space-20)) rotate(-1.5deg);
+    opacity: 0.95;
+  }
+  75% {
+    transform: translateX(calc(-1 * var(--space-20)))
+      translateY(var(--space-8)) rotate(1deg);
+    opacity: 0.98;
   }
   100% {
     transform: translateX(0px) translateY(0px) rotate(0deg);
-    opacity: 0.85; /* PHASE 2: Increased from 0.8 */
+    opacity: 0.90;
   }
 }
 
@@ -1920,5 +1962,261 @@ pre code {
     box-shadow: none;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+}
+
+/* ===========================================
+ * PHASE 3: ULTRA FUTURISTIC ENHANCEMENTS
+ * =========================================== */
+
+/* Shimmer effect for loading states */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Holographic border effect */
+.holographic-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.holographic-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--color-teal-300-rgb), 0.4),
+    rgba(var(--color-prosperity-energy-rgb), 0.6),
+    rgba(var(--color-intelligence-primary-rgb), 0.4),
+    rgba(var(--color-teal-300-rgb), 0.4)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: holographic-rotate 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes holographic-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Scan line effect for cyberpunk feel */
+.scan-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-lines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(var(--color-teal-500-rgb), 0.03) 0px,
+    transparent 1px,
+    transparent 2px,
+    rgba(var(--color-teal-500-rgb), 0.03) 3px
+  );
+  pointer-events: none;
+  animation: scan-line-move 8s linear infinite;
+}
+
+@keyframes scan-line-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Data stream effect */
+@keyframes data-stream {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.data-stream-line {
+  animation: data-stream 3s ease-in-out infinite;
+}
+
+/* Pulsing glow effect */
+@keyframes pulsing-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(var(--color-teal-500-rgb), 0.3),
+      0 0 40px rgba(var(--color-teal-500-rgb), 0.2),
+      0 0 60px rgba(var(--color-teal-500-rgb), 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(var(--color-teal-500-rgb), 0.5),
+      0 0 60px rgba(var(--color-teal-500-rgb), 0.3),
+      0 0 90px rgba(var(--color-teal-500-rgb), 0.2);
+  }
+}
+
+.pulsing-glow {
+  animation: pulsing-glow 3s ease-in-out infinite;
+}
+
+/* Neon text glow */
+.neon-text {
+  text-shadow:
+    0 0 10px rgba(var(--color-teal-300-rgb), 0.8),
+    0 0 20px rgba(var(--color-teal-500-rgb), 0.6),
+    0 0 30px rgba(var(--color-teal-500-rgb), 0.4),
+    0 0 40px rgba(var(--color-teal-500-rgb), 0.2);
+  animation: neon-flicker 4s ease-in-out infinite;
+}
+
+@keyframes neon-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  41%, 45% {
+    opacity: 0.85;
+  }
+  46%, 49% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  99% {
+    opacity: 1;
+  }
+}
+
+/* Liquid glass effect */
+.liquid-glass {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--color-teal-300-rgb), 0.1) 0%,
+      rgba(var(--color-teal-500-rgb), 0.05) 50%,
+      rgba(var(--color-prosperity-energy-rgb), 0.1) 100%
+    );
+  backdrop-filter: blur(20px) saturate(180%);
+  animation: liquid-shift 10s ease-in-out infinite;
+}
+
+@keyframes liquid-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Particle field effect */
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(20px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: rgba(var(--color-teal-300-rgb), 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particle-float 15s linear infinite;
+}
+
+/* Enhanced glass panel hover */
+.glass-panel-ultra {
+  position: relative;
+  background: rgba(var(--color-teal-500-rgb), 0.05);
+  border: 1px solid rgba(var(--color-teal-300-rgb), 0.2);
+  backdrop-filter: blur(24px) saturate(180%);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-ultra::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--color-teal-300-rgb), 0.1),
+    transparent 50%,
+    rgba(var(--color-prosperity-energy-rgb), 0.1)
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.glass-panel-ultra:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--color-teal-300-rgb), 0.4);
+  box-shadow:
+    0 20px 40px rgba(var(--color-teal-500-rgb), 0.2),
+    0 0 60px rgba(var(--color-teal-300-rgb), 0.15);
+}
+
+.glass-panel-ultra:hover::before {
+  opacity: 1;
+}
+
+/* Disable animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .holographic-border::before,
+  .scan-lines::after,
+  .data-stream-line,
+  .pulsing-glow,
+  .neon-text,
+  .liquid-glass,
+  .particle,
+  .animate-shimmer,
+  .page-frame-with-grain::before {
+    animation: none !important;
+  }
+
+  .glass-panel-ultra:hover {
+    transform: none;
   }
 }
