@@ -91,7 +91,7 @@ const systemMetrics = {
   uptime: "99.97%",
   decisionLatency: "< 150ms",
   constraintViolations: "0 (30d)",
-  lastAudit: "Passed - 2024-10-01",
+  lastAudit: "Passed - 2025-10-01",
   totalDecisions: "47,283",
   humanOverrides: "2 (testing)",
 };
@@ -286,7 +286,7 @@ export function AppFooter() {
         >
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
             <span className="font-medium">
-              © 2024 AIMP Protocol. All rights reserved.
+              © 2025 AIMP Protocol. All rights reserved.
             </span>
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1">

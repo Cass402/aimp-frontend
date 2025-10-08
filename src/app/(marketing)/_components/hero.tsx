@@ -9,59 +9,7 @@ import {
   useReducedMotion,
   type Variants,
 } from "motion/react";
-import { GlassCard } from "@/components/ui/glass-card";
 import { StatusPill } from "@/app/_components/status-pill";
-
-// ===========================================
-// RESEARCH-DRIVEN AI METRICS WITH TRUST PSYCHOLOGY
-// ===========================================
-
-interface AIMetric {
-  label: string;
-  value: string;
-  detail: string;
-  trustSignal: "high" | "medium" | "monitoring";
-  explanation: string;
-  confidence: number;
-  lastUpdated: string;
-  provenanceHash: string;
-}
-
-const metrics: AIMetric[] = [
-  {
-    label: "Autonomy",
-    value: "98.6%",
-    detail: "Decisions executed within safety bands",
-    trustSignal: "high",
-    explanation:
-      "AI operating within predefined safety constraints with human override available",
-    confidence: 94,
-    lastUpdated: "2 min ago",
-    provenanceHash: "0x42a7f8b9",
-  },
-  {
-    label: "Yield",
-    value: "12.4%",
-    detail: "APY net of constraints",
-    trustSignal: "high",
-    explanation:
-      "Risk-adjusted returns after safety derates and grid priority constraints",
-    confidence: 91,
-    lastUpdated: "5 min ago",
-    provenanceHash: "0x8d9c2ef1",
-  },
-  {
-    label: "Proof",
-    value: "0x42…ab",
-    detail: "Latest zk proof hash",
-    trustSignal: "monitoring",
-    explanation:
-      "Zero-knowledge proof of AI decision validity with cryptographic attestation",
-    confidence: 98,
-    lastUpdated: "12 sec ago",
-    provenanceHash: "0x42a7f8ab",
-  },
-];
 
 // ===========================================
 // NEUROAESTHETIC MOTION VARIANTS (CALM + PURPOSEFUL)
@@ -101,55 +49,51 @@ const itemVariants: Variants = {
 };
 
 const pulseVariants: Variants = {
-  initial: { scale: 1, opacity: 0.7 },
   animate: {
-    scale: [1, 1.02, 1],
-    opacity: [0.7, 0.9, 0.7],
+    scale: [1, 1.2, 1],
+    opacity: [0.8, 1, 0.8],
     transition: {
-      duration: 3,
+      duration: 2,
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1], // easeInOut cubic bezier
+      ease: "easeInOut",
     },
   },
 };
 
 // ===========================================
-// TRUST-FIRST HERO COMPONENT
+// HERO COMPONENT - FOCUSED ON MESSAGING
 // ===========================================
 
 export function Hero() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const shouldReduceMotion = useReducedMotion();
 
-  // Real-time clock for transparency
   useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <LazyMotion features={domAnimation}>
       <section
-        className="relative isolate"
+        className="relative min-h-[85vh] flex items-center py-12"
+        aria-labelledby="hero-heading"
         role="banner"
-        aria-label="AIMP autonomous infrastructure interface"
       >
-        {/* Neural Grid Background (Subtle) */}
-        <div
-          className="absolute inset-0 neural-grid opacity-30"
-          aria-hidden="true"
-        />
+        {/* Subtle background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(var(--color-slate-900-rgb),0.02)] to-transparent pointer-events-none" />
 
         <m.div
           variants={containerVariants}
           initial="initial"
           animate="animate"
-          className="relative grid gap-8 py-12 md:grid-cols-[minmax(0,1fr)_minmax(340px,440px)] md:items-start md:gap-12 lg:gap-16"
+          className="relative w-full max-w-5xl mx-auto text-center"
         >
-          {/* Left Column: Trust-First Messaging */}
-          <m.div variants={itemVariants} className="space-y-8">
+          <m.div variants={itemVariants} className="space-y-10">
             {/* Status First - Research shows users need safety signals in first 3 seconds */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-2">
               <StatusPill
                 tone="positive"
                 label="Live System"
@@ -171,241 +115,101 @@ export function Hero() {
             </div>
 
             {/* Hero Message - Cognitive Psychology: Lead with clear value prop */}
-            <div className="space-y-6">
-              <h1 className="text-4xl font-semibold leading-[1.1] text-(--text-primary) md:text-5xl lg:text-[3.75rem]">
-                <span className="block">Own the Sun.</span>
-                <span className="block bg-gradient-to-r from-(--trust-primary) to-(--intelligence-primary) bg-clip-text text-transparent">
-                  Trust the Machine.
-                </span>
-                <span className="block">Watch It Work.</span>
-              </h1>
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <h1
+                  id="hero-heading"
+                  className="text-5xl font-bold leading-[1.05] text-(--text-primary) md:text-6xl lg:text-7xl xl:text-8xl tracking-tight"
+                >
+                  <span className="block mb-2">Own the Sun.</span>
+                  <span className="block mb-2 bg-gradient-to-r from-(--trust-primary) via-(--intelligence-primary) to-(--prosperity-primary) bg-clip-text text-transparent">
+                    Trust the Machine.
+                  </span>
+                  <span className="block">Watch It Work.</span>
+                </h1>
 
-              <p className="max-w-2xl text-base leading-relaxed text-(--text-secondary) md:text-lg lg:text-xl">
-                AIMP is where AI agents operate tokenized solar farms under
-                <strong className="font-semibold text-(--text-primary)">
-                  {" "}
-                  cryptographic authority
-                </strong>
-                . Invest in seconds, observe every watt, and inspect every
-                decision with
-                <strong className="font-semibold text-(--trust-primary)">
-                  {" "}
-                  proof-backed explainability
-                </strong>
-                .
-              </p>
+                <div className="max-w-4xl mx-auto">
+                  <p className="text-lg leading-relaxed text-(--text-secondary) md:text-xl lg:text-2xl font-light">
+                    AIMP is where AI agents operate tokenized solar farms under
+                    <strong className="font-semibold text-(--text-primary) mx-1">
+                      cryptographic authority
+                    </strong>
+                    . Invest in seconds, observe every watt, and inspect every
+                    decision with
+                    <strong className="font-semibold text-(--trust-primary) mx-1">
+                      proof-backed explainability
+                    </strong>
+                    .
+                  </p>
+                </div>
+              </div>
 
               {/* Trust Pillars - Behavioral UX: Address concerns upfront */}
-              <div className="grid grid-cols-3 gap-4 text-xs uppercase tracking-[0.32em] text-(--text-tertiary) md:flex md:gap-8">
-                <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-(--prosperity-primary) shadow-[0_0_6px_rgba(50,184,198,0.4)]" />
-                  Safety-First
+              <div className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
+                <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-(--glass-surface-primary) border border-(--glass-border-soft)">
+                  <div className="h-2 w-2 rounded-full bg-(--trust-primary) shadow-[0_0_8px_rgba(50,184,198,0.6)]" />
+                  <span className="text-sm font-medium text-(--text-primary) tracking-wide">
+                    Cryptographic Proof
+                  </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-(--intelligence-primary) shadow-[0_0_6px_rgba(41,150,161,0.4)]" />
-                  Explainable
+                <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-(--glass-surface-primary) border border-(--glass-border-soft)">
+                  <div className="h-2 w-2 rounded-full bg-(--intelligence-primary) shadow-[0_0_8px_rgba(41,150,161,0.6)]" />
+                  <span className="text-sm font-medium text-(--text-primary) tracking-wide">
+                    Emergency Override
+                  </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-(--trust-primary) shadow-[0_0_6px_rgba(33,128,141,0.4)]" />
-                  Solana-Native
+                <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-(--glass-surface-primary) border border-(--glass-border-soft)">
+                  <div className="h-2 w-2 rounded-full bg-(--prosperity-primary) shadow-[0_0_8px_rgba(85,169,123,0.6)]" />
+                  <span className="text-sm font-medium text-(--text-primary) tracking-wide">
+                    Full Explainability
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* CTA Section - Progressive Trust Building */}
+            {/* CTA Section */}
             <div className="space-y-6">
-              <div className="flex flex-wrap items-center gap-4">
-                {/* Primary CTA - Risk-First Design */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
-                  href="/invest"
-                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(120deg,var(--prosperity-primary),var(--trust-primary),var(--intelligence-primary))] px-8 py-4 text-sm font-semibold text-black shadow-[0_24px_44px_rgba(33,128,141,0.32)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_32px_64px_rgba(33,128,141,0.42)] focus-visible:u-focus-ring-prosperity"
-                  role="button"
+                  href="/connect"
+                  className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-(--trust-primary) to-(--intelligence-primary) px-10 py-5 font-semibold text-white text-lg transition-all duration-300 hover:shadow-[0_0_40px_rgba(41,150,161,0.4)] hover:scale-[1.02] active:scale-[0.98] min-w-[240px]"
                   aria-describedby="primary-cta-help"
                 >
-                  <span className="relative z-10">Connect & Buy 200 SOLAR</span>
+                  <span className="relative z-10 text-white">
+                    Connect Wallet & Invest
+                  </span>
                   {!shouldReduceMotion && (
                     <m.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                      animate={{
-                        x: ["-100%", "100%"],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
+                      variants={pulseVariants}
+                      className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      aria-hidden="true"
                     />
                   )}
                 </Link>
 
-                {/* Secondary CTA */}
                 <Link
-                  href="/assets/solar"
-                  className="inline-flex items-center gap-2 rounded-full border border-(--glass-border-soft) bg-(--glass-surface-primary) px-6 py-3 text-sm font-semibold text-(--text-primary) backdrop-blur-sm transition-all duration-200 hover:bg-(--glass-surface-elevated) hover:border-(--glass-border-strong) focus-visible:u-focus-ring"
+                  href="/assets/solar/explore"
+                  className="group relative overflow-hidden rounded-2xl border-2 border-(--glass-border-strong) bg-(--glass-surface-primary) backdrop-blur-sm px-10 py-5 font-semibold text-(--text-primary) text-lg transition-all duration-300 hover:border-(--trust-primary) hover:bg-(--glass-surface-elevated) hover:scale-[1.02] active:scale-[0.98] min-w-[240px]"
                 >
-                  Explore the Asset
-                  <span className="text-(--trust-primary)">→</span>
+                  <span className="relative z-10">Explore Digital Twin</span>
                 </Link>
               </div>
 
               {/* Risk Context - Transparency First */}
               <div
                 id="primary-cta-help"
-                className="rounded-lg border border-(--glass-border-soft) bg-(--glass-surface-primary) p-4 text-xs text-(--text-secondary)"
+                className="max-w-3xl mx-auto rounded-2xl border border-(--glass-border-soft) bg-(--glass-surface-primary) backdrop-blur-sm p-6 text-sm text-(--text-secondary)"
               >
-                <p className="mb-2 font-medium text-(--text-primary)">
+                <p className="mb-3 font-semibold text-(--text-primary) text-base">
                   Investment Notice:
                 </p>
-                <p>
+                <p className="leading-relaxed">
                   200 SOLAR ≈ $1,024 at current price. Max daily AI spend: $50.
                   Emergency human override active. See full risk disclosure
                   before investing.
                 </p>
               </div>
             </div>
-          </m.div>
-
-          {/* Right Column: Live AI Dashboard */}
-          <m.div variants={itemVariants}>
-            <GlassCard
-              className="relative overflow-hidden"
-              padding="lg"
-              variant="neural"
-              trustLevel="high"
-              aiState="optimizing"
-              aria-label="Live solar farm AI operations dashboard"
-            >
-              {/* AI Activity Pulse */}
-              {!shouldReduceMotion && (
-                <m.div
-                  variants={pulseVariants}
-                  className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-(--intelligence-primary) shadow-[0_0_12px_rgba(41,150,161,0.6)]"
-                  aria-hidden="true"
-                />
-              )}
-
-              <div className="relative space-y-6">
-                {/* Header with Real-time Context */}
-                <div className="flex items-center justify-between">
-                  <div className="space-y-2">
-                    <p className="text-xs font-medium uppercase tracking-[0.3em] text-(--text-tertiary)">
-                      Solar Farm Status
-                    </p>
-                    <h2 className="text-2xl font-semibold text-(--text-primary)">
-                      Sorrento Ridge Alpha
-                    </h2>
-                    <p className="text-sm text-(--text-secondary)">
-                      AI Operations • Authority PDA • Multi-Oracle Telemetry
-                    </p>
-                  </div>
-
-                  <div className="text-right space-y-2">
-                    <StatusPill
-                      tone="positive"
-                      label="Active"
-                      detail="Optimizing"
-                      explanation="AI currently optimizing energy dispatch based on grid prices and weather forecasts"
-                      confidence={94}
-                    />
-                    <div className="flex items-center gap-1 text-xs text-(--text-muted)">
-                      <div className="h-2 w-2 rounded-full bg-(--intelligence-primary) animate-pulse" />
-                      <span>Live • {currentTime.toLocaleTimeString()}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* AI Metrics with Explainability */}
-                <div className="space-y-3">
-                  {metrics.map((metric, index) => (
-                    <m.div
-                      key={metric.label}
-                      variants={itemVariants}
-                      className="group relative overflow-hidden rounded-2xl border border-(--glass-border-soft) bg-(--glass-surface-primary) p-4 transition-all duration-200 hover:border-(--glass-border-strong) hover:bg-(--glass-surface-elevated)"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1 space-y-1">
-                          <div className="flex items-center gap-2">
-                            <p className="text-xs font-medium uppercase tracking-[0.32em] text-(--text-tertiary)">
-                              {metric.label}
-                            </p>
-                            <div
-                              className={`h-2 w-2 rounded-full ${
-                                metric.trustSignal === "high"
-                                  ? "bg-(--prosperity-primary) shadow-[0_0_4px_rgba(50,184,198,0.6)]"
-                                  : metric.trustSignal === "medium"
-                                    ? "bg-(--caution-primary) shadow-[0_0_4px_rgba(230,129,97,0.6)]"
-                                    : "bg-(--intelligence-primary) animate-pulse shadow-[0_0_4px_rgba(41,150,161,0.6)]"
-                              }`}
-                              aria-label={`Trust level: ${metric.trustSignal}`}
-                            />
-                          </div>
-                          <p className="text-sm text-(--text-secondary)">
-                            {metric.detail}
-                          </p>
-                          <div className="text-xs text-(--text-muted)">
-                            {metric.confidence}% confidence •{" "}
-                            {metric.lastUpdated}
-                          </div>
-                        </div>
-
-                        <div className="text-right">
-                          <p className="text-2xl font-semibold text-(--text-primary) font-mono">
-                            {metric.value}
-                          </p>
-                          <button
-                            className="mt-1 text-xs text-(--intelligence-primary) hover:text-(--trust-primary) transition-colors"
-                            aria-label={`Explain ${metric.label} metric`}
-                            title={metric.explanation}
-                          >
-                            Why?
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Hover explanation */}
-                      <div className="absolute inset-x-4 bottom-4 translate-y-full opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
-                        <div className="rounded-lg border border-(--glass-border-strong) bg-(--glass-surface-modal) p-3 text-xs text-(--text-secondary) backdrop-blur-sm">
-                          {metric.explanation}
-                        </div>
-                      </div>
-                    </m.div>
-                  ))}
-                </div>
-
-                {/* Safety Constraints - Transparency */}
-                <div className="rounded-2xl border border-(--glass-border-strong) bg-[rgba(var(--color-slate-900-rgb),0.78)] p-4">
-                  <div className="mb-3 flex items-center justify-between">
-                    <p className="text-xs font-medium uppercase tracking-[0.35em] text-(--text-tertiary)">
-                      Safety Guardrails
-                    </p>
-                    <span className="text-xs text-(--prosperity-primary)">
-                      Active
-                    </span>
-                  </div>
-                  <ul className="space-y-2 text-sm text-(--text-secondary)">
-                    <li className="flex items-center gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-(--prosperity-primary)" />
-                      Max discharge: 2MW • SOC cap: 80%
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-(--intelligence-primary)" />
-                      Oracle deviation alarm at 3.5σ
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-(--trust-primary)" />
-                      Emergency override &lt; 200ms acknowledgment
-                    </li>
-                  </ul>
-                  <div className="mt-3 pt-3 border-t border-(--glass-border-soft)">
-                    <p className="text-xs text-(--text-muted)">
-                      Last constraint check: {currentTime.toLocaleTimeString()}{" "}
-                      • Next verification:{" "}
-                      {new Date(Date.now() + 60000).toLocaleTimeString()}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </GlassCard>
           </m.div>
         </m.div>
       </section>

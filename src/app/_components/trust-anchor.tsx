@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ExplainTooltip } from "./explain-tooltip";
 import { Provenance } from "./provenance";
 import { cn } from "@/lib/utils";
@@ -50,7 +50,6 @@ export function TrustAnchor({
   category,
   className,
 }: TrustAnchorProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const config = categoryConfig[category];
 
@@ -64,28 +63,33 @@ export function TrustAnchor({
     <div
       id={id}
       className={cn(
-        "group relative cursor-pointer transition-all duration-200 ease-neural",
+        "group relative transition-all duration-200 ease-neural",
+        "rounded-3xl border border-(--glass-border-soft) bg-(--glass-surface-primary)",
+        "p-4 hover:border-(--glass-border-strong) hover:bg-(--glass-surface-elevated)",
+        "overflow-hidden", // Prevent content bleeding
         className
       )}
-      onClick={() => setIsExpanded(!isExpanded)}
     >
       {/* Category gradient background */}
       <div
         className={cn(
           "absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300",
-          config.bgGradient,
-          "rounded-3xl"
+          config.bgGradient
         )}
       />
 
       {/* Content */}
       <div className="relative z-10 space-y-3">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-2">
-            <config.icon size={14} aria-hidden="true" />
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <config.icon
+              size={14}
+              aria-hidden="true"
+              className="flex-shrink-0"
+            />
             <h3
               className={cn(
-                "text-sm font-semibold transition-colors duration-200",
+                "text-sm font-semibold transition-colors duration-200 truncate",
                 "text-(--text-primary) group-hover:" + config.color
               )}
             >
@@ -93,27 +97,22 @@ export function TrustAnchor({
             </h3>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 flex-shrink-0">
             <ExplainTooltip
               content={explanation}
               confidence={confidence}
               provenanceHash={provenanceHash}
             />
-            <Provenance
-              hash={provenanceHash}
-              type="data"
-              className="opacity-60 group-hover:opacity-100"
-            />
           </div>
         </div>
 
-        <p className="text-xs text-(--text-secondary) leading-relaxed">
+        <p className="text-xs text-(--text-secondary) leading-relaxed line-clamp-2">
           {detail}
         </p>
 
         {/* Confidence indicator */}
         <div className="flex items-center gap-2">
-          <div className="flex-1 h-1.5 bg-(--glass-surface-primary) rounded-full overflow-hidden">
+          <div className="flex-1 h-1.5 bg-(--glass-surface-secondary) rounded-full overflow-hidden">
             <div
               ref={progressBarRef}
               className={cn(
@@ -129,7 +128,7 @@ export function TrustAnchor({
           </div>
           <span
             className={cn(
-              "text-xs font-semibold",
+              "text-xs font-semibold flex-shrink-0",
               confidence >= 95 ? config.color : "text-(--text-secondary)"
             )}
           >
@@ -137,52 +136,35 @@ export function TrustAnchor({
           </span>
         </div>
 
-        {/* Expandable metrics */}
-        {isExpanded && (
-          <div
-            className={cn(
-              "mt-4 pt-4 border-t border-(--glass-border-soft)",
-              "animate-in slide-in-from-top-2 duration-200"
-            )}
-          >
-            <div className="grid gap-2">
-              {Object.entries(metrics).map(([key, value]) => (
-                <div key={key} className="flex justify-between text-xs">
-                  <span className="text-(--text-tertiary) capitalize">
-                    {key.replace(/([A-Z])/g, " $1").toLowerCase()}
-                  </span>
-                  <span className="font-semibold text-(--text-primary)">
-                    {typeof value === "string" ? value : String(value)}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Expansion indicator */}
-      <div
-        className={cn(
-          "absolute bottom-2 right-2 transition-transform duration-200",
-          isExpanded && "rotate-180"
-        )}
-      >
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-          className={cn("transition-colors duration-200", config.color)}
-        >
-          <path
-            d="M3 4.5L6 7.5L9 4.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        {/* Provenance hash - positioned at bottom */}
+        <div className="flex items-center justify-start">
+          <Provenance
+            hash={provenanceHash}
+            type="data"
+            className="opacity-60 group-hover:opacity-100 text-xs"
           />
-        </svg>
+        </div>
+
+        {/* Always visible metrics */}
+        <div
+          className={cn(
+            "mt-4 pt-4 border-t border-(--glass-border-soft)",
+            "max-h-48 overflow-y-auto" // Prevent excessive height
+          )}
+        >
+          <div className="grid gap-2">
+            {Object.entries(metrics).map(([key, value]) => (
+              <div key={key} className="flex justify-between text-xs gap-2">
+                <span className="text-(--text-tertiary) capitalize truncate">
+                  {key.replace(/([A-Z])/g, " $1").toLowerCase()}
+                </span>
+                <span className="font-semibold text-(--text-primary) flex-shrink-0 text-right">
+                  {typeof value === "string" ? value : String(value)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
