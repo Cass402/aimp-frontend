@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { DropdownPortal } from "./dropdown-portal";
 
 interface EmergencyOverrideProps {
   isActive: boolean;
@@ -14,6 +15,7 @@ export function EmergencyOverride({
 }: EmergencyOverrideProps) {
   const [isConfirming, setIsConfirming] = useState(false);
   const [lastAction, setLastAction] = useState<Date | null>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = () => {
     if (!isConfirming) {
@@ -29,13 +31,10 @@ export function EmergencyOverride({
     setLastAction(new Date());
   };
 
-  const handleCancel = () => {
-    setIsConfirming(false);
-  };
-
   return (
     <div className={cn("relative", className)}>
       <button
+        ref={buttonRef}
         type="button"
         onClick={handleClick}
         className={cn(
@@ -70,12 +69,12 @@ export function EmergencyOverride({
         </span>
       </button>
 
-      {/* Confirmation overlay */}
-      {isConfirming && (
+      {/* Confirmation overlay using Portal */}
+      <DropdownPortal isOpen={isConfirming} triggerRef={buttonRef} align="left">
         <div
           className={cn(
-            "absolute top-full left-0 mt-2 z-50 w-64 p-4 rounded-2xl",
-            "bg-(--glass-surface-modal) border border-(--glass-border-highlight)",
+            "w-64 p-4 rounded-2xl",
+            "bg-(color:--glass-surface-modal) border border-(color:--glass-border-highlight)",
             "backdrop-blur-heavy shadow-[0_20px_40px_rgba(0,0,0,0.3)]",
             "animate-in fade-in-0 slide-in-from-top-2 duration-200"
           )}
@@ -102,7 +101,10 @@ export function EmergencyOverride({
             <div className="flex items-center gap-2 pt-2">
               <button
                 type="button"
-                onClick={handleClick}
+                onClick={() => {
+                  handleClick();
+                  setIsConfirming(false);
+                }}
                 className={cn(
                   "flex-1 rounded-lg px-3 py-2 text-xs font-semibold",
                   "transition-all duration-200",
@@ -116,7 +118,7 @@ export function EmergencyOverride({
 
               <button
                 type="button"
-                onClick={handleCancel}
+                onClick={() => setIsConfirming(false)}
                 className={cn(
                   "flex-1 rounded-lg px-3 py-2 text-xs font-medium",
                   "bg-(--glass-surface-primary) text-(--text-secondary)",
@@ -137,7 +139,7 @@ export function EmergencyOverride({
             )}
           />
         </div>
-      )}
+      </DropdownPortal>
 
       {/* Last action timestamp */}
       {lastAction && !isConfirming && (
