@@ -166,6 +166,9 @@ export default function RootLayout({
 
         {/* Theme Provider with Neural Context */}
         <AIMPThemeProvider>
+          {/* Header with enhanced glass morphism - OUTSIDE animation wrapper for true fixed positioning */}
+          <AppHeader />
+
           {/* Animation Wrapper with Calm Motion */}
           <LayoutAnimationWrapper>
             {/* Skip to main content for accessibility */}
@@ -180,13 +183,10 @@ export default function RootLayout({
 
             {/* Main layout structure with glass layers */}
             <div className="relative min-h-screen">
-              {/* Header with enhanced glass morphism */}
-              <AppHeader />
-
               {/* Main content area with contextual background response */}
               <main
                 id="main-content"
-                className="relative z-10"
+                className="relative z-10 pt-20"
                 role="main"
                 aria-label="Main content"
               >
