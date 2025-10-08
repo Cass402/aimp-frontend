@@ -275,12 +275,6 @@ export function Hero() {
               aiState="optimizing"
               aria-label="Live solar farm AI operations dashboard"
             >
-              {/* Enhanced Glass Effect */}
-              <div
-                className="absolute inset-0 rounded-[24px] border border-(--glass-border-highlight) bg-[radial-gradient(120%_90%_at_20%_15%,rgba(var(--color-teal-500-rgb),0.18),transparent),radial-gradient(100%_80%_at_85%_0%,rgba(var(--color-gray-300-rgb),0.12),transparent)]"
-                aria-hidden="true"
-              />
-
               {/* AI Activity Pulse */}
               {!shouldReduceMotion && (
                 <m.div
