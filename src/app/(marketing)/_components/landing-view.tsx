@@ -3,6 +3,7 @@
 import { Suspense, lazy } from "react";
 import { Container, Stack, Section } from "@/components/ui/layout";
 import { Hero } from "./hero";
+import { SolarFarmStatus } from "./solar-farm-status";
 
 // ===========================================
 // PERFORMANCE: Lazy load below-fold sections for optimal FCP/LCP
@@ -97,7 +98,7 @@ export function MarketingLandingView() {
       itemType="https://schema.org/WebApplication"
     >
       <Container size="xl">
-        <Stack space="xl">
+        <Stack space="xs">
           {/* 
             HERO SECTION - CRITICAL RENDER PATH
             Above the fold, loads immediately for optimal FCP/LCP
@@ -108,12 +109,20 @@ export function MarketingLandingView() {
           </Section>
 
           {/* 
+            SOLAR FARM STATUS - HORIZONTAL LAYOUT
+            Moved from hero for better visual flow and horizontal layout
+          */}
+          <Section spacing="none" aria-labelledby="solar-farm-heading">
+            <SolarFarmStatus />
+          </Section>
+
+          {/* 
             FEATURE HIGHLIGHTS - LAZY LOADED
             Below fold content, code-split for performance
             Loads as user scrolls or browser idle time
           */}
           <Section
-            spacing="lg"
+            spacing="none"
             aria-labelledby="features-heading"
             itemProp="featureList"
           >
@@ -128,7 +137,7 @@ export function MarketingLandingView() {
             Heavy component (~30KB), only loads when needed
           */}
           <Section
-            spacing="lg"
+            spacing="none"
             aria-labelledby="workflow-heading"
             itemProp="applicationCategory"
           >

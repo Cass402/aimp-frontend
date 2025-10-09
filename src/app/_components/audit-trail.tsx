@@ -67,7 +67,7 @@ export function AuditTrail({
       >
         <div className="h-2 w-2 rounded-full bg-(--prosperity-primary) animate-pulse" />
         <span className="text-xs text-(--text-secondary)">
-          Real-time audit logging active • Next scheduled audit: Dec 15, 2024
+          Real-time audit logging active • Next scheduled audit: Dec 15, 2025
         </span>
       </div>
     </div>
