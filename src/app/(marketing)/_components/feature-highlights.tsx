@@ -12,20 +12,20 @@ import { useState } from "react";
 const highlights = [
   {
     title: "Explainable Autonomy",
-    subtitle: "Operations Agent", // Persona clarity for trust building
+    subtitle: "See AI Reasoning in Real-Time", // Persona clarity for trust building
     description:
-      "Every AI action ships with persona-led reasoning, constraint evidence, and oracle provenance. Nothing feels like a black box—everything has a clear 'why.'",
+      "Watch the Operations Agent explain why it's storing energy instead of selling to the grid. See the data sources, the constraints, the reasoning—all in human terms. No black boxes.",
     bullets: [
       {
-        text: "Operations, Maintenance, and Markets voices",
+        text: "Human-readable decision explanations",
         icon: "personas", // Humanizes AI through distinct personalities
       },
       {
-        text: "Proof hashes logged for critical decisions",
+        text: "Real-time constraint validation",
         icon: "security", // Reinforces cryptographic trust
       },
       {
-        text: "Human override always within 2 clicks",
+        text: "Source provenance for every data point",
         icon: "control", // Addresses autonomy anxiety
       },
     ],
@@ -36,21 +36,21 @@ const highlights = [
     persona: "technical", // Influences micro-copy tone
   },
   {
-    title: "Trust-First Ownership",
-    subtitle: "Markets Agent", // Financial persona for credibility
+    title: "Verifiable Proofs",
+    subtitle: "Trust Through Cryptography", // Financial persona for credibility
     description:
-      "Connect, review guardrails, and acquire SOLAR tokens with worst-case quotes, decoded PDAs, and fee transparency. Risk-first design builds real confidence.",
+      "Every decision gets cryptographically verified on Solana. zkSNARK proofs ensure AI operates within boundaries—no exceptions, no loopholes. Don't trust promises. Trust proofs.",
     bullets: [
       {
-        text: "Worst-case scenarios surfaced before upside",
+        text: "zkSNARK verification for compliance",
         icon: "risk-first", // Addresses loss aversion psychology
       },
       {
-        text: "Decoded program + PDA map for every receipt",
+        text: "On-chain proof submission and verification",
         icon: "transparency", // Technical transparency builds competence trust
       },
       {
-        text: "Safety constraints actively monitored",
+        text: "Immutable audit trail for every action",
         icon: "safety", // Continuous reassurance pattern
       },
     ],
@@ -61,21 +61,21 @@ const highlights = [
     persona: "analytical",
   },
   {
-    title: "Live Digital Twin",
-    subtitle: "Maintenance Agent", // Technical persona for system monitoring
+    title: "Human Override",
+    subtitle: "Autonomy with Accountability", // Technical persona for system monitoring
     description:
-      "Explore the solar farm with animated flows, panel health dots, and battery state-of-charge. 60fps smooth, fully accessible, proof of life.",
+      "Emergency stop always within thumb's reach. One click pauses all AI operations. The system waits for your command. AI operates under cryptographic authority, but humans hold ultimate control.",
     bullets: [
       {
-        text: "Grid and battery flows with real-time tooltips",
+        text: "One-click emergency override",
         icon: "live-data", // Reinforces system liveliness
       },
       {
-        text: "Panel drilldowns with Maintenance summaries",
+        text: "Instant AI pause with confirmation",
         icon: "detail-access", // Satisfies curiosity and control needs
       },
       {
-        text: "Emergency override with tamper-evident log",
+        text: "Tamper-evident on-chain logging",
         icon: "emergency", // Ultimate trust through veto power
       },
     ],
@@ -130,21 +130,6 @@ const cardVariants: Variants = {
   },
 };
 
-// Enhanced header animation with organic movement
-const headerVariants: Variants = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 25,
-      mass: 0.8,
-    },
-  },
-};
-
 // Ambient pulse for trust indicators - subtle "proof of life"
 const pulseVariants: Variants = {
   pulse: {
@@ -176,38 +161,12 @@ const bulletVariants: Variants = {
 };
 
 export function FeatureHighlights() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [, setHoveredCard] = useState<number | null>(null);
 
   return (
     <LazyMotion features={domAnimation}>
       <section className="mt-12 space-y-8">
-        {" "}
-        {/* Increased spacing for breathing room */}
-        {/* Enhanced header with trust-building hierarchy */}
-        <m.header
-          className="flex flex-col gap-3"
-          variants={headerVariants}
-          initial="initial"
-          animate="animate"
-        >
-          <p className="text-xs uppercase tracking-[0.35em] text-(--text-tertiary) font-medium">
-            The Interface
-          </p>
-          <h2 className="text-3xl md:text-4xl font-semibold text-(--text-primary) leading-tight">
-            Designed for trust, explainability,{" "}
-            <span className="bg-gradient-to-r from-(--trust-primary) to-(--prosperity-energy) bg-clip-text text-transparent">
-              and real economic gravity.
-            </span>
-          </h2>
-
-          {/* Trust reinforcement tagline */}
-          <p className="text-sm text-(--text-secondary) mt-2 max-w-2xl">
-            Where autonomous infrastructure meets human understanding. Every
-            decision is explainable, every action is auditable, every outcome is
-            transparent.
-          </p>
-        </m.header>
-        {/* Enhanced grid with improved spacing and hierarchy */}
+        {/* Feature cards grid */}
         <div className="grid gap-8 md:grid-cols-3 lg:gap-10">
           {highlights.map((highlight, index) => (
             <m.div
@@ -321,30 +280,6 @@ export function FeatureHighlights() {
             </m.div>
           ))}
         </div>
-        {/* Call-to-action section - guides next steps */}
-        <m.div
-          className="mt-12 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.6,
-            type: "spring",
-            stiffness: 300,
-            damping: 25,
-          }}
-        >
-          <p className="text-sm text-(--text-secondary) mb-4">
-            Ready to experience autonomous infrastructure?
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
-            <button className="px-6 py-3 bg-(--trust-primary) text-(--color-btn-primary-text) rounded-lg font-medium hover:bg-(--trust-secondary) transition-colors duration-200">
-              Connect Wallet
-            </button>
-            <button className="px-6 py-3 text-(--trust-primary) border border-(--trust-primary)/30 rounded-lg font-medium hover:bg-(--trust-primary)/10 transition-colors duration-200">
-              Explore Digital Twin
-            </button>
-          </div>
-        </m.div>
       </section>
     </LazyMotion>
   );
