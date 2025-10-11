@@ -4,10 +4,64 @@ import type { ReactNode, ElementType } from "react";
 import { forwardRef, useState, useEffect, useRef } from "react";
 import { LazyMotion, domAnimation, m, type Variants } from "motion/react";
 import { cn } from "@/lib/utils";
+import type { AgentPersona, TrustMathematics } from "@/lib/types";
+import {
+  formatPercent,
+  getTrustColor,
+  formatFreshness,
+  getFreshnessStatus,
+  formatNumber,
+} from "@/lib/format";
+
+// ===========================================
+// AGENT PERSONA COLOR MAPPING: Semantic color system integration
+// Maps agent personas to CSS variables from globals.css
+// ===========================================
+
+const agentColorMap: Record<AgentPersona, string> = {
+  operations: "var(--agent-operations)", // Blue
+  markets: "var(--agent-markets)", // Green
+  sentinel: "var(--agent-maintenance)", // Amber (sentinel monitors/maintains)
+  governor: "var(--agent-governance)", // Purple
+};
+
+const agentGlowMap: Record<AgentPersona, string> = {
+  operations: "var(--agent-operations-glow)", // Blue glow
+  markets: "var(--agent-markets-glow)", // Green glow
+  sentinel: "var(--agent-maintenance-glow)", // Amber glow
+  governor: "var(--agent-governance-glow)", // Purple glow
+};
+
+// ===========================================
+// TRUST MATHEMATICS HELPERS: Convert trust scores to visual feedback
+// ===========================================
+
+const getTrustLevelFromMath = (
+  trustMath: TrustMathematics
+): "low" | "medium" | "high" => {
+  const { confidenceScore, trustGrade } = trustMath;
+
+  // Excellent/good trust grades with high confidence
+  if (
+    (trustGrade === "excellent" || trustGrade === "good") &&
+    confidenceScore >= 80
+  ) {
+    return "high";
+  }
+
+  // Fair trust or medium confidence
+  if (trustGrade === "fair" || confidenceScore >= 50) {
+    return "medium";
+  }
+
+  // Poor/suspect trust or low confidence
+  return "low";
+};
 
 // ===========================================
 // PERFORMANCE: Optimized prop types using React 19 patterns
 // PSYCHOLOGY: Clear semantic variants that communicate purpose
+// TYPE SAFETY: Integration with core AIMP type system
 // ===========================================
 
 interface GlassCardProps {
@@ -32,8 +86,20 @@ interface GlassCardProps {
   // Motion preferences - respects user accessibility settings
   enableMotion?: boolean;
 
-  // Trust-building micro-interactions
+  // Trust-building micro-interactions (legacy - use trustMath for comprehensive)
   trustLevel?: "low" | "medium" | "high";
+
+  // NEW: Comprehensive trust mathematics from core type system
+  trustMath?: TrustMathematics;
+
+  // NEW: Agent persona for semantic color system integration
+  agent?: AgentPersona;
+
+  // NEW: Ambient glow color (auto-derived from agent if not specified)
+  glowColor?: string;
+
+  // NEW: Freshness tracking for provenance (seconds since last update)
+  freshnessSeconds?: number;
 
   // Semantic HTML element for accessibility
   as?: ElementType;
@@ -250,7 +316,11 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       variant = "default",
       aiState = "idle",
       enableMotion = true,
-      trustLevel = "medium",
+      trustLevel,
+      trustMath,
+      agent,
+      glowColor,
+      freshnessSeconds,
       as: Component = "div",
       onClick,
       role,
@@ -270,6 +340,18 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
     >([]);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const internalRef = useRef<HTMLDivElement>(null);
+
+    // Derive trust level from trustMath if provided
+    const effectiveTrustLevel = trustMath
+      ? getTrustLevelFromMath(trustMath)
+      : trustLevel || "medium";
+
+    // Derive glow color from agent if not explicitly provided
+    const effectiveGlowColor =
+      glowColor || (agent ? agentGlowMap[agent] : undefined);
+
+    // Derive accent color from agent if provided
+    const agentAccentColor = agent ? agentColorMap[agent] : undefined;
 
     // Combine external ref with internal ref
     useEffect(() => {
@@ -361,7 +443,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       aiStateClasses[aiState],
 
       // Trust level indicators
-      trustLevel && trustLevelClasses[trustLevel],
+      effectiveTrustLevel && trustLevelClasses[effectiveTrustLevel],
 
       // Loading state
       isLoading && loadingClasses,
@@ -525,12 +607,26 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
           TRUST INDICATOR: Subtle glow for high-trust content
           NEURAL DESIGN: Ambient lighting suggests AI presence
         */}
-          {trustLevel === "high" && (
+          {effectiveTrustLevel === "high" && (
             <div
               className="absolute inset-0 rounded-[inherit] pointer-events-none"
               style={{
-                background:
-                  "radial-gradient(circle at 30% 20%, var(--trust-primary)/8, transparent 70%)",
+                background: effectiveGlowColor
+                  ? `radial-gradient(circle at 30% 20%, ${effectiveGlowColor}, transparent 70%)`
+                  : "radial-gradient(circle at 30% 20%, var(--trust-primary)/8, transparent 70%)",
+              }}
+            />
+          )}
+
+          {/*
+          AGENT ACCENT: Semantic color glow based on agent persona
+          EXPLAINABILITY: Visual identity helps users understand agent roles
+        */}
+          {agent && effectiveGlowColor && (
+            <div
+              className="absolute inset-0 rounded-[inherit] pointer-events-none opacity-60"
+              style={{
+                background: `radial-gradient(circle at 70% 80%, ${effectiveGlowColor}, transparent 60%)`,
               }}
             />
           )}
@@ -541,7 +637,10 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         */}
           {aiState !== "idle" && (
             <m.div
-              className="absolute top-2 right-2 w-2 h-2 rounded-full bg-(--trust-primary)"
+              className="absolute top-2 right-2 w-2 h-2 rounded-full"
+              style={{
+                backgroundColor: agentAccentColor || "var(--trust-primary)",
+              }}
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.7, 1, 0.7],
@@ -553,6 +652,70 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
               }}
               aria-hidden="true"
             />
+          )}
+
+          {/*
+          TRUST MATHEMATICS DISPLAY: Quantified confidence for explainability
+          PROVENANCE: Shows trust score when trustMath is provided
+          FORMAT: Uses format.ts utilities for professional display
+        */}
+          {trustMath && (
+            <m.div
+              className={cn(
+                "absolute bottom-2 right-2 px-2.5 py-1.5 rounded-lg text-xs font-medium backdrop-blur-sm",
+                "flex flex-col gap-0.5 min-w-[100px]",
+                getTrustColor(trustMath.confidenceScore)
+              )}
+              style={{
+                backgroundColor: effectiveGlowColor
+                  ? `color-mix(in srgb, ${effectiveGlowColor} 25%, transparent)`
+                  : "var(--glass-surface-elevated)",
+                border: `1px solid ${agentAccentColor || "var(--trust-primary)"}/40`,
+                boxShadow: `0 2px 8px ${effectiveGlowColor || "var(--trust-primary)"}/10`,
+              }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              aria-label={`Trust: ${formatPercent(
+                trustMath.confidenceScore / 100,
+                false,
+                1
+              )} confidence, ${trustMath.witnessCount} witnesses, ${trustMath.trustGrade} grade${freshnessSeconds ? `, updated ${formatFreshness(freshnessSeconds)}` : ""}`}
+            >
+              {/* Confidence Score */}
+              <div className="flex items-baseline gap-1">
+                <span className="opacity-60 text-[10px] uppercase tracking-wider">
+                  Trust
+                </span>
+                <span className="font-bold">
+                  {formatPercent(trustMath.confidenceScore / 100, false, 1)}
+                </span>
+              </div>
+
+              {/* Witness Count & Freshness */}
+              <div className="flex items-center gap-2 text-[10px] opacity-70">
+                <span>{formatNumber(trustMath.witnessCount, 0)} sources</span>
+                {freshnessSeconds !== undefined && (
+                  <>
+                    <span>•</span>
+                    <span
+                      className={cn(
+                        getFreshnessStatus(freshnessSeconds) === "fresh" &&
+                          "text-status-verified",
+                        getFreshnessStatus(freshnessSeconds) === "recent" &&
+                          "text-status-verified opacity-80",
+                        getFreshnessStatus(freshnessSeconds) === "stale" &&
+                          "text-status-warning",
+                        getFreshnessStatus(freshnessSeconds) === "expired" &&
+                          "text-status-critical"
+                      )}
+                    >
+                      {formatFreshness(freshnessSeconds)}
+                    </span>
+                  </>
+                )}
+              </div>
+            </m.div>
           )}
         </m.div>
       </LazyMotion>

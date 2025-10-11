@@ -10,9 +10,11 @@ import {
 } from "motion/react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { StatusPill } from "@/app/_components/status-pill";
+import type { AgentPersona, TrustMathematics } from "@/lib/types";
 
 // ===========================================
 // RESEARCH-DRIVEN AI METRICS WITH TRUST PSYCHOLOGY
+// TYPE SAFETY: AgentPersona for semantic color alignment
 // ===========================================
 
 interface AIMetric {
@@ -21,7 +23,8 @@ interface AIMetric {
   detail: string;
   trustSignal: "high" | "medium" | "monitoring";
   explanation: string;
-  confidence: number;
+  trustMath: TrustMathematics;
+  agent: AgentPersona;
   lastUpdated: string;
   provenanceHash: string;
 }
@@ -34,7 +37,14 @@ const metrics: AIMetric[] = [
     trustSignal: "high",
     explanation:
       "AI operating within predefined safety constraints with human override available",
-    confidence: 94,
+    trustMath: {
+      confidenceScore: 94,
+      witnessCount: 38,
+      deviationSigma: 0.012,
+      exceedsThreshold: false,
+      trustGrade: "excellent",
+    },
+    agent: "operations",
     lastUpdated: "2 min ago",
     provenanceHash: "0x42a7f8b9",
   },
@@ -45,7 +55,14 @@ const metrics: AIMetric[] = [
     trustSignal: "high",
     explanation:
       "Risk-adjusted returns after safety derates and grid priority constraints",
-    confidence: 91,
+    trustMath: {
+      confidenceScore: 91,
+      witnessCount: 42,
+      deviationSigma: 0.015,
+      exceedsThreshold: false,
+      trustGrade: "excellent",
+    },
+    agent: "markets",
     lastUpdated: "5 min ago",
     provenanceHash: "0x8d9c2ef1",
   },
@@ -56,7 +73,14 @@ const metrics: AIMetric[] = [
     trustSignal: "monitoring",
     explanation:
       "Zero-knowledge proof of AI decision validity with cryptographic attestation",
-    confidence: 98,
+    trustMath: {
+      confidenceScore: 98,
+      witnessCount: 56,
+      deviationSigma: 0.005,
+      exceedsThreshold: false,
+      trustGrade: "excellent",
+    },
+    agent: "governor",
     lastUpdated: "12 sec ago",
     provenanceHash: "0x42a7f8ab",
   },
@@ -132,18 +156,25 @@ export function SolarFarmStatus() {
           className="w-full"
         >
           <GlassCard
+            agent="operations"
+            trustMath={{
+              confidenceScore: 96,
+              witnessCount: 48,
+              deviationSigma: 0.01,
+              exceedsThreshold: false,
+              trustGrade: "excellent",
+            }}
             className="relative overflow-hidden w-full"
             padding="md"
             variant="neural"
-            trustLevel="high"
             aiState="optimizing"
             aria-label="Live solar farm AI operations dashboard"
           >
-            {/* AI Activity Pulse */}
+            {/* AI Activity Pulse - Operations monitoring */}
             {!shouldReduceMotion && (
               <m.div
                 variants={pulseVariants}
-                className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-(--intelligence-primary) shadow-[0_0_12px_rgba(41,150,161,0.6)]"
+                className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-(--agent-operations) shadow-[0_0_12px_var(--agent-operations-glow)]"
                 aria-hidden="true"
               />
             )}
@@ -175,7 +206,7 @@ export function SolarFarmStatus() {
                     confidence={94}
                   />
                   <div className="flex items-center gap-1 text-xs text-(--text-muted) sm:justify-end">
-                    <div className="h-2 w-2 rounded-full bg-(--intelligence-primary) animate-pulse" />
+                    <div className="h-2 w-2 rounded-full bg-(--agent-operations) animate-pulse" />
                     <span>Live • {currentTime.toLocaleTimeString()}</span>
                   </div>
                 </div>
@@ -198,16 +229,16 @@ export function SolarFarmStatus() {
                           <div
                             className={`h-2 w-2 rounded-full ${
                               metric.trustSignal === "high"
-                                ? "bg-(--prosperity-primary) shadow-[0_0_4px_rgba(50,184,198,0.6)]"
+                                ? "bg-(--agent-markets) shadow-[0_0_4px_var(--agent-markets-glow)]" // 🟢 Green - high performance
                                 : metric.trustSignal === "medium"
-                                  ? "bg-(--caution-primary) shadow-[0_0_4px_rgba(230,129,97,0.6)]"
-                                  : "bg-(--intelligence-primary) animate-pulse shadow-[0_0_4px_rgba(41,150,161,0.6)]"
+                                  ? "bg-(--agent-maintenance) shadow-[0_0_4px_var(--agent-maintenance-glow)]" // 🟡 Amber - needs attention
+                                  : "bg-(--agent-operations) animate-pulse shadow-[0_0_4px_var(--agent-operations-glow)]" // 🟦 Blue - monitoring
                             }`}
                             aria-label={`Trust level: ${metric.trustSignal}`}
                           />
                         </div>
                         <button
-                          className="text-xs text-(--intelligence-primary) hover:text-(--trust-primary) transition-colors"
+                          className="text-xs text-(--agent-operations) hover:text-(--agent-governance) transition-colors"
                           aria-label={`Explain ${metric.label} metric`}
                           title={metric.explanation}
                         >
@@ -223,7 +254,8 @@ export function SolarFarmStatus() {
                           {metric.detail}
                         </p>
                         <div className="text-xs text-(--text-muted)">
-                          {metric.confidence}% confidence • {metric.lastUpdated}
+                          {metric.trustMath.confidenceScore}% confidence •{" "}
+                          {metric.lastUpdated}
                         </div>
                       </div>
                     </div>
@@ -244,21 +276,19 @@ export function SolarFarmStatus() {
                   <p className="text-xs font-medium uppercase tracking-[0.35em] text-(--text-tertiary)">
                     Safety Guardrails
                   </p>
-                  <span className="text-xs text-(--prosperity-primary)">
-                    Active
-                  </span>
+                  <span className="text-xs text-(--agent-markets)">Active</span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-(--text-secondary)">
                   <div className="flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 rounded-full bg-(--prosperity-primary)" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-(--agent-markets)" />
                     Max discharge: 2MW • SOC cap: 80%
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 rounded-full bg-(--intelligence-primary)" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-(--agent-operations)" />
                     Oracle deviation alarm at 3.5σ
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 rounded-full bg-(--trust-primary)" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-(--agent-governance)" />
                     Emergency override &lt; 200ms acknowledgment
                   </div>
                 </div>

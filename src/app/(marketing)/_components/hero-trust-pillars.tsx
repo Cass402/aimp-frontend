@@ -54,9 +54,9 @@ export function HeroTrustPillars() {
           variant="elevated"
           className="h-full flex flex-col items-center text-center gap-4 p-6 hover:scale-[1.02] transition-transform duration-300"
         >
-          {/* Icon */}
+          {/* Icon - Solana blockchain (Operations) */}
           <div className="relative">
-            <div className="absolute inset-0 bg-[var(--intelligence-primary)]/20 blur-xl rounded-full animate-breath-medium" />
+            <div className="absolute inset-0 bg-[var(--agent-operations)]/20 blur-xl rounded-full animate-breath-medium" />
             <div className="relative text-5xl">⚡</div>
           </div>
 
@@ -67,7 +67,7 @@ export function HeroTrustPillars() {
             </p>
             <p className="text-sm text-[var(--text-secondary)]">
               High-speed blockchain with{" "}
-              <span className="text-[var(--intelligence-primary)] font-medium">
+              <span className="text-[var(--agent-operations)] font-medium">
                 sub-second finality
               </span>
             </p>
@@ -91,9 +91,9 @@ export function HeroTrustPillars() {
           variant="elevated"
           className="h-full flex flex-col items-center text-center gap-4 p-6 hover:scale-[1.02] transition-transform duration-300"
         >
-          {/* Icon */}
+          {/* Icon - Cryptographic verification (Governance) */}
           <div className="relative">
-            <div className="absolute inset-0 bg-[var(--trust-primary)]/20 blur-xl rounded-full animate-breath-medium" />
+            <div className="absolute inset-0 bg-[var(--agent-governance)]/20 blur-xl rounded-full animate-breath-medium" />
             <div className="relative text-5xl">🔐</div>
           </div>
 
@@ -104,7 +104,7 @@ export function HeroTrustPillars() {
             </p>
             <p className="text-sm text-[var(--text-secondary)]">
               Every decision{" "}
-              <span className="text-[var(--trust-primary)] font-medium">
+              <span className="text-[var(--agent-governance)] font-medium">
                 cryptographically proven
               </span>{" "}
               on-chain

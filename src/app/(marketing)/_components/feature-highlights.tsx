@@ -3,13 +3,29 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { LazyMotion, domAnimation, m, type Variants } from "motion/react";
 import { useState } from "react";
+import type { AgentPersona, TrustMathematics } from "@/lib/types";
 
 // ===========================================
 // ENHANCED FEATURE DATA: Persona-driven content with trust psychology
 // Each feature targets specific emotional states and cognitive patterns
+// TYPE SAFETY: AgentPersona alignment with color system
 // ===========================================
 
-const highlights = [
+type FeatureHighlight = {
+  title: string;
+  subtitle: string;
+  description: string;
+  bullets: Array<{ text: string; icon: string }>;
+  variant: "neural" | "trust" | "elevated";
+  aiState: "learning" | "processing" | "optimizing";
+  trustLevel?: "low" | "medium" | "high";
+  trustMath: TrustMathematics;
+  agent: AgentPersona;
+  ambientColor: string;
+  persona: string;
+};
+
+const highlights: readonly FeatureHighlight[] = [
   {
     title: "Explainable Autonomy",
     subtitle: "See AI Reasoning in Real-Time", // Persona clarity for trust building
@@ -31,9 +47,16 @@ const highlights = [
     ],
     variant: "neural" as const,
     aiState: "learning" as const,
-    trustLevel: "medium" as const,
-    ambientColor: "var(--intelligence-primary)",
-    persona: "technical", // Influences micro-copy tone
+    trustMath: {
+      confidenceScore: 92,
+      witnessCount: 28,
+      deviationSigma: 0.018,
+      exceedsThreshold: false,
+      trustGrade: "excellent",
+    },
+    agent: "operations", // Blue - System operations
+    ambientColor: "var(--agent-operations)",
+    persona: "technical",
   },
   {
     title: "Verifiable Proofs",
@@ -56,8 +79,15 @@ const highlights = [
     ],
     variant: "trust" as const,
     aiState: "processing" as const,
-    trustLevel: "high" as const, // Peak trust for financial decisions
-    ambientColor: "var(--trust-primary)",
+    trustMath: {
+      confidenceScore: 98,
+      witnessCount: 45,
+      deviationSigma: 0.008,
+      exceedsThreshold: false,
+      trustGrade: "excellent",
+    },
+    agent: "governor", // Purple - Trust & governance
+    ambientColor: "var(--agent-governance)",
     persona: "analytical",
   },
   {
@@ -81,8 +111,15 @@ const highlights = [
     ],
     variant: "elevated" as const,
     aiState: "optimizing" as const,
-    trustLevel: "medium" as const,
-    ambientColor: "var(--prosperity-energy)",
+    trustMath: {
+      confidenceScore: 85,
+      witnessCount: 22,
+      deviationSigma: 0.025,
+      exceedsThreshold: false,
+      trustGrade: "good",
+    },
+    agent: "sentinel", // Amber - Control & safety (maintenance/monitoring)
+    ambientColor: "var(--agent-maintenance)",
     persona: "supportive",
   },
 ];
@@ -182,10 +219,11 @@ export function FeatureHighlights() {
               className="relative group" // Group for advanced hover effects
             >
               <GlassCard
+                agent={highlight.agent}
+                trustMath={highlight.trustMath}
                 padding="lg"
                 variant={highlight.variant}
                 aiState={highlight.aiState}
-                trustLevel={highlight.trustLevel}
                 className="flex h-full flex-col gap-6 relative overflow-hidden"
               >
                 {/* Ambient background glow - subtle AI presence indicator */}

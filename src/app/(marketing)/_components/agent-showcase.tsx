@@ -9,6 +9,7 @@ import {
   type Variants,
 } from "motion/react";
 import { GlassCard } from "@/components/ui/glass-card";
+import type { AgentPersona, TrustMathematics } from "@/lib/types";
 
 // ===========================================
 // TYPES
@@ -22,11 +23,29 @@ type AgentMetric = {
   energy?: boolean;
 };
 
+type AgentShowcaseData = {
+  id: AgentPersona;
+  name: string;
+  emoji: string;
+  demoEmoji: string;
+  personality: string;
+  description: string;
+  recentDecision: string;
+  demoTitle: string;
+  metrics: AgentMetric[];
+  trustMath: TrustMathematics;
+  ctaText: string;
+  ambientColor: string;
+  glowColor: string;
+  breathAnimation: string;
+};
+
 // ===========================================
 // AI AGENT DATA: Full-screen cinematic introductions
+// TYPE SAFETY: AgentPersona ensures semantic color system alignment
 // ===========================================
 
-const agents = [
+const agents: readonly AgentShowcaseData[] = [
   {
     id: "operations",
     name: "Operations Agent",
@@ -43,13 +62,21 @@ const agents = [
       { label: "Grid Price", value: "$32/MWh" },
       { label: "Solar Forecast", value: "↑ Rising" },
       { label: "Decision", value: "Charge Now", verified: true },
-    ] as AgentMetric[],
+    ],
+    trustMath: {
+      confidenceScore: 96,
+      witnessCount: 24,
+      deviationSigma: 0.015,
+      exceedsThreshold: false,
+      trustGrade: "excellent",
+    },
     ctaText: "Explore Live Reasoning",
-    ambientColor: "var(--intelligence-primary)",
+    ambientColor: "var(--agent-operations)",
+    glowColor: "var(--agent-operations-glow)",
     breathAnimation: "animate-breath-slow",
   },
   {
-    id: "maintenance",
+    id: "sentinel",
     name: "Maintenance Agent",
     emoji: "🔧",
     demoEmoji: "🛠️",
@@ -64,9 +91,17 @@ const agents = [
       { label: "Repair ETA", value: "6 minutes" },
       { label: "Impact", value: "Minimal" },
       { label: "Status", value: "Auto-fixing", verified: true },
-    ] as AgentMetric[],
+    ],
+    trustMath: {
+      confidenceScore: 88,
+      witnessCount: 18,
+      deviationSigma: 0.022,
+      exceedsThreshold: false,
+      trustGrade: "good",
+    },
     ctaText: "See Maintenance Examples",
-    ambientColor: "var(--prosperity-primary)",
+    ambientColor: "var(--agent-maintenance)",
+    glowColor: "var(--agent-maintenance-glow)",
     breathAnimation: "animate-breath-medium",
   },
   {
@@ -84,9 +119,17 @@ const agents = [
       { label: "Sell Volume", value: "1.2 MW", energy: true },
       { label: "Timing", value: "18:30", energy: true },
       { label: "Confidence", value: "94%", verified: true },
-    ] as AgentMetric[],
+    ],
+    trustMath: {
+      confidenceScore: 94,
+      witnessCount: 32,
+      deviationSigma: 0.018,
+      exceedsThreshold: false,
+      trustGrade: "excellent",
+    },
     ctaText: "View Market Strategy",
-    ambientColor: "var(--prosperity-energy)",
+    ambientColor: "var(--agent-markets)",
+    glowColor: "var(--agent-markets-glow)",
     breathAnimation: "animate-breath-fast",
   },
 ] as const;
@@ -183,13 +226,13 @@ export function AgentShowcase() {
             <span className="text-base md:text-lg text-(--text-secondary)">
               These agents work together, 24/7, making
             </span>
-            <span className="text-3xl md:text-4xl font-bold text-(--intelligence-primary)">
+            <span className="text-3xl md:text-4xl font-bold text-(--agent-operations)">
               1,203
             </span>
             <span className="text-base md:text-lg text-(--text-secondary)">
               decisions daily —
             </span>
-            <span className="text-3xl md:text-4xl font-bold text-(--trust-primary)">
+            <span className="text-3xl md:text-4xl font-bold text-(--agent-governance)">
               all explainable
             </span>
           </div>
@@ -307,7 +350,13 @@ function AgentSection({ agent }: AgentSectionProps) {
               boxShadow: `0 0 40px ${agent.ambientColor}20`,
             }}
           >
-            <GlassCard padding="lg" variant="elevated" className="border-2">
+            <GlassCard
+              agent={agent.id}
+              trustMath={agent.trustMath}
+              padding="lg"
+              variant="elevated"
+              className="border-2"
+            >
               <div className="text-center space-y-4">
                 <div className="text-6xl mb-4">{agent.demoEmoji}</div>
                 <p className="text-xl md:text-2xl font-bold text-(--text-primary)">
@@ -325,11 +374,11 @@ function AgentSection({ agent }: AgentSectionProps) {
                       <span
                         className={`font-mono font-semibold ${
                           metric.verified
-                            ? "text-(--trust-primary)"
+                            ? "text-(--agent-governance)" // 🔵 Purple - verified/trust
                             : metric.warning
                               ? "text-(--status-warning)"
                               : metric.energy
-                                ? "text-(--prosperity-energy)"
+                                ? "text-(--agent-markets)" // 🟢 Green - energy/markets
                                 : ""
                         }`}
                         style={
