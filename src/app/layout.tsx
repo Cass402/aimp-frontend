@@ -146,7 +146,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="font-base text-primary bg-foundation-void antialiased">
+      <body
+        className="font-base text-primary bg-foundation-void antialiased"
+        suppressHydrationWarning
+      >
         {/* Theme init script (prevents FOUC) - must be first in body */}
         <script
           dangerouslySetInnerHTML={{

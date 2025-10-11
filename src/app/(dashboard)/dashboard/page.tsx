@@ -1,3 +1,24 @@
+/**
+ * Dashboard Page - Calm Precision Core
+ *
+ * Main interface showcasing autonomous infrastructure management with
+ * transparent AI decision-making, real-time energy metrics, and portfolio status.
+ *
+ * Design Philosophy:
+ * - **Glanceable**: Key information visible without scrolling
+ * - **Progressive**: Deep-dive available through agent explanations
+ * - **Calm**: No jarring updates, smooth 60fps transitions
+ * - **Trustworthy**: Every metric shows data sources and freshness
+ *
+ * Information Hierarchy:
+ * 1. Portfolio summary (total value, tokens, energy production)
+ * 2. Agent decision grid (recent AI actions)
+ * 3. Energy metrics (live generation/consumption)
+ * 4. Quick access to agent Q&A and transactions
+ *
+ * @see PRD Section 7.3 - Dashboard: Calm Precision Core
+ */
+
 import { Suspense } from "react";
 
 import { GlassCard } from "@/components/ui/glass-card";
@@ -14,9 +35,17 @@ import {
 import { DecisionFeed } from "./_components/decision-feed";
 import { HoldingsTable } from "./_components/holdings-table";
 import { PortfolioSummaryCard } from "./_components/portfolio-summary";
+import { EnergyMetricsCard } from "./_components/energy-metrics";
+import { AgentDecisionsGrid } from "./_components/agent-decisions-grid";
+import { RecentTransactions } from "./_components/recent-transactions";
+import { AgentSidebarWrapper } from "./_components/agent-sidebar-wrapper";
 
 export const revalidate = 60;
 
+/**
+ * Upcoming Actions Section
+ * Shows next planned AI operations with safety constraints
+ */
 async function UpcomingActions() {
   const { actions } = await getUpcomingActions();
 
@@ -73,6 +102,10 @@ async function UpcomingActions() {
   );
 }
 
+/**
+ * Main Dashboard Page
+ * Comprehensive autonomous infrastructure management interface
+ */
 export default async function DashboardPage() {
   const [portfolioSummary, portfolioAssets, explanations] = await Promise.all([
     getPortfolioSummary(),
@@ -86,7 +119,7 @@ export default async function DashboardPage() {
         category: "Portfolio overview",
         title: "Autonomous Infrastructure Dashboard",
         description:
-          "Monitor your AI-managed assets, track performance, and review recent AI decisions with full explainability.",
+          "Monitor your AI-managed assets, track real-time energy metrics, and review autonomous decisions with full explainability.",
         variant: "default",
       }}
     >
@@ -115,31 +148,98 @@ export default async function DashboardPage() {
           </Grid>
         </ContentSection>
 
-        {/* Two-column layout for main content */}
-        <Grid cols={2} gap="lg">
-          {/* Left column: Decision Feed */}
-          <ContentSection
-            title="AI Decision History"
-            description="Latest autonomous decisions with full explainability"
-            spacing="md"
+        {/* Energy Metrics Section */}
+        <ContentSection
+          title="Energy Metrics"
+          description="Live generation, consumption, and grid status"
+          spacing="md"
+        >
+          <Suspense
+            fallback={
+              <GlassCard
+                padding="lg"
+                variant="neural"
+                isLoading
+                className="h-64"
+              >
+                Loading energy metrics...
+              </GlassCard>
+            }
           >
-            <Suspense
-              fallback={
-                <GlassCard
-                  padding="lg"
-                  variant="neural"
-                  isLoading
-                  className="h-96"
-                >
-                  Loading decision feed...
-                </GlassCard>
-              }
-            >
-              <DecisionFeed explanations={explanations} />
-            </Suspense>
-          </ContentSection>
+            <EnergyMetricsCard />
+          </Suspense>
+        </ContentSection>
 
-          {/* Right column: Upcoming Actions & Holdings */}
+        {/* AI Agent Activity Section */}
+        <ContentSection
+          title="AI Agent Activity"
+          description="Recent autonomous decisions with agent reasoning"
+          spacing="md"
+        >
+          <Suspense
+            fallback={
+              <GlassCard
+                padding="lg"
+                variant="neural"
+                isLoading
+                className="h-96"
+              >
+                Loading agent decisions...
+              </GlassCard>
+            }
+          >
+            <AgentDecisionsGrid />
+          </Suspense>
+        </ContentSection>
+
+        {/* Two-column layout for detailed content */}
+        <Grid cols={2} gap="lg">
+          {/* Left column: Decision Feed & Transactions */}
+          <Stack space="lg">
+            <ContentSection
+              title="AI Decision History"
+              description="Latest autonomous decisions with full explainability"
+              spacing="md"
+            >
+              <Suspense
+                fallback={
+                  <GlassCard
+                    padding="lg"
+                    variant="neural"
+                    isLoading
+                    className="h-96"
+                  >
+                    Loading decision feed...
+                  </GlassCard>
+                }
+              >
+                <DecisionFeed explanations={explanations} />
+              </Suspense>
+            </ContentSection>
+
+            <ContentSection
+              title="Recent Transactions"
+              description="On-chain activity with blockchain verification"
+              spacing="md"
+            >
+              <Suspense
+                fallback={
+                  <GlassCard
+                    padding="lg"
+                    variant="neural"
+                    isLoading
+                    className="h-64"
+                  >
+                    Loading transactions...
+                  </GlassCard>
+                }
+              >
+                <RecentTransactions />
+              </Suspense>
+            </ContentSection>
+          </Stack>
+
+          {/* Right column: Upcoming Actions, Holdings & Agent Q&A */}
           <Stack space="lg">
             <ContentSection
               title="Upcoming Actions"
@@ -180,6 +280,27 @@ export default async function DashboardPage() {
                 }
               >
                 <HoldingsTable assets={portfolioAssets} />
+              </Suspense>
+            </ContentSection>
+
+            <ContentSection
+              title="Ask AI Agents"
+              description="Natural language Q&A with autonomous agents"
+              spacing="md"
+            >
+              <Suspense
+                fallback={
+                  <GlassCard
+                    padding="lg"
+                    variant="neural"
+                    isLoading
+                    className="h-96"
+                  >
+                    Loading agent sidebar...
+                  </GlassCard>
+                }
+              >
+                <AgentSidebarWrapper />
               </Suspense>
             </ContentSection>
           </Stack>
