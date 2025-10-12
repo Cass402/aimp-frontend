@@ -642,7 +642,7 @@ function generateMockProgramId(programName: string): string {
 /**
  * Generate mock zkProof hash (generic, for non-agent contexts)
  */
-function generateMockProofHash(): string {
+export function generateMockProofHash(): string {
   return `0x${Array.from({ length: 64 }, () =>
     randomInt(0, 15).toString(16)
   ).join("")}`;
@@ -1147,6 +1147,153 @@ export function calculateMockOperationalStatus(
   return calculateOperationalStatus(confidence, hasError, inMaintenance);
 }
 
+/**
+ * Generate mock price history for 24-hour chart
+ */
+export function generateMockPriceHistory(): Array<{ p: number; t: string }> {
+  const now = Date.now();
+  const points: Array<{ p: number; t: string }> = [];
+  const basePrice = 125.0;
+
+  // Generate 24 points (1 per hour)
+  for (let i = 0; i < 24; i++) {
+    const timestamp = now - (24 - i) * 60 * 60 * 1000;
+    const variance = randomFloat(-15, 15);
+    const price = basePrice + variance;
+    points.push({
+      p: price,
+      t: new Date(timestamp).toISOString(),
+    });
+  }
+
+  return points;
+}
+
+/**
+ * Generate mock energy production summary
+ */
+export function generateMockEnergySummary() {
+  return {
+    mw: randomFloat(1.8, 2.4),
+    capacityPct: randomFloat(0.72, 0.96),
+    freshnessSec: randomInt(5, 30),
+    spark: Array.from({ length: 12 }, () => randomFloat(1.5, 2.5)),
+    sourceProvenance: "Pyth Network + IoT Sensors",
+  };
+}
+
+/**
+ * Generate mock energy sales summary
+ */
+export function generateMockSalesSummary() {
+  return {
+    mwToGrid: randomFloat(1.2, 1.8),
+    pctOfTotal: randomFloat(0.6, 0.85),
+    twap: randomFloat(118, 132),
+    freshnessSec: randomInt(10, 45),
+    sourceProvenance: "Switchboard Oracles",
+  };
+}
+
+/**
+ * Generate mock battery summary
+ */
+export function generateMockBatterySummary() {
+  return {
+    units: [
+      {
+        id: "bat-a1",
+        socPct: randomInt(65, 90),
+        rateKw: randomFloat(-25, 25),
+        ttfMin: randomInt(45, 180),
+        targetPct: 80,
+      },
+      {
+        id: "bat-a2",
+        socPct: randomInt(70, 95),
+        rateKw: randomFloat(-30, 30),
+        ttfMin: randomInt(30, 150),
+        targetPct: 85,
+      },
+      {
+        id: "bat-b1",
+        socPct: randomInt(55, 85),
+        rateKw: randomFloat(-20, 35),
+        ttfMin: randomInt(60, 200),
+        targetPct: 75,
+      },
+    ],
+  };
+}
+
+/**
+ * Generate mock asset metadata
+ */
+export function generateMockAssetMetadata() {
+  const batteryHealth = randomInt(85, 98);
+  const safetyStatus = randomChoice([
+    "safe",
+    "safe",
+    "safe",
+    "warning",
+  ] as const);
+
+  let status: "operational" | "maintenance" | "degraded" | "offline";
+  if (safetyStatus === "safe") status = "operational";
+  else if (safetyStatus === "warning") status = "degraded";
+  else status = "offline";
+
+  return {
+    id: "sf-001",
+    name: "Mojave Desert Solar — Asset SF-001",
+    location: "Nevada Desert, USA",
+    capacity: 2500,
+    status,
+    installDate: "2024-03-15",
+    tokenSymbol: "AIMP-NV1",
+    tokenSupply: 100000,
+    ownershipPercentage: 2.5,
+    health: batteryHealth,
+  };
+}
+
+/**
+ * Generate mock hardware health data
+ */
+export function generateMockHardwareHealth() {
+  const components = [
+    "solar_panels_array_a",
+    "solar_panels_array_b",
+    "inverter_unit_1",
+    "battery_system",
+    "tracker_motors",
+  ];
+
+  return components.map((component) => {
+    const healthScore = randomInt(75, 98);
+    const componentName = component
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (l: string) => l.toUpperCase());
+
+    return {
+      component: componentName,
+      health: healthScore,
+      status: (healthScore >= 90
+        ? "healthy"
+        : healthScore >= 70
+          ? "degraded"
+          : "critical") as "healthy" | "degraded" | "critical",
+      lastMaintenance: new Date(
+        Date.now() - randomInt(7, 90) * 24 * 60 * 60 * 1000
+      ).toISOString(),
+      nextMaintenance: new Date(
+        Date.now() + randomInt(30, 180) * 24 * 60 * 60 * 1000
+      ).toISOString(),
+      issues: healthScore < 70 ? ["Degraded performance detected"] : [],
+    };
+  });
+}
+
 const mockDataGenerators = {
   generateMockAgentDecision,
   generateMockAgentMessage,
@@ -1163,6 +1310,13 @@ const mockDataGenerators = {
   generateMockAgentHealth,
   calculateMockTrustDecay,
   calculateMockOperationalStatus,
+  // Asset-specific mock generators
+  generateMockPriceHistory,
+  generateMockEnergySummary,
+  generateMockSalesSummary,
+  generateMockBatterySummary,
+  generateMockAssetMetadata,
+  generateMockHardwareHealth,
 };
 
 export default mockDataGenerators;

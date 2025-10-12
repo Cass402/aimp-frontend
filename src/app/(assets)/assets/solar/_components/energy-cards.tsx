@@ -1,5 +1,9 @@
 import { GlassCard } from "@/components/ui/glass-card";
-import type { BatterySummary, EnergySummary, SalesSummary } from "@/lib/types";
+import {
+  generateMockEnergySummary,
+  generateMockSalesSummary,
+  generateMockBatterySummary,
+} from "@/lib/mock";
 
 function buildSparkline(values: number[]) {
   if (!values.length) {
@@ -18,13 +22,12 @@ function buildSparkline(values: number[]) {
     .join(" ");
 }
 
-interface EnergyCardsProps {
-  energy: EnergySummary;
-  sales: SalesSummary;
-  batteries: BatterySummary;
-}
+export async function EnergyCards() {
+  // Generate mock data
+  const energy = generateMockEnergySummary();
+  const sales = generateMockSalesSummary();
+  const batteries = generateMockBatterySummary();
 
-export function EnergyCards({ energy, sales, batteries }: EnergyCardsProps) {
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <GlassCard
